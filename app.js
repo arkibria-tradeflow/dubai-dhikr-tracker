@@ -50,7 +50,7 @@ let times=safeRead(TIMES_KEY,{});if(!times||typeof times!=='object'||Array.isArr
 // A one-day published fallback lets the initial demo open without network; subsequent days require verified fetched times.
 const SEED={'2026-10-18':{Fajr:'05:01',Sunrise:'06:14',Dhuhr:'12:06',Asr:'15:22',Maghrib:'17:53',Isha:'19:06',source:'Published Dubai timetable (Assabile)'}};
 for(const [d,t] of Object.entries(SEED))if(!times[d])times[d]=t;
-let screen='today',prayer='Fajr',openId=null,histOffset=0,loading=false,err='',busyMonths=new Set(),currentDay='',toastTimer=null;
+let screen='today',prayer='Fajr',openId=null,histOffset=0,loading=false,err='',busyMonths=new Set(),currentDay='',toastTimer=null,autoAdvanceTimer=null;
 function dubaiParts(dt=new Date()){
  const part=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(dt);
  const v={};part.forEach(p=>v[p.type]=p.value);
@@ -80,13 +80,51 @@ async function fetchMonth(year,month){const id=`${year}-${pad(month)}`;if(busyMo
  const url=`https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=25.2048&longitude=55.2708&method=16&school=0&timezonestring=Asia%2FDubai`;
  try{const r=await fetch(url);if(!r.ok)throw Error('http');const j=await r.json();if(!Array.isArray(j.data))throw Error('data');for(const entry of j.data){const d=entry?.date?.gregorian?.date;const x=/^(\d\d)-(\d\d)-(\d{4})$/.exec(d||'');const tm=extractTiming(entry?.timings);if(x&&tm)times[`${x[3]}-${x[2]}-${x[1]}`]=tm;}safeWrite(TIMES_KEY,times);err='';render();}catch(e){}finally{busyMonths.delete(id)}}
 async function updateTimes(){if(loading)return;loading=true;err='';render();const p=dubaiParts();await fetchToday();loading=false;render();fetchMonth(p.year,p.month);let n=p.month===12?1:p.month+1;fetchMonth(p.month===12?p.year+1:p.year,n)}
-function countChange(id,delta){const info=dayInfo();if(!unlocked(prayer,info)){toast('এই নামাজের সময় এখনো শুরু হয়নি');screen='today';render();return}
- const d=STEPS.find(x=>x.id===id);if(!d||!stepsFor(prayer).includes(d))return;
- const k=keyFor(info.day,prayer);if(!db.sessions[k])db.sessions[k]={items:{}};
- const session=db.sessions[k],x=session.items[id]||{count:0,completedAt:null};const max=target(d,prayer),cnt=Math.min(max,Math.max(0,(Number(x.count)||0)+delta));if(x.count===cnt)return;
- session.items[id]={count:cnt,updatedAt:new Date().toISOString(),completedAt:cnt===max?new Date().toISOString():null};
- if(safeWrite(DATA_KEY,db)){if(cnt===max)toast('আলহামদুলিল্লাহ! সংরক্ষিত হয়েছে')}render();
+// Open the next unfinished item, not merely the next row (which may already be complete).
+function nextUnfinishedStep(steps,session,completedId,selectedPrayer){
+ const idx=steps.findIndex(d=>d.id===completedId);
+ return [...steps.slice(idx+1),...steps.slice(0,idx)].find(d=>itemCount(session,d)<target(d,selectedPrayer))?.id||null;
 }
+function cancelAutoAdvance(){if(autoAdvanceTimer!==null){clearTimeout(autoAdvanceTimer);autoAdvanceTimer=null}}
+function moveToOpenDua(id){
+ if(!id)return;
+ requestAnimationFrame(()=>{
+  const head=[...document.querySelectorAll('.dua-head')].find(el=>el.dataset.id===id);
+  head?.scrollIntoView({behavior:'smooth',block:'start'});
+ });
+}
+function countChange(id,delta){
+ const info=dayInfo();
+ if(!unlocked(prayer,info)){toast('এই নামাজের সময় এখনো শুরু হয়নি');screen='today';render();return}
+ const selectedPrayer=prayer;
+ const d=STEPS.find(x=>x.id===id);
+ if(!d||!stepsFor(prayer).includes(d))return;
+ cancelAutoAdvance();
+ const k=keyFor(info.day,prayer);
+ if(!db.sessions[k])db.sessions[k]={items:{}};
+ const session=db.sessions[k],prior=session.items[id],oldCount=Number(prior?.count)||0;
+ const max=target(d,prayer),cnt=Math.min(max,Math.max(0,oldCount+delta));
+ if(oldCount===cnt)return;
+ const completedNow=oldCount<max&&cnt===max&&delta>0;
+ session.items[id]={count:cnt,updatedAt:new Date().toISOString(),completedAt:cnt===max?new Date().toISOString():null};
+ if(!safeWrite(DATA_KEY,db)){
+  if(prior)session.items[id]=prior;else delete session.items[id];
+  render();return;
+ }
+ render();
+ if(!completedNow)return;
+ const nextId=nextUnfinishedStep(stepsFor(selectedPrayer),session,id,selectedPrayer);
+ toast(nextId?'✓ জিকির সম্পন্ন — পরেরটি খুলছে':'আলহামদুলিল্লাহ! সব জিকির সম্পন্ন হয়েছে');
+ autoAdvanceTimer=setTimeout(()=>{
+  autoAdvanceTimer=null;
+  // Never override a manual accordion change or navigate away from this prayer.
+  if(screen!=='session'||prayer!==selectedPrayer||dayInfo().day!==info.day||openId!==id)return;
+  openId=nextId;
+  render();
+  moveToOpenDua(nextId);
+ },320);
+}
+
 function prevDate(offset){const day=dayInfo().day;let d=new Date(`${day}T12:00:00+04:00`);d.setUTCDate(d.getUTCDate()+offset);const ps=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);const o={};ps.forEach(x=>o[x.type]=x.value);return `${o.year}-${o.month}-${o.day}`}
 function getHistDate(){return prevDate(histOffset)}
 function totalFinished(){let x=0;for(const k of Object.keys(db.sessions)){const [day,pr]=k.split('|');if(sessionStats(day,pr).complete)x++}return x}
@@ -104,7 +142,7 @@ function renderToday(){let i=dayInfo(),stat=todayStat(i.day),valid=validTimes(i.
  ${err?`<div class="errbox" style="margin-top:12px">${esc(err)}<br><button data-action="refresh">আবার চেষ্টা করুন</button></div>`:''}
  <p class="list-note">${valid?`নামাজের ওয়াক্ত শুরু হলেই সংশ্লিষ্ট জিকিরের তালিকা খুলবে। আগের নামাজগুলো আজ মধ্যরাত পর্যন্ত খোলা থাকবে।`:`ইন্টারনেট সংযোগ থাকলে স্বয়ংক্রিয়ভাবে নামাজের সময় আনা হবে। সময় নিশ্চিত না হলে নতুন জিকির শুরু করা যাবে না।`}</p>
  <p class="footnote">সময়: ${valid?esc(i.tm.source||'দুবাই গণনাভিত্তিক সময়'):'লোড হচ্ছে'}। মসজিদের জামাত ও সরকারি সময়ের সঙ্গে কয়েক মিনিট পার্থক্য থাকতে পারে।</p>`}
-function renderDua(d,idx,s,p){const n=itemCount(s,d),max=target(d,p),full=n>=max,opened=openId===d.id;return `<section class="dua ${opened?'open':''}"><button class="dua-head" data-action="expand" data-id="${d.id}" aria-expanded="${opened}"><span class="dua-n ${full?'complete':''}">${full?icon('check',15):bn(idx+1)}</span><div style="min-width:0;flex:1"><div class="dua-title">${esc(d.title)}</div><div class="dua-sub">${bn(max)} বার • ${full?'পড়া হয়েছে':n?`${bn(n)} / ${bn(max)} বার পড়েছেন`:'পড়তে ট্যাপ করুন'}</div></div><div class="dua-hright">${full?'✓ ':''}${icon('chevron',17).replace('width="17"','class="rot" width="17"')}</div></button>${opened?`<div class="dua-body"><div class="fieldlabel">বাংলা উচ্চারণ</div><div class="pron">${esc(d.pron)}</div><div class="extra"><div class="fieldlabel">আরবি</div><div class="arabic">${esc(d.arabic).replace(/\n/g,'<br>')}</div></div><div class="extra"><div class="fieldlabel">বাংলা অর্থ</div><div class="meaning">${esc(d.meaning)}</div></div><div class="count-wrap"><div><div class="count-text">পড়ার সংখ্যা</div><div class="count-num">${bn(n)} <span style="font-size:13px;color:#70907d">/ ${bn(max)}</span></div></div><div class="count-actions"><button class="count-button minus" data-action="adjust" data-id="${d.id}" data-delta="-1" ${n===0?'disabled':''} aria-label="একবার কমান">−</button><button class="count-button" data-action="adjust" data-id="${d.id}" data-delta="1" ${full?'disabled':''} aria-label="একবার গণনা করুন">${full?icon('check',18):'+'}</button></div></div><div class="count-foot">${max>1?'প্রতি বার পড়ার পর + চাপুন।':'পড়া শেষ হলে + চাপুন।'} প্রতিটি পরিবর্তন এই ডিভাইসে সেভ হবে।</div>${full?`<button class="single-btn complete" data-action="adjust" data-id="${d.id}" data-delta="-${max}">✓ পড়া হয়েছে — আবার শুরু করুন</button>`:''}</div>`:''}</section>`}
+function renderDua(d,idx,s,p){const n=itemCount(s,d),max=target(d,p),full=n>=max,opened=openId===d.id;return `<section class="dua ${opened?'open':''}"><button class="dua-head" data-action="expand" data-id="${d.id}" aria-expanded="${opened}"><span class="dua-n ${full?'complete':''}">${full?icon('check',15):bn(idx+1)}</span><div style="min-width:0;flex:1"><div class="dua-title">${esc(d.title)}</div><div class="dua-sub">${bn(max)} বার • ${full?'পড়া হয়েছে':n?`${bn(n)} / ${bn(max)} বার পড়েছেন`:'পড়তে ট্যাপ করুন'}</div></div><div class="dua-hright">${full?'✓ ':''}${icon('chevron',17).replace('width="17"','class="rot" width="17"')}</div></button>${opened?`<div class="dua-body"><div class="fieldlabel">বাংলা উচ্চারণ</div><div class="pron">${esc(d.pron)}</div><div class="extra"><div class="fieldlabel">আরবি</div><div class="arabic">${esc(d.arabic).replace(/\n/g,'<br>')}</div></div><div class="extra"><div class="fieldlabel">বাংলা অর্থ</div><div class="meaning">${esc(d.meaning)}</div></div><div class="count-wrap"><button class="count-main" data-action="adjust" data-id="${d.id}" data-delta="1" ${full?'disabled':''} aria-label="${esc(d.title)} একবার গণনা করুন"><div class="count-text">পড়ার সংখ্যা • ট্যাপ করুন</div><div class="count-num">${bn(n)} <span style="font-size:13px;color:#70907d">/ ${bn(max)}</span></div></button><div class="count-actions"><button class="count-button minus" data-action="adjust" data-id="${d.id}" data-delta="-1" ${n===0?'disabled':''} aria-label="একবার কমান">−</button><button class="count-button" data-action="adjust" data-id="${d.id}" data-delta="1" ${full?'disabled':''} aria-label="একবার গণনা করুন">${full?icon('check',18):'+'}</button></div></div><div class="count-foot">${max>1?'প্রতি বার পড়ার পর সবুজ কাউন্টার বা + ট্যাপ করুন।':'পড়া শেষ হলে সবুজ কাউন্টার বা + ট্যাপ করুন।'} প্রয়োজনীয় সংখ্যা পূর্ণ হলে এটি নিজে টিক হবে এবং পরের জিকির খুলবে।</div>${full?`<button class="single-btn complete" data-action="adjust" data-id="${d.id}" data-delta="-${max}">✓ পড়া হয়েছে — আবার শুরু করুন</button>`:''}</div>`:''}</section>`}
 function renderSession(){let info=dayInfo(),p=PRAYERS.find(p=>p.key===prayer);if(!unlocked(prayer,info)){screen='today';return renderToday()}
  const s=sessionFor(info.day,prayer),steps=stepsFor(prayer),stats=sessionStats(info.day,prayer);return `<header class="header"><div class="brand"><div class="brand-mark">☾</div><div><div class="brand-name">যিকির</div><div class="brand-sub">After Prayer • Dubai</div></div></div><span class="smallpill">📍 দুবাই</span></header><button class="top-back" data-action="nav" data-screen="today">${icon('back',16)} আজকের নামাজ</button>
  <div class="session-hero"><div class="session-top"><div><h1>${p.bn} • জিকির</h1><div class="session-meta">${showTime(info.tm[p.key])} থেকে খোলা • ${prettyDay(info.day)}</div></div><div class="session-pct" style="--fill:${stats.percent}%"><span>${bn(stats.percent)}%</span></div></div><div class="session-sub">${bn(stats.done)} / ${bn(stats.total)}টি জিকির সম্পন্ন • প্রতিটি শিরোনামে ট্যাপ করুন</div><div class="bar" style="margin-top:13px"><span style="width:${stats.percent}%"></span></div></div>
@@ -127,9 +165,9 @@ let deferredInstallPrompt=null;window.addEventListener('beforeinstallprompt',e=>
 function dlBackup(){const payload={app:'Dubai Dhikr Tracker',version:1,exportedAt:new Date().toISOString(),timezone:TZ,sessions:db.sessions};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`dhikr-dubai-backup-${dayInfo().day}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('ব্যাকআপ প্রস্তুত হয়েছে')}
 async function importFile(f){if(!f||f.size>6_000_000){toast('সঠিক JSON ফাইল নির্বাচন করুন');return}try{const x=JSON.parse(await f.text());if(x?.app!=='Dubai Dhikr Tracker'||!x.sessions||typeof x.sessions!=='object')throw Error('invalid');if(!confirm('আপনার বর্তমান রেকর্ড বদলে ব্যাকআপের রেকর্ড বসানো হবে। চালিয়ে যাবেন?'))return;const clean=cleanData(x);if(safeWrite(DATA_KEY,clean)){db=clean;screen='history';histOffset=0;render();toast('ব্যাকআপ সফলভাবে ফেরত এসেছে')}}catch(e){toast('ব্যাকআপ ফাইলটি সঠিক নয়')}}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b||b.disabled)return;const a=b.dataset.action;
- if(a==='nav'){screen=b.dataset.screen;openId=null;window.scrollTo({top:0,behavior:'instant'});render()}
- else if(a==='prayer'){if(unlocked(b.dataset.prayer)){prayer=b.dataset.prayer;screen='session';openId=null;window.scrollTo({top:0,behavior:'instant'});render()}}
- else if(a==='expand'){openId=openId===b.dataset.id?null:b.dataset.id;render()}
+ if(a==='nav'){cancelAutoAdvance();screen=b.dataset.screen;openId=null;window.scrollTo({top:0,behavior:'instant'});render()}
+ else if(a==='prayer'){if(unlocked(b.dataset.prayer)){cancelAutoAdvance();prayer=b.dataset.prayer;screen='session';const si=sessionFor(dayInfo().day,prayer);openId=stepsFor(prayer).find(d=>itemCount(si,d)<target(d,prayer))?.id||null;window.scrollTo({top:0,behavior:'instant'});render()}}
+ else if(a==='expand'){cancelAutoAdvance();openId=openId===b.dataset.id?null:b.dataset.id;render()}
  else if(a==='adjust'){countChange(b.dataset.id,Number(b.dataset.delta))}
  else if(a==='refresh'){updateTimes()}
  else if(a==='history-offset'){histOffset=Math.min(0,Math.max(-3650,histOffset+Number(b.dataset.delta)));render()}
@@ -140,5 +178,5 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');
 });
 document.getElementById('restore-input').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';importFile(f)});
 currentDay=dayInfo().day;render();updateTimes();
-setInterval(()=>{const day=dayInfo().day;if(day!==currentDay){currentDay=day;screen='today';openId=null;histOffset=0;render();updateTimes()}else if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer))screen='today';render()}},15000);
+setInterval(()=>{const day=dayInfo().day;if(day!==currentDay){cancelAutoAdvance();currentDay=day;screen='today';openId=null;histOffset=0;render();updateTimes()}else if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer))screen='today';render()}},15000);
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
