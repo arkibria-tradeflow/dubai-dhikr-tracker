@@ -52,6 +52,7 @@ const SEED={'2026-10-18':{Fajr:'05:01',Sunrise:'06:14',Dhuhr:'12:06',Asr:'15:22'
 for(const [d,t] of Object.entries(SEED))if(!times[d])times[d]=t;
 let screen='today',prayer='Fajr',openId=null,histOffset=0,loading=false,err='',busyMonths=new Set(),currentDay='',toastTimer=null;
 let focusId=null, focusTab='bn', finishing=false, finishTimer=null, finishNext=null, finishToken=0;
+let readingSize=safeRead('dhikr_dubai_reading_size_v3','normal');if(!['normal','large'].includes(readingSize))readingSize='normal';
 function cancelFinish(){finishToken++;clearTimeout(finishTimer);finishTimer=null;finishing=false;finishNext=null}
 function firstUnfinished(pr=prayer){const inf=dayInfo(),sess=sessionFor(inf.day,pr);return stepsFor(pr).find(d=>itemCount(sess,d)<target(d,pr))?.id||null}
 function nextUnfinished(pr,completed){const inf=dayInfo(),all=stepsFor(pr),sess=sessionFor(inf.day,pr),index=all.findIndex(d=>d.id===completed);return [...all.slice(index+1),...all.slice(0,index)].find(d=>itemCount(sess,d)<target(d,pr))?.id||null}
@@ -146,7 +147,7 @@ function renderFocus(){
  const index=steps.indexOf(d),sess=sessionFor(info.day,prayer),n=itemCount(sess,d),goal=target(d,prayer),percent=Math.round(n/goal*100),prName=PRAYERS.find(p=>p.key===prayer)?.bn||'';
  const active=focusTab==='ar'?'arabic':focusTab==='meaning'?'meaning':'pron';const content=active==='arabic'?d.arabic:active==='meaning'?d.meaning:d.pron;
  const tabs=[['bn','বাংলা উচ্চারণ'],['ar','আরবি'],['meaning','অর্থ']].map(([key,label])=>`<button class="v2-tab ${focusTab===key?'active':''}" data-action="focus-tab" data-tab="${key}" role="tab" aria-selected="${focusTab===key}">${label}</button>`).join('');
- return `<div class="v2-focus-page"><div class="v2-focus-head"><button class="v2-focus-close" data-action="focus-close" aria-label="জিকির তালিকায় ফিরুন">✕</button><div class="v2-focus-heading"><span>${prName} নামাজ</span><strong>${bn(index+1)} / ${bn(steps.length)} ধাপ</strong></div><button class="v2-focus-min" data-action="focus-close" aria-label="জিকির ছোট করুন">${icon('chevron',22)}</button></div>
+ return `<div class="v2-focus-page ${readingSize==='large'?'reading-large':''}"><div class="v2-focus-head"><button class="v2-focus-close" data-action="focus-close" aria-label="জিকির তালিকায় ফিরুন">✕</button><div class="v2-focus-heading"><span>${prName} নামাজ</span><strong>${bn(index+1)} / ${bn(steps.length)} ধাপ</strong></div><button class="v2-focus-min" data-action="font-size" aria-label="বাংলা লেখা বড় বা ছোট করুন" title="লেখার আকার বদলান">A<span style="font-size:11px">${readingSize==='large'?'−':'+'}</span></button></div>
  <div class="v2-focus-line"><span style="width:${(index + percent/100)/steps.length*100}%"></span></div>
  <div id="focus-reading" class="v2-focus-reading" tabindex="0"><div class="v2-focus-body"><div class="v2-focus-kicker">✦ READ · REFLECT · REMEMBER</div><h1>${esc(d.title)}</h1><div class="v2-focus-subtitle">${bn(goal)} বার পড়ুন <span class="v2-bullet">•</span> ${prName}</div>
  <div class="v2-focus-tabs" role="tablist" aria-label="কীভাবে পড়বেন">${tabs}</div>
@@ -180,6 +181,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');
  else if(a==='continue'){if(unlocked(b.dataset.prayer)){prayer=b.dataset.prayer;let first=firstUnfinished(prayer);if(first)openFocus(first);else{screen='session';render()}}}
  else if(a==='focus'){openFocus(b.dataset.id)}
  else if(a==='focus-close'){cancelFinish();focusId=null;screen='session';render();window.scrollTo(0,0)}
+ else if(a==='font-size'){readingSize=readingSize==='normal'?'large':'normal';safeWrite('dhikr_dubai_reading_size_v3',readingSize);render()}
  else if(a==='focus-tab'){focusTab=b.dataset.tab;const read=document.getElementById('focus-reading');if(read){const offset=read.scrollTop;render();document.getElementById('focus-reading')?.scrollTo(0,Math.min(offset,80))}else render()}
  else if(a==='focus-next'){const next=nextUnfinished(prayer,focusId);if(next)openFocus(next);else{focusId=null;screen='session';render()}}
  else if(a==='finish-next'){finishGo()}
