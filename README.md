@@ -1,28 +1,21 @@
-# যিকির — Dubai Dhikr Tracker v4
+# যিকির — Dubai Dhikr Tracker v5
 
-iPhone Home Screen web app for Dubai prayer-time dhikr and optional night worship.
+Premium dark, emerald and gold iPhone web app implementing the approved UI mockup. Hosted using GitHub Pages.
 
-## তাহাজ্জুদ ও রাতের ইবাদত
-- এশার সময় শুরু হওয়ার পর থেকে পরের ফজর পর্যন্ত রাতের নামাজের রেকর্ড রাখা যায়। ঘুম থেকে উঠে রাতের নামাজ সাধারণত তাহাজ্জুদ; ঘুম ছাড়াও কিয়ামুল লাইল আদায় করা যায়।
-- ২ রাকাত করে ব্যক্তিগত রেকর্ড এবং বিতর আদায়ের চিহ্ন রাখা যায়। বিতর একই রাতে দ্বিতীয়বার আদায়ের পরামর্শ দেওয়া হয় না।
-- রাতের শেষ তৃতীয়াংশের আনুমানিক শুরু দেখায় (মাগরিব থেকে পরের ফজর পর্যন্ত); এটি স্থানীয় কর্তৃপক্ষের প্রকাশিত সূচি নয়।
-- অভাব ও হালাল রিজিক, ঋণ, ব্যবসায় সততা ও কল্যাণ, পরিবার ও দাম্পত্য শান্তি, নেক সন্তান, সুস্থতা, ইস্তিগফার ও দরুদ সম্পর্কিত ১১টি দোয়া/জিকিরের বিষয়ভিত্তিক পাঠ।
-- সুরা ফাতিহা ছাড়া ১০টি ছোট সুরা, এই অংশে *শুধু বাংলা উচ্চারণ*। এটি আরবি তিলাওয়াতের বিকল্প নয়।
+## Features
+- Home with live Dubai prayer timetable and current prayer, five prayer-time gated dhikr checklists.
+- Prayers: five obligatory prayers and Tahajjud (night voluntary prayer) *inside the same Prayers section*.
+- Tahajjud: 2-rakaat activity record, Witr reminder, 11 topical duas and dhikr.
+- Qur'an: separate menu with an index of 114 surahs. Verified available written Bengali transliteration for 10 small surahs (not Fatiha). Others appear as titles only and are honestly labelled as not yet available.
+- Duas: separate menu with topical categories and reading log.
+- Large full-screen focus and reader views, fixed action dock, completion transitions and large type options.
+- Local-only saved records, export/import JSON backup including legacy sessions, Tahajjud, Qur'an and Dua reading records.
 
-## রেকর্ড ও ব্যাকআপ
-- আগের পাঁচ ওয়াক্তের রেকর্ডের localStorage key `dhikr_dubai_records_v1` অক্ষত।
-- নতুন তাহাজ্জুদের রেকর্ড `dhikr_dubai_tahajjud_v1`-তে রাতভিত্তিক সংরক্ষিত।
-- Settings → JSON Backup-এ দুই ধরনের রেকর্ড থাকে; পুরোনো ব্যাকআপও ইমপোর্ট করা যায়।
-- তথ্য শুধু ডিভাইসে থাকে, ক্লাউড সিঙ্ক নেই। অ্যাপ বা Safari-এর ওয়েবসাইট ডেটা মুছবেন না; আগে ব্যাকআপ রাখুন।
+## Privacy & data compatibility
+All records are stored on-device in localStorage. Existing keys `dhikr_dubai_records_v1` and `dhikr_dubai_tahajjud_v1` are **not migrated or reset**. Separate logs use `dhikr_dubai_quran_v5` and `dhikr_dubai_dua_v5`.
 
-## রেফারেন্স
-- সহিহ বুখারি ৯৯০: রাতের নামাজ দুই রাকাত করে।
-- সহিহ বুখারি ১১৪৫: রাতের শেষ তৃতীয়াংশ।
-- আবু দাউদ ১৪৩৯: এক রাতে দুই বিতর নয়।
-- কুরআন ২৮:২৪, ২:২০১, ২০:১১৪, ২৫:৭৪, ৩:৩৮, ২১:৮৩, ৭১:১০, ৩৩:৫৬।
-- তিরমিজি ৩৫৬৩; বুখারি ৫৭৪৩।
+## Prayer & script limitations
+Times are obtained from AlAdhan's Dubai calculation method, not the official IACAD schedule. No future prayers unlock without a validated timetable. Night prayer can be logged after Isha and before Fajr. Bengali-script transliterations do not replace correct Arabic recitation during salah. Supplications do not guarantee a worldly outcome.
 
-বাংলা হরফে সব আরবি ধ্বনি নির্ভুল প্রকাশ করা যায় না। বিশ্বস্ত কারির সাহায্যে তিলাওয়াত শিখুন। কোনো দোয়ার সঙ্গে নির্দিষ্ট আর্থিক বা চিকিৎসাগত ফলাফলের নিশ্চয়তা যুক্ত নেই।
-
-## Hosting
-GitHub Pages from `main` → `/(root)`: https://arkibria-tradeflow.github.io/dubai-dhikr-tracker/
+## Deployment
+Publish repository's `main` branch root using GitHub Pages. The site manifest and service worker use relative asset paths. Offline cache is `dubai-dhikr-v5.0.0`.
