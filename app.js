@@ -190,11 +190,11 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');
  else if(a==='history-offset'){histOffset=Math.min(0,Math.max(-3650,histOffset+Number(b.dataset.delta)));render()}
  else if(a==='export'){dlBackup()}
  else if(a==='import'){document.getElementById('restore-input').click()}
- else if(a==='clear'){if(confirm('সব রেকর্ড স্থায়ীভাবে মুছে ফেলবেন?')){if(safeWrite(DATA_KEY,{version:1,sessions:{}})){db={version:1,sessions:{}};render();toast('এই ডিভাইসের রেকর্ড মুছে ফেলা হয়েছে')}}}
+ else if(a==='clear'){if(confirm('সব রেকর্ড স্থায়ীভাবে মুছে ফেলবেন?')){if(safeWrite(DATA_KEY,{version:1,sessions:{}})){db={version:1,sessions:{}};if(typeof nightDb!=='undefined'){nightDb={nights:{}};nightSave()}render();toast('পাঁচ ওয়াক্ত ও তাহাজ্জুদের রেকর্ড মুছে ফেলা হয়েছে')}}}
  else if(a==='install'){if(deferredInstallPrompt){deferredInstallPrompt.prompt();deferredInstallPrompt=null}else{toast('iPhone: Safari → Share → Add to Home Screen')}}
 });
 
 document.getElementById('restore-input').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';importFile(f)});
 currentDay=dayInfo().day;render();updateTimes();
-setInterval(()=>{const day=dayInfo().day;if(day!==currentDay){currentDay=day;cancelFinish();screen='today';openId=null;focusId=null;histOffset=0;render();updateTimes()}else if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer))screen='today';render()}},15000);
+setInterval(()=>{const day=dayInfo().day;if(day!==currentDay){currentDay=day;if(screen==='night'||screen==='night-reader'){render();updateTimes();return}cancelFinish();screen='today';openId=null;focusId=null;histOffset=0;render();updateTimes()}else if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer))screen='today';render()}},15000);
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
