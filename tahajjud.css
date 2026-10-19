@@ -1,0 +1,75 @@
+/* Night Sanctuary Tahajjud experience — visually compatible with v3, phone-first */
+.nt-page{padding:0 0 35px;color:#f0fcf7;font-family:inherit}
+.nt-top{position:relative;isolation:isolate;overflow:hidden;margin:10px -2px 20px;border:1px solid #376c5c;border-radius:28px;padding:27px 23px 22px;background:radial-gradient(ellipse at 100% -10%,#1a655980 0,transparent 54%),linear-gradient(148deg,#173a3c,#0b1d27 63%,#07151c);box-shadow:0 18px 48px #0005}
+.nt-top:before{content:'☾';position:absolute;right:-6px;top:-70px;color:#b6ffda17;font:230px Georgia;z-index:-1;transform:rotate(-19deg)}
+.nt-kicker,.nt-eyebrow{display:block;color:#87eac2;font-size:10px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+.nt-top h1{font-size:clamp(34px,8vw,46px);letter-spacing:-1px;margin:15px 0 10px;line-height:1.22;color:#f1fff8;font-weight:850}
+.nt-top h1 em{font-style:normal;color:#b8f3da}
+.nt-top p{max-width:355px;font-size:14px;line-height:1.85;color:#c0d9d5;margin:0 0 20px}
+.nt-state{display:flex;align-items:center;justify-content:space-between;border-radius:13px;background:#102e35;border:1px solid #3f7369;padding:13px 14px;gap:8px;margin-bottom:14px}
+.nt-state span{font-size:13px;font-weight:850;color:#87fad3}.nt-state.locked span{color:#b6bcbe}.nt-state strong{font-size:11px;color:#c0d6ce;white-space:nowrap}
+.nt-time{border-top:1px solid #47726470;padding-top:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:5px 14px}
+.nt-time span{color:#f1d79b;font-weight:800;font-size:12px}.nt-time small{color:#9fb7b0;font-size:10px}
+.nt-tabs{position:sticky;top:0;z-index:7;background:#07131cdd;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:11px 0 12px;display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:7px}
+.nt-tabs button{min-height:49px;border:1px solid #31514f;border-radius:15px;background:#14272f;color:#b4c9c4;font-size:12px;font-weight:800;padding:8px 4px}
+.nt-tabs button.on{background:linear-gradient(135deg,#28b987,#2af2a6);color:#042a25;border-color:#65f4bc;box-shadow:0 5px 20px #0ccf8730}
+.nt-panel,.nt-group{border:1px solid #294c4a;background:linear-gradient(140deg,#122b32,#0b1d27);border-radius:23px;padding:19px 16px;margin-top:15px;box-shadow:0 9px 28px #0004}
+.nt-panel h2{font-size:24px;margin:9px 0;letter-spacing:-.5px;color:#f2fff9}
+.nt-panel>p{color:#b6d0cb;font-size:13px;line-height:1.95;margin:0 0 17px}
+.nt-rakaat{display:flex;justify-content:space-between;align-items:center;padding:20px 17px;background:radial-gradient(circle at 85% 20%,#2d815a80,transparent 50%),#0a171e;border:1px solid #325955;border-radius:20px;margin:12px 0 12px}
+.nt-rakaat small{display:block;color:#9ab7ae;font-size:12px;margin-bottom:8px}.nt-rakaat strong{font-size:53px;font-weight:900;color:#eafff4;letter-spacing:-2px}.nt-rakaat strong span{font-size:13px;font-weight:650;color:#b7d5c7;letter-spacing:0}
+.nt-halfmoon{font-size:63px;font-family:Georgia,serif;color:#e0bb75;text-shadow:0 0 32px #dfbd7066}
+.nt-primary,.nt-big-action{display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;border-radius:17px;background:linear-gradient(120deg,#3afaaf,#14bb80);color:#062921;font-weight:900;font-size:19px;width:100%;padding:18px 21px;min-height:67px;box-shadow:0 12px 26px #0dd18b31}
+.nt-primary:disabled,.nt-big-action:disabled{background:#244842;color:#77938c;box-shadow:none;opacity:.8}
+.nt-secondary{width:100%;background:none;border:0;color:#b8cfc8;font-size:12px;font-weight:700;padding:14px;min-height:44px}.nt-secondary:disabled{color:#617c78}
+.nt-witr{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #3c5756;padding:16px 1px 2px}.nt-witr b{display:block;font-size:13px;color:#e6f9f0}.nt-witr small{display:block;margin-top:5px;color:#93b6ad;font-size:11px;line-height:1.6}
+.nt-witr button{flex-shrink:0;border:1px solid #477367;border-radius:13px;padding:11px 10px;font-size:12px;font-weight:800;color:#a8e7d0;background:#183a36;min-height:44px}.nt-witr button.yes{background:#205f48;color:#78ffc1}.nt-witr button:disabled{opacity:.55}
+.nt-heading{font-size:20px;font-weight:850;color:#eafff2;margin:27px 1px 12px;letter-spacing:-.3px}
+.nt-guides{display:flex;flex-direction:column;gap:9px}
+.nt-guide{background:#0d202a;border:1px solid #2e464b;display:flex;align-items:flex-start;gap:13px;padding:15px;border-radius:17px}
+.nt-guide>span{border-radius:14px;background:#1b4b43;color:#87f6bc;display:grid;place-items:center;width:37px;height:37px;flex-shrink:0;font-weight:900;font-size:18px}
+.nt-guide b{font-size:14px;color:#f0fff8}.nt-guide p{margin:6px 0 0;color:#9bb9b4;font-size:12px;line-height:1.85}
+.nt-disclaimer{padding:13px 14px;margin:13px 0;color:#edcd94;background:#342a1d;border:1px solid #6a5233;border-radius:14px;line-height:1.85;font-size:12px}
+.nt-linkrow{width:100%;min-height:59px;border:1px solid #376958;border-radius:17px;background:#17483d;color:#b2ffdc;font-size:16px;font-weight:800;margin-top:10px;padding:15px;display:flex;justify-content:space-between}
+.nt-lead{font-size:13px;color:#a7c9c0;line-height:1.9;margin:0 2px 17px}
+.nt-group{padding:13px;margin:10px 0 15px}
+.nt-group-title{display:flex;align-items:center;gap:12px;margin:4px 2px 13px}
+.nt-group-title>span{height:44px;width:44px;flex-shrink:0;display:grid;place-items:center;border:1px solid #397b63;border-radius:14px;background:#214a41;color:#ccfae3;font-size:23px}
+.nt-group-title h3{font-size:15px;color:#f0fff7;margin:0}.nt-group-title small{font-size:11px;color:#95b5aa;line-height:1.6}
+.nt-item,.nt-surah{border:1px solid #294b4a;border-radius:14px;background:#0b1d25;color:#edfff5;min-height:75px;padding:12px;display:flex;align-items:center;text-align:left;gap:12px;width:100%;margin-top:8px}
+.nt-check{width:39px;height:39px;border-radius:13px;background:#1a3540;border:1px solid #305c58;color:#8dd7b8;display:grid;place-items:center;flex-shrink:0;font-size:22px;font-weight:700}.nt-check.done{background:#165a41;border-color:#47b381;color:#89ffd0}
+.nt-item-name{display:block;flex:1;font-size:13px;font-weight:800;line-height:1.65;min-width:0}
+.nt-item-name small{display:block;color:#8eafa6;font-size:11px;font-weight:500;line-height:1.6;margin-top:4px}
+.nt-arrow{font-size:23px;color:#6ef6b8}
+.nt-surah{min-height:78px;border-radius:16px;padding:14px;margin:10px 0}.nt-surah-number{font-size:18px;color:#f1d49b;display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;background:#393627;border:1px solid #705d38;border-radius:12px;font-weight:850}
+.nt-read-status{font-size:11px;color:#9fe8c4;font-weight:800;white-space:nowrap}
+.nt-source-note{font-size:11px;line-height:1.8;color:#90afa8;text-align:center;margin:25px 6px 10px}.nt-source-note a{color:#a7eeca;text-decoration:underline}
+.nt-home-card{position:relative;isolation:isolate;overflow:hidden;margin:25px 0;border:1px solid #4e7961;border-radius:26px;padding:20px;background:linear-gradient(138deg,#19433f,#0b242e 60%,#132329);box-shadow:0 13px 33px #0006;text-align:left}
+.nt-home-glow{position:absolute;inset:-80px -140px auto auto;height:230px;width:240px;border-radius:50%;background:#2aaf8044;filter:blur(38px);z-index:-1}
+.nt-home-top{display:flex;justify-content:space-between;align-items:center;gap:5px;font-size:10px;letter-spacing:1.2px;color:#f3d394;font-weight:800}
+.nt-home-status{font-size:10px;color:#c1f7dc;letter-spacing:0}
+.nt-home-moon{position:absolute;right:18px;top:53px;color:#f5d99c;font-family:Georgia;font-size:74px;text-shadow:0 0 40px #d8b77270}
+.nt-home-card h2{font-size:30px;line-height:1.35;letter-spacing:-.5px;margin:27px 0 9px;color:#f5fff7}.nt-home-card h2 em{font-style:normal;color:#78ffca}
+.nt-home-card p{max-width:305px;font-size:13px;line-height:1.75;color:#aed2c3;margin:0 0 17px}
+.nt-home-details{display:flex;gap:11px;flex-wrap:wrap;padding:13px 0;border-top:1px solid #46685c;font-size:11px;color:#e4d2a4}
+.nt-home-card>button{margin-top:10px;width:100%;border:0;background:#66f4b2;color:#07342d;border-radius:15px;padding:16px 17px;font-weight:900;font-size:15px;min-height:57px;display:flex;justify-content:space-between}
+.nt-history-card{border:1px solid #376458;background:linear-gradient(135deg,#13352f,#0c242d);padding:17px;border-radius:20px;margin:20px 0 30px}
+.nt-history-card h3{margin:9px 0 5px;font-size:18px;color:#f4fff9}.nt-history-card p{font-size:11px;color:#a1c4b6}.nt-history-card strong{display:block;font-size:14px;margin:12px 0 6px;color:#abfbd0}.nt-history-card small{color:#9aada7;font-size:11px;line-height:1.7;display:block}
+/* immersive reader: independent scrolling + safe-area dock */
+body.focus-mode .nt-fullscreen{position:fixed;inset:0;width:100%;max-width:700px;margin:auto;background:#06151d;display:flex;flex-direction:column;z-index:24;overflow:hidden;color:#f4fff8}
+.nt-reader-head{display:flex;align-items:center;gap:11px;padding:calc(13px + env(safe-area-inset-top)) 16px 14px;border-bottom:1px solid #294943;background:linear-gradient(180deg,#142c2c,#081a24)}
+.nt-reader-head>button{width:44px;height:44px;flex-shrink:0;border:1px solid #406963;background:#1a3338;color:#c5ffdb;border-radius:14px;font-size:21px;font-weight:800}
+.nt-reader-head>div{flex:1;min-width:0;text-align:center}.nt-reader-head small{display:block;font-size:9px;letter-spacing:1.7px;color:#c1ddca}.nt-reader-head strong{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-size:16px;color:#f2fff7;margin-top:4px}
+.nt-reading-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.nt-reader-inner{padding:24px 19px 30px;max-width:620px;margin:auto}.nt-reading-ornament{font-size:64px;color:#cfad6e;text-align:center;line-height:1.05;margin:6px 0 12px;text-shadow:0 0 28px #c4ab6f60}
+.nt-reader-inner>.nt-kicker{text-align:center;line-height:1.9}.nt-reader-inner h1{font-size:clamp(26px,7.5vw,38px);text-align:center;color:#f2fff9;margin:12px 0 27px}
+.nt-reading-card{padding:23px 19px;border:1px solid #487965;border-radius:22px;background:linear-gradient(165deg,#183c36,#10262e);box-shadow:0 8px 28px #0006}
+.nt-card-label{display:block;text-transform:uppercase;color:#b9f1cc;font-size:11px;font-weight:850;margin-bottom:16px;letter-spacing:1px}
+.nt-reading-card p{font-size:clamp(21px,5.6vw,25px);font-weight:600;line-height:2.1;color:#fbfff7;margin:0 0 17px;overflow-wrap:anywhere}
+.nt-reading-card p:last-child{margin-bottom:0}.nt-large .nt-reading-card p{font-size:clamp(24px,6.7vw,31px);line-height:2.06}
+.nt-meaning{padding:20px 6px 0}.nt-meaning span{font-size:11px;font-weight:850;color:#bdf3d4;letter-spacing:1px}.nt-meaning p{font-size:16px;line-height:1.95;color:#cee0d8}
+.nt-ref{display:inline-block;color:#83efba;padding:13px 0;font-size:12px;text-decoration:underline}.nt-reader-caution{color:#e8c98a;font-size:12px;line-height:1.9;margin-top:23px}
+.nt-reader-dock{flex-shrink:0;padding:14px 17px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#112d2e,#07191c);border-top:1px solid #386456;box-shadow:0 -12px 36px #0008}
+.nt-reader-dock>div{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:#a2bfb5;margin-bottom:11px}.nt-reader-dock strong{color:#9ff9c8;font-size:12px}
+.nt-big-action{min-height:69px;justify-content:center}.nt-return{border:0;background:none;display:block;margin:8px auto 0;color:#a2beb6;font-size:11px;padding:7px;min-height:30px}
+@media(max-width:365px){.nt-top{padding:22px 16px}.nt-reader-inner{padding:15px 13px}.nt-reading-card{padding:17px 14px}.nt-reading-card p{font-size:20px}.nt-tabs button{font-size:11px}.nt-home-card{padding:17px}}
+@media(prefers-reduced-motion:reduce){.nt-page *, .nt-fullscreen *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
