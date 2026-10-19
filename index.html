@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="যিকির">
-<meta name="description" content="দুবাইয়ের পাঁচ ওয়াক্ত নামাজের জিকির ও তাহাজ্জুদের দোয়া, আমল, ১০টি সুরার বাংলা উচ্চারণ এবং ব্যক্তিগত রেকর্ড।">
+<meta name="description" content="দুবাইয়ের নামাজের পর জিকির, তাহাজ্জুদ, বিষয়ভিত্তিক দোয়া ও ১০টি ছোট সুরার বাংলা উচ্চারণ।">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -365,60 +365,9 @@ body.focus-mode .shell{padding:0}
 .v2-focus-min{font-size:20px;letter-spacing:-2px;font-weight:900;color:#81f5c6}
 .v2-focus-min span{letter-spacing:0;margin-left:1px}
 
-/* Tahajjud / Night Worship: independent Dark Sanctuary module */
-.nt-page{padding:0 0 28px;animation:nt-rise .24s ease both}
-@keyframes nt-rise{from{opacity:.6;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-.nt-top{border-radius:0 0 30px 30px;margin:0 -18px 20px;padding:calc(30px + env(safe-area-inset-top)) 23px 28px;background:radial-gradient(ellipse at 95% 15%,#34655655 0%,transparent 43%),linear-gradient(155deg,#132e39,#0b222a 70%,#0b1a23);border:1px solid #36554d;border-top:0;position:relative;overflow:hidden;box-shadow:0 16px 42px #0005}
-.nt-top:after{content:'☾';position:absolute;right:-5px;top:45px;font-size:150px;color:#efcf8f10;pointer-events:none}
-.nt-kicker,.nt-eyebrow{display:block;color:#f3ce88;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
-.nt-top h1{position:relative;z-index:1;font-size:clamp(31px,9vw,39px);line-height:1.35;font-weight:900;letter-spacing:-.9px;margin:15px 0 10px;color:#f8fff9}
-.nt-top h1 em{display:block;font-style:normal;color:#e8c47d;font-size:clamp(21px,6vw,28px)}
-.nt-top>p{position:relative;z-index:1;color:#a3c3bb;font-size:13px;line-height:1.85;margin:0 0 21px;max-width:350px}
-.nt-state{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 14px;border:1px solid #436354;border-radius:15px;color:#ebfdf5;background:#1b3b38c9;font-size:12px;font-weight:800}
-.nt-state.live{border-color:#2aaf87;background:#103e34}.nt-state.live span{color:#79efbd}.nt-state.locked span{color:#eaca91}
-.nt-state strong{font-weight:800;font-size:11px;color:#c5d9ce}
-.nt-time{display:flex;flex-direction:column;gap:5px;margin-top:14px;color:#e3f4e9;font-size:14px;font-weight:750}
-.nt-time small{color:#86a8a6;font-size:10px;font-weight:500}
-.nt-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:5px;gap:4px;border:1px solid #2c4c49;background:#0d2429;border-radius:18px;margin:0 0 23px}
-.nt-tabs button{background:transparent;color:#a0bbb4;border:0;border-radius:13px;min-height:51px;padding:10px 3px;font-weight:800;font-size:12px}
-.nt-tabs button.on{background:linear-gradient(135deg,#2edfad,#19b88b);color:#072921;box-shadow:0 7px 18px #06ba8b44}
-.nt-panel{background:radial-gradient(circle at 100% 0,#17544144,transparent 46%),linear-gradient(155deg,#172c32,#10232a);padding:23px 19px;border:1px solid #39554d;border-radius:24px;margin-bottom:24px;box-shadow:0 13px 35px #0003}
-.nt-panel h2{font-size:24px;letter-spacing:-.4px;color:#f4fff9;margin:13px 0 10px;line-height:1.4}
-.nt-panel>p{font-size:13px;line-height:1.8;color:#b4d0c7;margin:0 0 18px}
-.nt-rakaat{display:flex;justify-content:space-between;align-items:center;background:#081a21;border:1px solid #35504b;padding:18px;border-radius:20px;margin-bottom:13px}
-.nt-rakaat strong{color:#5cf0b6;font-size:47px;line-height:1;font-variant-numeric:tabular-nums}.nt-rakaat small{display:block;color:#94b4af;font-size:12px;margin-top:7px}
-.nt-rakaat>span{color:#e6ca93;font-size:49px;line-height:1}
-.nt-primary{width:100%;border:1px solid #a4ffdd7e;color:#063525;background:linear-gradient(135deg,#5af7c0,#14bd88);border-radius:21px;min-height:84px;padding:15px 21px;display:flex;align-items:center;justify-content:space-between;text-align:left;font-size:21px;font-weight:950;box-shadow:0 13px 32px #17b88a33}
-.nt-primary>span:last-child{font-size:27px}.nt-primary:disabled,.nt-secondary:disabled,.nt-witr button:disabled,.nt-big-action:disabled{opacity:.37;box-shadow:none;cursor:not-allowed}
-.nt-secondary{border:1px solid #335850;color:#afc9c1;background:#18332f;min-height:52px;border-radius:14px;padding:10px 13px;margin-top:9px;width:100%;font-size:12px;font-weight:750}
-.nt-witr{display:flex;justify-content:space-between;gap:13px;align-items:center;margin-top:19px;padding-top:18px;border-top:1px solid #35514b}
-.nt-witr b{display:block;color:#f1fff8;font-size:14px}.nt-witr small{display:block;color:#9bbaaf;font-size:11px;line-height:1.6;margin-top:5px}
-.nt-witr button{min-width:100px;min-height:52px;background:#233f3a;border:1px solid #54705f;color:#c5dfd0;border-radius:14px;font-weight:850;font-size:12px}.nt-witr button.yes{color:#062e23;background:#53eab3;border-color:#53eab3}
-.nt-heading{font-size:20px;font-weight:900;letter-spacing:-.2px;margin:22px 0 15px;color:#f7fffc}
-.nt-lead{color:#acbfb9;line-height:1.8;font-size:13px;margin:-3px 0 18px}
-.nt-guides{display:flex;flex-direction:column;gap:10px}.nt-guide{display:flex;gap:13px;align-items:flex-start;border-radius:18px;border:1px solid #2a4844;background:#122b2e;padding:17px 15px}.nt-guide>span{width:33px;height:33px;flex:0 0 33px;border-radius:10px;background:#205347;color:#64f5bd;display:grid;place-items:center;font-weight:850}.nt-guide b{font-size:14px;color:#e4f8ef}.nt-guide p{margin:7px 0 0;font-size:12px;color:#a8c0b6;line-height:1.85}
-.nt-disclaimer{padding:15px 16px;border-radius:15px;border:1px solid #65533b;background:#2f2a21;color:#e6cea0;line-height:1.8;font-size:12px;margin:16px 0}
-.nt-linkrow{display:flex;width:100%;align-items:center;justify-content:space-between;border:1px solid #457f66;background:#173b34;color:#6ff0b9;font-weight:900;min-height:58px;padding:14px 17px;border-radius:16px;margin:18px 0}
-.nt-group{border-radius:20px;padding:16px 13px;background:#10272d;border:1px solid #2a4848;margin:12px 0 19px}
-.nt-group-title{display:flex;gap:13px;align-items:center;padding:2px 3px 12px}.nt-group-title>span{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#1b4b40;color:#bdf4db;font-size:24px;flex-shrink:0}
-.nt-group-title h3{margin:0;color:#f2fcf6;font-size:16px}.nt-group-title small{color:#9ebdb2;font-size:11px;display:block;margin-top:5px;line-height:1.5}
-.nt-item,.nt-surah{display:flex;align-items:center;gap:13px;padding:14px 12px;width:100%;min-height:77px;text-align:left;color:#eafbf1;background:#0b1d25;border:1px solid #2a4447;border-radius:14px;margin-top:8px}
-.nt-item:active,.nt-surah:active{transform:scale(.99)}.nt-check{width:35px;height:35px;border-radius:11px;background:#223e3b;display:grid;place-items:center;color:#ecc989;font-size:18px;flex:0 0 35px}.nt-check.done{color:#06291e;background:#62eab4}.nt-item-name{flex:1;min-width:0;line-height:1.55;font-size:13px;font-weight:850;overflow-wrap:anywhere}.nt-item-name small{display:block;margin-top:5px;color:#96b8aa;font-size:10px;font-weight:500;line-height:1.5}
-.nt-arrow{font-size:24px;color:#63ddab}.nt-surah-number{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;background:#23483e;color:#e4c589;font-size:13px;font-weight:800}.nt-read-status{color:#64eeb9;font-size:11px;font-weight:850;white-space:nowrap}
-.nt-source-note{color:#91aaa6;font-size:11px;text-align:center;line-height:2;margin:22px 6px}.nt-source-note a{color:#a9e4c6;text-decoration:underline}
-.nt-home-card{background:radial-gradient(circle at 100% 0%,#3e9b7566,transparent 42%),linear-gradient(125deg,#132f37,#092129 80%);border:1px solid #497866;border-radius:26px;padding:24px 21px 20px;position:relative;overflow:hidden;margin-top:22px;box-shadow:0 18px 40px #0007}.nt-home-glow{position:absolute;width:140px;height:140px;border-radius:50%;right:-45px;top:55px;background:#26b18a33;filter:blur(38px)}.nt-home-top{display:flex;justify-content:space-between;gap:4px;align-items:center;color:#e4ce9e;font-weight:850;font-size:10px;letter-spacing:1.5px}.nt-home-status{color:#a4e0bf;font-size:10px;letter-spacing:0}.nt-home-moon{position:absolute;right:22px;top:61px;color:#f1d19c7a;font-size:83px;line-height:1}.nt-home-card h2{color:white;font-size:30px;line-height:1.35;position:relative;margin:19px 0 9px}.nt-home-card h2 em{font-style:normal;color:#e5c58c;font-size:23px}.nt-home-card p{color:#accdc3;max-width:330px;line-height:1.85;font-size:12px;position:relative}.nt-home-details{display:flex;justify-content:space-between;gap:7px;flex-wrap:wrap;border-top:1px solid #4b6a6066;padding-top:13px;margin:17px 0 17px;color:#dcece5;font-size:11px}.nt-home-card>button{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:61px;border-radius:16px;color:#062c22;background:#59eeba;border:0;font-size:17px;font-weight:950;padding:15px 18px}.nt-home-card>button span{font-size:23px}
-.nt-history-card{border:1px solid #3c5f53;background:#13312f;border-radius:20px;padding:20px;margin-top:22px}.nt-history-card h3{font-size:18px;color:#f2fff8}.nt-history-card p{color:#9cbfb0}.nt-history-card strong{color:#68e9b1;display:block;font-size:16px}.nt-history-card small{color:#9cb3aa;display:block;margin-top:9px;line-height:1.65}
-.nt-fullscreen{position:fixed;inset:0;z-index:55;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(circle at 95% 0,#234f423b,transparent 55%),#06131b;color:#f0fff7;padding-top:env(safe-area-inset-top);height:100dvh}
-.nt-reader-head{flex:0 0 auto;display:flex;align-items:center;gap:13px;padding:14px 17px 16px;border-bottom:1px solid #21443b;background:#081e26}.nt-reader-head button{width:46px;height:46px;border-radius:14px;border:1px solid #466056;background:#1b3734;color:#d6f9eb;font-size:21px;font-weight:800;flex-shrink:0}.nt-reader-head>div{min-width:0;flex:1}.nt-reader-head small{display:block;color:#dbbe86;font-size:9px;letter-spacing:1px;font-weight:850}.nt-reader-head strong{display:block;font-size:15px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nt-reader-head button:last-child{color:#80f8c7}
-.nt-reading-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.nt-reader-inner{max-width:660px;margin:0 auto;padding:24px 20px 40px}.nt-reading-ornament{font-size:58px;text-align:center;color:#d6bb80;margin:0 0 12px}.nt-reader-inner>.nt-kicker{text-align:center;letter-spacing:1.2px;font-size:10px}.nt-reader-inner h1{color:#f7fff9;text-align:center;font-size:clamp(24px,7vw,32px);margin:13px 0 28px;line-height:1.45}.nt-reading-card{background:#102831;border:1px solid #335b53;border-radius:24px;padding:24px 21px 21px;box-shadow:inset 0 1px #ffffff0a,0 20px 42px #0004}.nt-card-label{color:#e9c889;font-size:11px;font-weight:850;margin-bottom:17px;display:block}.nt-reading-card p{font-size:clamp(18px,4.9vw,22px);font-weight:600;line-height:2.05;color:#eafff1;margin:0 0 18px;overflow-wrap:break-word}.nt-reading-card p:last-child{margin-bottom:0}.nt-large .nt-reading-card p{font-size:clamp(22px,6.4vw,27px);line-height:2.1}.nt-meaning{border:1px solid #32544c;border-radius:19px;background:#15332e;padding:20px;margin-top:20px}.nt-meaning span{font-size:11px;color:#e2ca94;font-weight:850}.nt-meaning p{font-size:15px;color:#c6ead9;line-height:1.95;margin:11px 0 0}.nt-ref{color:#82e8ba;display:block;margin:17px 7px;font-size:13px;text-decoration:underline}.nt-reader-caution{color:#b5bda7;border-top:1px solid #325049;padding-top:18px;line-height:1.9;font-size:11px;margin-top:26px}.nt-reader-dock{flex:0 0 auto;border-top:1px solid #2e6152;padding:15px 17px calc(13px + env(safe-area-inset-bottom));background:#0c2229;box-shadow:0 -16px 45px #0008}.nt-reader-dock>div{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px;color:#a7c7b9;font-size:12px}.nt-reader-dock>div strong{color:#59efba}.nt-big-action{border:1px solid #9fffe17d;border-radius:21px;min-height:76px;width:100%;background:linear-gradient(115deg,#60f7c1,#14bc8c);font-size:19px;font-weight:950;color:#062f22;box-shadow:0 13px 34px #13bc8b3c}.nt-return{display:block;border:0;background:transparent;color:#9fdbbe;font-size:12px;font-weight:750;padding:13px 15px 4px;margin:auto}
-body.focus-mode .nt-fullscreen{z-index:55}
-@media(max-width:390px){.nt-top{padding-left:19px;padding-right:19px}.nt-reader-inner{padding:18px 15px 24px}.nt-reading-card{padding:21px 17px}.nt-reader-dock{padding:11px 12px calc(9px + env(safe-area-inset-bottom))}.nt-big-action{min-height:68px;font-size:16px}.nt-panel{padding:19px 16px}.nt-tabs button{font-size:11px}.nt-home-card h2{font-size:26px}.nt-primary{font-size:18px}}
-@media(max-height:650px){.nt-reader-head{padding-top:7px;padding-bottom:7px}.nt-reading-ornament{font-size:34px;margin-bottom:6px}.nt-reader-inner h1{margin-bottom:15px}.nt-reading-card p{line-height:1.85}.nt-reader-dock{padding-top:8px}.nt-big-action{min-height:60px}}
-@media(min-width:800px){.nt-top{margin-left:0;margin-right:0;border-radius:25px}.nt-fullscreen{padding-left:max(0px,calc((100% - 650px)/2));padding-right:max(0px,calc((100% - 650px)/2))}}
-@media(prefers-reduced-motion:reduce){.nt-page{animation:none}}
-
 </style>
-
+<link rel="stylesheet" href="tahajjud.css">
+<link rel="stylesheet" href="experience.css">
 </head>
 <body>
 <div class="app"><main class="shell" id="root" aria-live="polite"></main></div>
@@ -427,5 +376,6 @@ body.focus-mode .nt-fullscreen{z-index:55}
 <input class="hide" type="file" accept="application/json,.json" id="restore-input">
 <script src="app.js" defer></script>
 <script src="tahajjud.js" defer></script>
+<script src="experience.js" defer></script>
 </body>
 </html>
