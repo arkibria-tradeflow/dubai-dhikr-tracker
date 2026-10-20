@@ -1,0 +1,44 @@
+/* v6 Night Gold extensions */
+.ex-reading-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:0 0 16px;padding:4px;border:1px solid #856943;background:#102a23;border-radius:16px}
+.ex-reading-tabs button{min-height:49px;padding:8px 2px;border:0;border-radius:11px;background:transparent;color:#d1dccf;font-size:12px;font-weight:800;font-family:inherit}
+.ex-reading-tabs button.selected{background:linear-gradient(100deg,#d2a650,#ffe3a3);color:#152819}
+.ex-quran-reader .ex-reader-paper{padding:23px 19px;min-height:190px}
+.ex-quran-reader .ex-bismillah,.ex-quran-reader .ex-bismillah-bn{font-size:18px;color:#e9c984;text-align:center;border-bottom:1px solid #7a684766;padding-bottom:21px!important;margin-bottom:21px!important}
+.ex-quran-reader .ex-bismillah{font-size:30px!important;line-height:2.2!important}
+.ex-quran-reader .ex-ayah{display:flex;align-items:flex-start;gap:12px;line-height:1.9;margin:0 0 19px;overflow-wrap:anywhere}
+.ex-quran-reader .ex-ayah:last-child{margin-bottom:0}
+.ex-quran-reader .ex-ayah-no{display:grid;place-items:center;width:31px;height:31px;flex:0 0 31px;border:1px solid #ab8b50;border-radius:50%;color:#efce87;font-size:13px;font-family:inherit;margin-top:6px}
+.ex-quran-reader .ex-ayah.bn{font-size:19px;color:#f5f3e5}
+.ex-quran-reader .ex-ayah.meaning{font-size:16px;color:#eff2e7}
+.ex-quran-reader .ex-ayah.ar{direction:rtl;text-align:right;font-size:30px;font-family:'Noto Naskh Arabic','Times New Roman',serif;line-height:2.2}
+.ex-quran-reader .ex-ayah.ar .ex-ayah-text{flex:1}
+.ex-quran-reader.ex-large .ex-ayah.bn{font-size:25px}
+.ex-quran-reader.ex-large .ex-ayah.meaning{font-size:21px}
+.ex-quran-reader.ex-large .ex-ayah.ar{font-size:37px}
+.ex-v6-finish{position:fixed;inset:0;z-index:100;background:#03100de6;backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:22px}
+.ex-v6-success{width:100%;max-width:365px;text-align:center;border:1px solid #d5b475;border-radius:25px;background:radial-gradient(circle at 50% 0,#23583a,#0a241c 82%);padding:29px 21px;box-shadow:0 20px 45px #0009}
+.ex-v6-check{display:grid;place-items:center;width:90px;height:90px;margin:auto;border-radius:50%;background:linear-gradient(120deg,#42b977,#12734c);border:4px solid #eed18d;box-shadow:0 0 25px #4be28780;font-size:51px;color:white}
+.ex-v6-success small{display:block;color:#eac988;letter-spacing:2px;margin-top:21px;font-size:10px}
+.ex-v6-success h2{font-size:32px;color:#fff0c6;margin:13px 0}
+.ex-v6-success p{color:#cce2d1;font-size:15px}
+.ex-v6-success button{border:1px solid #c9e9c8;background:linear-gradient(105deg,#6ece8d,#24885c);color:white;border-radius:15px;padding:16px;width:100%;min-height:60px;font-weight:850;font-size:16px;margin-top:14px}
+.ex-more-list button.ex-v6-asmalink{min-height:100px;border:1px solid #b69a58;background:radial-gradient(circle at 15% 15%,#31573b,#0d3027 72%)}
+.ex-v6-asmalink b{color:#f3d994;font-size:17px}
+.ex-asma-intro{display:flex;gap:15px;align-items:center;padding:22px 18px;background:radial-gradient(circle at 15% 20%,#33533a,#0c2d24 72%);border:1px solid #a38856;border-radius:22px;margin:17px 0}
+.ex-asma-intro .emblem{font-size:61px;color:#eccd84;flex:0 0 70px}
+.ex-asma-intro small{color:#e4c781}
+.ex-asma-intro strong{display:block;color:#ffebc5;font-size:19px;line-height:1.55}
+.ex-asma-intro p{font-size:11px;color:#adcab5}
+.ex-asma-list{display:flex;flex-direction:column;gap:9px}
+.ex-asma-row{display:flex;align-items:center;gap:12px;background:linear-gradient(110deg,#10382c,#09251e);color:#fff7e8;border:1px solid #3a604c;border-radius:15px;text-align:left;width:100%;padding:12px;min-height:83px}
+.ex-asma-row[hidden]{display:none!important}
+.ex-asma-no{display:grid;place-items:center;min-width:39px;height:43px;color:#efcf88;border:1px solid #766944;border-radius:11px;background:#284e37}
+.ex-asma-copy{flex:1;min-width:0}.ex-asma-copy strong,.ex-asma-copy small{display:block}
+.ex-asma-copy strong{font-size:14px}.ex-asma-copy small{color:#b6cdbd;font-size:11px;margin-top:5px;line-height:1.5}
+.ex-asma-ar{max-width:101px;color:#e9d391;font-size:25px;font-family:'Noto Naskh Arabic','Times New Roman',serif;line-height:1.8;text-align:right;overflow-wrap:anywhere}
+.ex-asma-reading-ar{font-size:clamp(45px,10vw,65px);color:#f3d494;line-height:1.9;text-align:center;font-family:'Noto Naskh Arabic','Times New Roman',serif;overflow-wrap:anywhere}
+.ex-asma-meaning{font-size:23px!important;line-height:1.8!important}
+.ex-asma-sources a{color:#e9cb8c;font-size:12px;text-decoration:underline;padding:5px}
+.ex-asma-sources{display:flex;gap:9px;justify-content:center;margin:23px 0}
+@media(max-width:350px){.ex-reading-tabs button{font-size:11px}.ex-asma-ar{font-size:20px}.ex-asma-intro .emblem{font-size:43px;flex-basis:51px}}
+@media(prefers-reduced-motion:reduce){.ex-v6-finish{transition:none}}
