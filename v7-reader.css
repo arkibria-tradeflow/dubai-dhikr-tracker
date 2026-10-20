@@ -1,0 +1,67 @@
+/* v7 approved: Qur'an = uninterrupted full-screen scroll; Asma = tap tasbih + static list. */
+.v7-sr-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)}
+.v7-quran{background:linear-gradient(180deg,#09271e 0%,#031714 47%,#031512 100%);max-width:620px}
+.v7-q-header,.v7-asma-header{display:flex;gap:9px;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top)) 13px 9px;border-bottom:1px solid #345243a1;flex:0 0 auto;min-height:calc(56px + env(safe-area-inset-top))}
+.v7-q-header button,.v7-asma-header button{width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:#102e27;border:1px solid #49674e;color:#ecd08e;font-size:19px;font-weight:700}
+.v7-q-heading,.v7-asma-header>div{min-width:0;text-align:center;flex:1}
+.v7-q-heading strong,.v7-asma-header strong{display:block;font-size:16px;color:#fff6e5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.v7-q-heading small,.v7-asma-header small{display:block;margin-top:3px;font-size:11px;color:#c9ae78;line-height:1.3}
+.v7-secondary-modes{height:41px;flex:0 0 41px;display:flex;align-items:center;justify-content:flex-end;gap:4px;padding:3px 13px;border-bottom:1px solid #24453580;background:#071e19}
+.v7-primary-label{flex:1;color:#e7d39d;font-weight:750;font-size:12px;white-space:nowrap}
+.v7-secondary-modes button{min-width:0;padding:7px 10px;min-height:30px;border:1px solid transparent;border-radius:8px;background:transparent;color:#93ada0;font-size:11px;font-weight:700}
+.v7-secondary-modes button.v7-selected{background:#254939;border-color:#7e885a;color:#f6d78d}
+.v7-reading-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#456c50 transparent}
+.v7-reading-text{max-width:550px;margin:0 auto;padding:13px 17px 48px;position:relative}
+.v7-basmala{font-size:15px;text-align:center;color:#e4c68e;line-height:1.75;padding:7px 0 14px;margin:0 0 6px;border-bottom:1px solid #274838}
+.v7-verse{display:flex;align-items:flex-start;gap:11px;padding:14px 0 15px;margin:0!important;border-bottom:1px solid #305143a1;line-height:1.8!important;break-inside:avoid;scroll-margin-top:10px}
+.v7-verse-text{color:#f4f2df;font-size:clamp(17px,4.55vw,19px);line-height:1.8;font-weight:500;letter-spacing:0;overflow-wrap:break-word;flex:1;text-align:left}
+.v7-verse-number{display:inline-grid;place-items:center;border:1px solid #9d854e;border-radius:50%;width:29px;height:29px;flex:0 0 29px;font-size:12px;line-height:1;color:#e7c177;margin-top:3px}
+.v7-reading-text.v7-arabic-mode .v7-verse{flex-direction:row-reverse}
+.v7-reading-text.v7-arabic-mode .v7-verse-text{font-family:'Geeza Pro','Noto Naskh Arabic',serif;text-align:right;font-size:clamp(24px,6.1vw,29px);line-height:2.0;font-weight:500;color:#f0dbab;direction:rtl}
+.v7-basmala.v7-arabic{font-family:'Geeza Pro','Noto Naskh Arabic',serif;font-size:24px;line-height:1.9}
+.v7-quran.v7-large .v7-verse-text{font-size:clamp(21px,5.5vw,24px)}
+.v7-quran.v7-large .v7-reading-text.v7-arabic-mode .v7-verse-text{font-size:clamp(29px,7vw,35px)}
+.v7-endnote{text-align:center;font-size:11px;color:#8ca99b;margin:22px 0 5px}
+.v7-q-footer,.v7-asma-footer{flex:0 0 auto;padding:8px 12px calc(9px + env(safe-area-inset-bottom));display:flex;gap:9px;align-items:center;justify-content:space-between;background:#061c17;border-top:1px solid #2d5440;z-index:2}
+.v7-q-footer button,.v7-asma-footer button{height:48px;border-radius:14px;padding:0 13px;font-size:13px;font-weight:800;white-space:nowrap}
+.v7-prev-surah,.v7-asma-footer button:first-child{background:transparent;color:#dbbd79;border:1px solid #b4975a}
+.v7-next-surah,.v7-asma-next{background:linear-gradient(110deg,#2bab73,#087c59);border:1px solid #8ddb9f;color:#fff4df;box-shadow:0 2px 14px #00885850}
+.v7-q-footer button:disabled,.v7-asma-footer button:disabled{opacity:.35}
+.v7-surah-position{font-size:12px;color:#c0ac7c;white-space:nowrap}
+.v7-scroll-tools{position:absolute;right:12px;bottom:calc(80px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:5px;z-index:3;pointer-events:none}
+.v7-scroll-tools button{pointer-events:auto;width:37px;height:35px;border:1px solid #6c8d6d6b;border-radius:13px;color:#dfd09c;background:#12342ad9;box-shadow:0 2px 9px #0008;font-size:16px;opacity:.68}
+@media(max-width:360px){.v7-secondary-modes{padding:3px 8px}.v7-secondary-modes button{padding:6px 8px}.v7-reading-text{padding-left:11px;padding-right:11px}.v7-q-footer{padding-left:7px;padding-right:7px;gap:6px}.v7-q-footer button{padding:0 10px;font-size:12px}.v7-verse-text{font-size:17px}}
+/* The optional page-down step overlaps the previous viewport's bottom lines by design. */
+.v7-asma{background:radial-gradient(circle at 50% 23%,#154334 0,#06211b 55%,#041511 100%)}
+.v7-asma-scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.v7-name-content{max-width:520px;margin:auto;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:15px 17px 18px}
+.v7-tasbih{position:relative;width:min(252px,65vw);height:min(252px,65vw);aspect-ratio:1;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;border:2px solid #e8c37e;background:radial-gradient(circle at 47% 37%,#184d38 0,#0a2e24 58%,#071c18 100%);box-shadow:0 0 0 7px #203d2d,0 0 0 12px #745f3d,0 9px 38px #000a,inset 0 0 22px #d7bc7344;padding:14px;color:#f5d896;touch-action:pan-y;cursor:pointer}
+.v7-tasbih:active{transform:scale(.984)}
+.v7-tasbih-ring{position:absolute;inset:0;pointer-events:none}
+.v7-bead{position:absolute;left:calc(50% - 5px);top:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#f3e2a4 0%,#b28b42 40%,#21452e 80%);transform:rotate(var(--angle)) translateY(calc(-1 * min(122px,31.5vw))) rotate(calc(-1 * var(--angle)));box-shadow:0 2px 4px #0008}
+.v7-tasbih-core{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.v7-calligraphy{font-family:'Geeza Pro','Noto Naskh Arabic',serif;font-size:clamp(40px,10.5vw,62px);line-height:1.6;font-weight:500;color:#f2d58b;text-shadow:0 0 14px #f4d57d40}
+.v7-pronunciation{font-size:22px;font-weight:850;color:#fff8ea}
+.v7-tasbih small{font-size:10px;color:#a8b8a1;font-weight:650}
+.v7-name-detail{display:flex;flex-direction:column;gap:11px;width:100%}
+.v7-name-detail>div{border-radius:15px;background:#102f26;border:1px solid #476a4a;padding:13px 16px}
+.v7-name-detail small{font-size:12px;color:#dfbc74;font-weight:850}
+.v7-name-detail p{margin:6px 0 0;color:#f2eedc;font-size:16px;line-height:1.65}
+.v7-name-meaning p{font-size:19px;font-weight:750}
+.v7-name-lesson p{font-size:14px;color:#dbe6d6}
+.v7-asma-footer{padding-top:10px}
+.v7-asma-footer button{flex:1;min-height:52px}
+.v7-name-animate[data-direction="next"]{animation:v7EnterNext .28s ease-out both}
+.v7-name-animate[data-direction="prev"]{animation:v7EnterPrev .28s ease-out both}
+@keyframes v7EnterNext{from{opacity:.55;transform:translateX(16px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes v7EnterPrev{from{opacity:.55;transform:translateX(-16px) scale(.985)}to{opacity:1;transform:translateX(0) scale(1)}}
+.v7-asma-list{background:#061b17}.v7-list-icon{width:40px;text-align:center;color:#d7b479;font-size:24px}
+.v7-name-list-scroll{overflow:auto;flex:1;min-height:0;padding:7px 12px calc(15px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.v7-list-item{display:flex;align-items:center;gap:10px;padding:12px 5px;border-bottom:1px solid #345746;color:#f1f5e6;min-height:73px}
+.v7-name-index{flex:0 0 28px;color:#e2c47f;font:17px Georgia,serif}
+.v7-list-name{min-width:0;display:flex;flex-direction:column;gap:4px;flex:1}
+.v7-list-name strong{color:#edd18b;font:clamp(23px,6.4vw,27px)/1.4 'Geeza Pro','Noto Naskh Arabic',serif;text-align:left;align-self:flex-start}
+.v7-list-name span{font-size:12px;color:#c6d4c1}
+.v7-list-meaning{text-align:right;font-size:12px;color:#f5f1df;max-width:35%;line-height:1.45}
+@media(max-height:720px){.v7-name-content{justify-content:flex-start;gap:10px;padding-top:9px}.v7-tasbih{width:min(194px,52vw);height:min(194px,52vw)}.v7-bead{transform:rotate(var(--angle)) translateY(calc(-1 * min(94px,25vw))) rotate(calc(-1 * var(--angle)))}.v7-calligraphy{font-size:40px;line-height:1.4}.v7-pronunciation{font-size:18px}.v7-name-detail>div{padding:9px 13px}.v7-name-detail p{font-size:14px}.v7-name-meaning p{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.v7-name-animate{animation:none!important}.v7-tasbih:active{transform:none}}
