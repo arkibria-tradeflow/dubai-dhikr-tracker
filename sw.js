@@ -1,5 +1,5 @@
-const CACHE='dubai-dhikr-v7.0.0';
-const ASSETS=['./','./index.html','./app.js','./tahajjud.js','./experience.js','./v7-reader.js','./v7-reader.css','./asma-v6.js','./surah-details-v6.js','./v6-interactions.js','./tahajjud.css','./experience.css','./v6-enhancements.css','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
+const CACHE='dubai-dhikr-v8.0.0';
+const ASSETS=['./','./index.html','./app.js','./tahajjud.js','./experience.js','./surah-details.js','./asma.js','./v7-reader.js','./v8-fixes.js','./tahajjud.css','./experience.css','./enhancements.css','./v7-reader.css','./v8-polish.css','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(fetch(e.request).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(cache=>cache.put(e.request,c))}return r}).catch(()=>caches.match(e.request)))});
