@@ -19,3 +19,12 @@ Times are obtained from AlAdhan's Dubai calculation method, not the official IAC
 
 ## Deployment
 Publish repository's `main` branch root using GitHub Pages. The site manifest and service worker use relative asset paths. Offline cache is `dubai-dhikr-v5.0.0`.
+
+
+## Version 6 — Qur'an & Asma-ul-Husna
+
+- The easy ten surahs include original Arabic ayat, Bengali pronunciation, and Bengali meanings in three tabs.
+- Tapping **পড়া শেষ** now saves completion without toggling it off, shows a success overlay, and advances to the next unread surah. After the collection is complete, it returns to the surah list.
+- **আরও → আসমাউল হুসনা** opens 99 commonly taught names with Arabic, Bengali pronunciation, meaning, search, and general source-grounded virtue.
+- Existing iPhone-local records and storage keys are retained. Do not delete the Home Screen app before taking a JSON backup.
+- Evidence for general merits of the Names: [Quran 7:180](https://quran.com/7/180), [Sahih al-Bukhari 2736](https://sunnah.com/bukhari:2736). Source for the traditional list: [Islamic Relief](https://islamic-relief.org/99-names-of-allah-al-asma-ul-husna/). Scholarly enumerations vary; no individual name is claimed to guarantee a specific worldly result after a particular number of repetitions.
