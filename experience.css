@@ -22,3 +22,10 @@ html,body{background:var(--ex-bg)!important;color:var(--ex-ink)!important}body{m
 .app{width:100%;min-width:0;grid-template-columns:minmax(0,1fr)}
 .shell{width:100%;min-width:0;overflow-x:clip}.ex-view,.ex-dua-list,.ex-chip-scroll{min-width:0;max-width:100%}
 .ex-history-extra{margin:18px 0;border:1px solid #6c6940;background:linear-gradient(145deg,#0b3227,#061e1a);border-radius:20px;padding:20px}.ex-history-extra h2{margin:10px 0 15px;font-size:20px}.ex-history-extra>div{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ex-history-extra>div>span{display:flex;flex-direction:column;gap:4px;padding:17px 12px;border:1px solid #35644a;background:#12402e;border-radius:14px;color:#eac679;font-size:22px}.ex-history-extra strong{font-size:28px;color:#dcf1db}.ex-history-extra small{font-size:12px;color:#a7bdad}.ex-history-extra p{font-size:11px;color:#a5bbaa;margin:12px 0 0}
+
+/* v9: native Qur’an links rather than JavaScript-only buttons */
+.ex-surah-row[href]{text-decoration:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:#dbc77a33}
+.ex-surah-row[href]:active{border-color:#dec181;background:#123f31}
+.ex-surah-row[href]:focus-visible{outline:3px solid #e9c582;outline-offset:2px}
+.ex-surah-row[href].ex-unavailable{opacity:.85}
+.ex-surah-row[href].ex-unavailable small{color:#cfb579}
