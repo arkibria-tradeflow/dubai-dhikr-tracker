@@ -1,0 +1,41 @@
+/* v8 — Premium compact Asma reader and responsive Quran catalogue */
+.v7-asma{background:radial-gradient(ellipse 75% 45% at 50% 23%,#144632 0,#072a21 55%,transparent 100%),linear-gradient(180deg,#09291f,#041610)}
+.v7-asma-header{padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:8px}
+.v7-asma-scroll{scrollbar-width:none;overscroll-behavior-y:contain}
+.v7-name-content{justify-content:flex-start;min-height:0;gap:clamp(11px,2vh,17px);padding:clamp(18px,3vh,30px) 15px 24px}
+.v7-tasbih{width:min(234px,61vw,31vh);height:min(234px,61vw,31vh);margin:0 auto 3px;border-color:#dab777;box-shadow:0 0 0 5px #17392d,0 0 0 9px #a28450,0 16px 36px #0009,inset 0 0 26px #ddbd6452;background:radial-gradient(circle at 45% 34%,#174e38 0,#0d382c 58%,#072019 100%);transition:transform .16s ease,filter .16s ease}
+.v7-tasbih:active{transform:scale(.97);filter:brightness(1.13)}
+.v7-bead{transform:rotate(var(--angle)) translateY(calc(-1 * min(113px,29.3vw,14.8vh))) rotate(calc(-1 * var(--angle)))}
+.v7-calligraphy{font-size:clamp(36px,9.6vw,55px);line-height:1.47}
+.v7-pronunciation{font-size:clamp(19px,5.6vw,23px);line-height:1.25}
+.v7-tasbih small{font-size:11px;color:#b5c9b7}
+.v7-name-detail{gap:9px}
+.v7-name-detail>div{padding:12px 15px;border-radius:17px;background:linear-gradient(140deg,#123c2d,#0b2821);border-color:#54755490}
+.v7-name-detail small{font-size:12px;letter-spacing:.1px;color:#e4c384}
+.v7-name-detail p{margin:5px 0 0;line-height:1.65}
+.v7-name-meaning p{font-size:19px}
+.v7-name-lesson p{font-size:14px}
+.v7-asma-footer{padding:9px 12px calc(10px + env(safe-area-inset-bottom));background:#061b17ed;box-shadow:0 -12px 24px #02100c5e}
+.v7-asma-footer button{min-height:50px}
+.v7-asma-header button,.v7-asma-footer button,.v7-tasbih{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.v7-name-content:after{content:'✦';font-size:13px;color:#a88a53;opacity:.5;margin:2px auto 0}
+.ex-surah-row{cursor:pointer;touch-action:manipulation;transition:background .16s ease,border-color .16s ease;-webkit-tap-highlight-color:transparent}
+.ex-surah-row:active{background:#174534;border-color:#9cc17d}
+.ex-surah-row:focus-visible{outline:2px solid #d1b778;outline-offset:2px}
+.ex-surah-row.ex-unavailable{opacity:.84;border-style:dashed}
+.ex-surah-row.ex-unavailable .ex-surah-no{color:#b0b8a4}
+.ex-surah-row.ex-unavailable small{color:#a5b5a9}
+.v8-pending{height:100%;min-height:0;display:flex;flex-direction:column;background:linear-gradient(160deg,#0a2c23,#031411);color:#f6f1df}
+.v8-pending-head{min-height:calc(58px + env(safe-area-inset-top));padding:calc(7px + env(safe-area-inset-top)) 14px 8px;display:flex;align-items:center;gap:15px;border-bottom:1px solid #335644}
+.v8-pending-head button{height:42px;width:42px;border:1px solid #66856b;border-radius:13px;background:#15392d;color:#f0d493;font-size:22px}
+.v8-pending-head strong{font-size:17px}.v8-pending-head span{width:42px}
+.v8-pending-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;padding:20px 26px;text-align:center}
+.v8-pending-symbol{font-size:78px;color:#d9b76c;line-height:1}
+.v8-pending-body small{color:#dbb978;font-size:12px}
+.v8-pending-body h1{font-size:24px;line-height:1.35;margin:0}
+.v8-pending-body p{font-size:15px;color:#bcd0c2;line-height:1.8}
+.v8-return-collection{display:flex;justify-content:space-between;align-items:center;gap:20px;background:linear-gradient(115deg,#2ab46c,#0d845c);border:1px solid #97e5a4;color:#fff;padding:17px 20px;border-radius:16px;min-height:58px;width:100%;font-weight:800}
+.v8-pending-footer{padding:12px 20px calc(15px + env(safe-area-inset-bottom));text-align:center}
+.v8-pending-footer button{background:none;border:0;color:#d8c08c;min-height:44px}
+@media(max-width:360px){.v7-name-content{padding-top:12px;gap:10px}.v7-tasbih{width:min(206px,59vw,29vh);height:min(206px,59vw,29vh)}.v7-bead{transform:rotate(var(--angle)) translateY(calc(-1 * min(99px,28.5vw,14vh))) rotate(calc(-1 * var(--angle)))}.v7-name-detail>div{padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){.v7-tasbih{transition:none}.ex-surah-row{transition:none}}
