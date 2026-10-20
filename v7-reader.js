@@ -78,7 +78,7 @@
   <header class="v7-asma-header"><button data-v7="asma-back-to-reader" aria-label="তসবীহে ফিরুন">←</button><div><strong>৯৯টি নাম ও অর্থ</strong><small>শুধু দেখার তালিকা · কোনো টিক বা কাউন্টার নয়</small></div><span class="v7-list-icon" aria-hidden="true">☷</span></header>
   <div class="v7-name-list-scroll">${ASMA_NAMES.map(x=>`<div class="v7-list-item"><span class="v7-name-index">${bn(x.n)}</span><div class="v7-list-name"><strong lang="ar" dir="rtl">${escText(x.arabic)}</strong><span>${escText(x.bn)}</span></div><span class="v7-list-meaning">${escText(x.meaning)}</span></div>`).join('')}</div></section>`}
  function goName(delta){
-  namePosition=Math.min(99,Math.max(1,namePosition+delta));
+  namePosition=delta>0?(namePosition===99?1:namePosition+1):Math.max(1,namePosition-1);
   transitionDirection=delta<0?'prev':'next';
   safeWrite(ASMA_KEY,namePosition);screen='asma-reader';render();
   const viewport=document.getElementById('v7-asma-scroll');if(viewport)viewport.scrollTop=0;
