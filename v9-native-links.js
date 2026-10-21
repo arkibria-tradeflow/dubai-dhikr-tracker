@@ -11,7 +11,7 @@
         return '<button class="ex-surah-row" data-exp="surah-open" data-no="'+n+'" data-filter-text="'+name+' '+n+'"><span class="ex-surah-no">'+bn(n)+'</span><div><b>সুরা '+esc(name)+'</b><small>আরবি ও বাংলা অর্থ · উচ্চারণ যাচাই চলছে</small></div><span class="ex-goldarrow">›</span></button>';
       }).join('');
       html=html.replace('<div class="ex-surah-list">','<div class="ex-surah-list">'+extraRows);
-      html=html.replaceAll('সহজ ১০টি সুরা','নির্বাচিত ৩০টি সুরা');
+      html=html.replaceAll('সহজ ১০টি সুরা','সহজ ৩০টি সুরা').replaceAll('সহজ ১০টি সূরা','সহজ ৩০টি সুরা');
     }
     return html.replace(/<button\b([^>]*\bdata-exp="surah-open"[^>]*)>([\s\S]*?)<\/button>/g, function(_, attributes, inside){
       const found = attributes.match(/\bdata-no="(\d+)"/);
