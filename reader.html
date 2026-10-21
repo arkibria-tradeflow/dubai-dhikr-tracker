@@ -56,4 +56,40 @@ if(!current){
   $('next').addEventListener('click',saveReading);
   draw();
 }
-</script></body></html>
+</script>
+<script>
+/* Supplementary Quran reader: source-fetched Arabic and Bengali meaning.
+   Unverified Bengali-script pronunciation is deliberately not fabricated. */
+(function(){
+const extra=[78,79,80,81,82,83,84,85,93,94,95,96,97,98,99,100,101,102,104,111];
+const no=Number(new URLSearchParams(location.search).get('surah'));
+if(!extra.includes(no))return;
+const names={78:'আন-নাবা',79:'আন-নাযিআত',80:'আবাসা',81:'আত-তাকভীর',82:'আল-ইনফিতার',83:'আল-মুতাফফিফীন',84:'আল-ইনশিকাক',85:'আল-বুরূজ',93:'আদ-দুহা',94:'আশ-শারহ',95:'আত-তীন',96:'আল-আলাক',97:'আল-কদর',98:'আল-বাইয়্যিনাহ',99:'আয-যিলযাল',100:'আল-আদিয়াত',101:'আল-কারিআহ',102:'আত-তাকাসুর',104:'আল-হুমাযাহ',111:'আল-মাসাদ'};
+const target=document.getElementById('readerBody'),heading=document.getElementById('heading'),info=document.getElementById('info'),modes=document.getElementById('modes'),footer=document.getElementById('footer');
+heading.textContent='সুরা '+names[no];info.textContent='সূরা '+no+' · আরবি ও বাংলা অর্থ';
+const $=id=>document.getElementById(id);
+const escape=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+target.innerHTML='<div class="pending"><p>সুরার আরবি ও বাংলা অর্থ লোড হচ্ছে…</p></div>';
+modes.hidden=false;footer.hidden=false;$('size').hidden=true;
+modes.innerHTML='<button data-mode="ar">আরবি</button><button data-mode="meaning">বাংলা অর্থ</button><button data-mode="bn">উচ্চারণ যাচাই চলছে</button>';
+let rows=[],mode='ar';
+function draw(){
+for(const b of modes.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.mode===mode));
+if(mode==='bn'){target.innerHTML='<div class="pending"><p>এই সুরার বাংলা উচ্চারণ এখনো যাচাই করা হয়নি। ভুল উচ্চারণ দেখানো হচ্ছে না। আরবি পাঠ ও বাংলা অর্থ পড়তে পারবেন।</p></div>';return;}
+target.classList.toggle('arabic',mode==='ar');
+target.innerHTML='<article class="verses">'+rows.map((r,i)=>'<div class="verse"><span class="number">'+(i+1)+'</span><span class="words" '+(mode==='ar'?'dir="rtl"':'')+'>'+escape(r[mode])+'</span></div>').join('')+'</article>';
+}
+modes.addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;mode=b.dataset.mode;draw()});
+const sorted=extra.slice().sort((a,b)=>a-b),idx=sorted.indexOf(no);
+$('prev').href='./reader.html?surah='+(sorted[idx-1]||103)+'&from=all';
+$('next').href='./reader.html?surah='+(sorted[idx+1]||103)+'&from=all';
+$('position').textContent=(idx+1)+' / '+extra.length;
+Promise.all(['quran-uthmani','bn.bengali'].map(edition=>fetch('https://api.alquran.cloud/v1/surah/'+no+'/'+edition).then(r=>{if(!r.ok)throw Error('API');return r.json()}))).then(([ar,bn])=>{
+const a=ar.data?.ayahs,b=bn.data?.ayahs;
+if(!Array.isArray(a)||!Array.isArray(b)||a.length!==b.length)throw Error('mismatch');
+rows=a.map((v,i)=>({ar:v.text,meaning:b[i].text}));
+info.textContent='সূরা '+no+' · '+rows.length+' আয়াত';draw();
+}).catch(()=>{target.innerHTML='<div class="pending"><p>এখন সুরার পাঠ লোড করা যাচ্ছে না। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p><a href="https://quran.com/bn/'+no+'" target="_blank" rel="noopener">Quran.com-এ পড়ুন →</a></div>'});
+})();
+</script>
+</body></html>
