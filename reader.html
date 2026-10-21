@@ -70,20 +70,24 @@ heading.textContent='সুরা '+names[no];info.textContent='সূরা '+n
 const $=id=>document.getElementById(id);
 const escape=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 target.innerHTML='<div class="pending"><p>সুরার আরবি ও বাংলা অর্থ লোড হচ্ছে…</p></div>';
-modes.hidden=false;footer.hidden=false;$('size').hidden=true;
-modes.innerHTML='<button data-mode="ar">আরবি</button><button data-mode="meaning">বাংলা অর্থ</button><button data-mode="bn">উচ্চারণ যাচাই চলছে</button>';
-let rows=[],mode='ar';
+modes.hidden=false;footer.hidden=false;$('size').hidden=false;
+modes.innerHTML='<span class="primary">সুরা পাঠ</span><button data-mode="bn">উচ্চারণ</button><button data-mode="ar">আরবি</button><button data-mode="meaning">অর্থ</button>';
+let rows=[],mode='ar';let enlarged=false;try{enlarged=localStorage.getItem('dhikr_dubai_reading_size_v3')==='large'}catch(e){}
 function draw(){
-for(const b of modes.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.mode===mode));
-if(mode==='bn'){target.innerHTML='<div class="pending"><p>এই সুরার বাংলা উচ্চারণ এখনো যাচাই করা হয়নি। ভুল উচ্চারণ দেখানো হচ্ছে না। আরবি পাঠ ও বাংলা অর্থ পড়তে পারবেন।</p></div>';return;}
 target.classList.toggle('arabic',mode==='ar');
-target.innerHTML='<article class="verses">'+rows.map((r,i)=>'<div class="verse"><span class="number">'+(i+1)+'</span><span class="words" '+(mode==='ar'?'dir="rtl"':'')+'>'+escape(r[mode])+'</span></div>').join('')+'</article>';
+target.classList.toggle('large',enlarged);
+for(const button of modes.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));
+if(mode==='bn'){target.innerHTML='<div class="pending"><h1>বাংলা উচ্চারণ যাচাই চলছে</h1><p>ভুল উচ্চারণ এড়াতে এই সুরার বাংলা উচ্চারণ এখনো প্রকাশ করা হয়নি। আরবি ও বাংলা অর্থ পড়তে পারবেন।</p></div>';return;}
+const basmala=mode==='ar'?'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ':'পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে।';
+target.innerHTML='<article class="verses"><p class="basmala">'+escape(basmala)+'</p>'+rows.map((r,i)=>'<div class="verse"><span class="number">'+String(i+1).replace(/[0-9]/g,x=>'০১২৩৪৫৬৭৮৯'[Number(x)])+'</span><span class="words">'+escape(r[mode])+'</span></div>').join('')+'<p class="endnote">সুরার সমস্ত '+rows.length+'টি আয়াত</p></article>';
 }
 modes.addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;mode=b.dataset.mode;draw()});
-const sorted=extra.slice().sort((a,b)=>a-b),idx=sorted.indexOf(no);
-$('prev').href='./reader.html?surah='+(sorted[idx-1]||103)+'&from=all';
-$('next').href='./reader.html?surah='+(sorted[idx+1]||103)+'&from=all';
-$('position').textContent=(idx+1)+' / '+extra.length;
+$('size').addEventListener('click',()=>{enlarged=!enlarged;try{localStorage.setItem('dhikr_dubai_reading_size_v3',enlarged?'large':'normal')}catch(e){}draw()});
+for(const [id,dir] of [['up',-1],['down',1]])$(id).addEventListener('click',()=>{$('scroll').scrollBy({top:dir*Math.max(95,$('scroll').clientHeight-70),behavior:'smooth'})});
+const sorted=[78,79,80,81,82,83,84,85,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114],idx=sorted.indexOf(no);
+$('prev').href='./reader.html?surah='+(sorted[idx-1]||sorted[sorted.length-1])+'&from=all';
+$('next').href='./reader.html?surah='+(sorted[idx+1]||sorted[0])+'&from=all';
+$('position').textContent=String(idx+1).replace(/[0-9]/g,x=>'০১২৩৪৫৬৭৮৯'[Number(x)])+' / ৩০';
 Promise.all(['quran-uthmani','bn.bengali'].map(edition=>fetch('https://api.alquran.cloud/v1/surah/'+no+'/'+edition).then(r=>{if(!r.ok)throw Error('API');return r.json()}))).then(([ar,bn])=>{
 const a=ar.data?.ayahs,b=bn.data?.ayahs;
 if(!Array.isArray(a)||!Array.isArray(b)||a.length!==b.length)throw Error('mismatch');
