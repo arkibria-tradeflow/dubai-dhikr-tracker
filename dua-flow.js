@@ -22,7 +22,12 @@ function decorate(html){
 }
 const oldNight=renderNightReader,oldDua=renderExperienceDuaReader;
 renderNightReader=function(){return decorate(oldNight())};
-renderExperienceDuaReader=function(){return decorate(oldDua())};
+renderExperienceDuaReader=function(){
+  let html=oldDua();
+  html=html.replace(/<button class="ex-primary-action" data-exp="dua-mark">[\\s\\S]*?<\\/button>/,'');
+  html=html.replace(/<button class="ex-reader-bottom-link" data-exp="dua-close">[\\s\\S]*?<\\/button>/,'');
+  return decorate(html);
+};
 function refresh(){render();if(sheetOpen){const input=document.getElementById('dua-flow-search');if(input){input.value=query;filter();}}}
 function filter(){const q=query.trim().toLowerCase();let visible=0;document.querySelectorAll('.dua-flow-item').forEach(el=>{const show=el.dataset.search.includes(q);el.hidden=!show;if(show)visible++});const empty=document.querySelector('.dua-flow-empty');if(empty)empty.hidden=visible!==0;}
 function choose(id){if(screen==='night-reader')nightReadId=id;else selectedDua=id;sheetOpen=false;query='';render();const scroll=document.querySelector('.nt-reading-scroll,.ex-reader-scroll');if(scroll)scroll.scrollTop=0;}
