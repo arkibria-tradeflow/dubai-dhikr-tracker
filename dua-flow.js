@@ -24,8 +24,8 @@ const oldNight=renderNightReader,oldDua=renderExperienceDuaReader;
 renderNightReader=function(){return decorate(oldNight())};
 renderExperienceDuaReader=function(){
   let html=oldDua();
-  html=html.replace(/<button class="ex-primary-action" data-exp="dua-mark">[\\s\\S]*?<\\/button>/,'');
-  html=html.replace(/<button class="ex-reader-bottom-link" data-exp="dua-close">[\\s\\S]*?<\\/button>/,'');
+  html=html.replace(/<button class="ex-primary-action" data-exp="dua-mark">[\s\S]*?<\/button>/,'');
+  html=html.replace(/<button class="ex-reader-bottom-link" data-exp="dua-close">[\s\S]*?<\/button>/,'');
   return decorate(html);
 };
 function refresh(){render();if(sheetOpen){const input=document.getElementById('dua-flow-search');if(input){input.value=query;filter();}}}
