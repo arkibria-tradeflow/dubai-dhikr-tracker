@@ -1,4 +1,4 @@
-const CACHE='dubai-dhikr-v10.4.0';
+const CACHE='dubai-dhikr-v10.5.0';
 const ASSETS=['./','./index.html','./reader.html','./bangla-pronunciation-a.json','./bangla-pronunciation-b.json','./v9-native-links.js','./dua-flow.js','./dua-flow.css','./location-prayers.js','./location-prayers.css','./app.js','./tahajjud.js','./experience.js','./asma-v6.js','./surah-details-v6.js','./v6-interactions.js','./v7-reader.js','./v8-fixes.js','./tahajjud.css','./experience.css','./v6-enhancements.css','./v7-reader.css','./v8-polish.css','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
