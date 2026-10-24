@@ -39,6 +39,6 @@ document.addEventListener('click',e=>{
 },true);
 document.addEventListener('input',e=>{if(e.target.id==='dua-flow-search'){query=e.target.value;filter();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheetOpen){sheetOpen=false;query='';render();}});
-let y0=null;document.addEventListener('touchstart',e=>{if(e.target.closest('.dua-flow-sheet-head,.dua-flow-handle'))y0=e.touches[0].clientY;},{passive:true});document.addEventListener('touchend',e=>{if(y0===null)return;const dy=e.changedTouches[0].clientY-y0;y0=null;if(dy>75&&sheetOpen){sheetOpen=false;query='';render();}},{passive:true});
+let y0=null,upStart=null;document.addEventListener('touchstart',e=>{if(e.target.closest('.dua-flow-sheet-head,.dua-flow-handle'))y0=e.touches[0].clientY;if(!sheetOpen&&e.target.closest('.nt-reader-dock,.ex-reader-dock'))upStart=e.touches[0].clientY;},{passive:true});document.addEventListener('touchend',e=>{if(upStart!==null){const up=e.changedTouches[0].clientY-upStart;upStart=null;if(up< -70&&!sheetOpen){sheetOpen=true;refresh();return;}}if(y0===null)return;const dy=e.changedTouches[0].clientY-y0;y0=null;if(dy>75&&sheetOpen){sheetOpen=false;query='';render();}},{passive:true});
 render();
 })();
