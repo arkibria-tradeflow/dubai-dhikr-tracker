@@ -4,7 +4,7 @@
   let choice="Fajr",unit=0,step=0,origin="prayers",showBn=true,showMeaning=true;
   const oldTiles=expPrayerTiles,oldRender=render;
   expPrayerTiles=function(info,mode){
-    return oldTiles(info,mode).replaceAll('data-action="prayer"','data-action="salah-tile"').replace(/\sdisabled aria-disabled="true"/g,"");
+    return oldTiles(info,mode).replaceAll('data-action="prayer"','data-action="salah-tile"').replace(/\sdisabled aria-disabled="true"/g,"").replace(/(<span class="ex-prayer-status">)লক(<\/span>)/g,"$1নিয়ম দেখুন$2");
   };
   const conf=()=>D.prayers[choice],type=()=>conf().units[unit];
   const B=s=>esc(String(s||""));
@@ -34,12 +34,13 @@
     return `<svg class="salah-figure" viewBox="0 0 220 190" role="img" aria-label="${which==="sujud"?"সিজদা":which==="ruku"?"রুকু":which==="sitting"?"বসা":"দাঁড়ানো"}"><rect x="18" y="173" width="184" height="8" rx="4" fill="#3D8066"/>${body}</svg>`;
   }
   function stages(){
-    const n=type()[0],farz=type()[1]==="ফরজ",witr=type()[1].includes("বিতর"),st=[];
+    const n=type()[0],farz=type()[1]==="ফরজ",witr=type()[1].includes("বিতর"),nonConfirmed=type()[1]==="সুন্নতে গাইরে মুয়াক্কাদা",st=[];
     const add=(r,label,pose,note,keys,count)=>st.push({r,label,pose,note,keys,count});
     for(let r=1;r<=n;r++){
       if(r===1)add(r,"নিয়ত ও তাকবির","takbir","মনে মনে নামাজের নিয়ত করুন। আল্লাহু আকবার বলে হাত বাঁধুন এবং সানা পড়ুন।",["takbir","sana"]);
       const q=["bismillah","fatiha"];
       if(r===1)q.unshift("auzu");
+      if(r===3&&nonConfirmed)q.unshift("sana","auzu");
       if(!farz||r<=2)q.push("ikhlas");
       add(r,"কিয়াম ও কিরাত","standing",(farz&&r>2)?"ফরজ নামাজের শেষ দুই রাকাতে সূরা ফাতিহা পড়ুন।":"সূরা ফাতিহা পড়ে অন্য একটি সূরা পড়ুন। এখানে উদাহরণ হিসেবে ইখলাস দেওয়া হয়েছে।",q);
       if(witr&&r===3)add(r,"বিতরের দোয়া কুনুত","standing","কিরাত শেষে আল্লাহু আকবার বলে হাত তুলে আবার বাঁধুন। রুকুর আগে দোয়া কুনুত পড়ুন।",["takbir","qunut"]);
@@ -48,7 +49,7 @@
       add(r,"প্রথম সিজদা","sujud","আল্লাহু আকবার বলে প্রথম সিজদা করুন।",["sujud"],"৩ বার");
       add(r,"দুই সিজদার মাঝে বসা","sitting","স্থির হয়ে বসুন; এই দোয়াটি পড়তে পারেন।",["jalsa"]);
       add(r,"দ্বিতীয় সিজদা","sujud","আল্লাহু আকবার বলে দ্বিতীয় সিজদা করুন।",["sujud"],"৩ বার");
-      if(r===2&&n>2)add(r,"প্রথম বৈঠক","sitting","আত্তাহিয়্যাতু পড়ে পরের রাকাতের জন্য দাঁড়ান। চার রাকাত গাইরে মুয়াক্কাদা সুন্নতের প্রথম বৈঠকের কিছু নিয়ম আলাদা—নিচের ফিকহ নোট দেখুন।",["tashahhud"]);
+      if(r===2&&n>2)add(r,"প্রথম বৈঠক","sitting",nonConfirmed?"আত্তাহিয়্যাতুর পর দরুদ ও মাসনুন দোয়া পড়া উত্তম; তৃতীয় রাকাতে আবার সানা ও আউজুবিল্লাহ পড়বেন।":"আত্তাহিয়্যাতু পড়ে পরের রাকাতের জন্য দাঁড়ান।",nonConfirmed?["tashahhud","durood","masura"]:["tashahhud"]);
       if(r===n){
         add(r,"শেষ বৈঠক ও দোয়া","sitting","আত্তাহিয়্যাতু, দরুদে ইবরাহিম এবং দোয়া মাসুরা পড়ুন। দোয়া মাসুরা সুন্নত, না পড়লেও নামাজ শুদ্ধ হবে।",["tashahhud","durood","masura"]);
         add(r,"সালাম","sitting","ডানে ও বামে মুখ ঘুরিয়ে সালাম বলুন। এরপরই পরবর্তী নামাজ বা আগের জিকির স্ক্রিনে যাবেন।",["salam"]);
