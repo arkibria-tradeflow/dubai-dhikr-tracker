@@ -1,0 +1,71 @@
+/* Daily 21-count zikr: isolated from the established salah dhikr experience. */
+.d21-home-card{width:100%;display:flex;align-items:center;gap:14px;text-align:left;border:1px solid #dbe7da;background:linear-gradient(110deg,#fff,#f1f8ee);border-radius:20px;padding:18px 16px;margin:17px 0 7px;color:#113e32;box-shadow:0 5px 19px #245f4010}
+.d21-home-symbol{width:48px;height:48px;flex:0 0 48px;border-radius:16px;display:grid;place-items:center;background:#e2efe4;color:#0b6c52;font-size:26px}
+.d21-home-copy{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.d21-home-copy small{font-size:10px;letter-spacing:.2px;color:#718776}
+.d21-home-copy strong{font-size:17px;line-height:1.4}
+.d21-home-copy>span{font-size:12px;color:#5c786a}
+.d21-home-arrow{font-size:27px;color:#568b6e}
+.d21-view{padding-bottom:20px}
+.d21-hero{padding:25px 22px;border-radius:25px;background:linear-gradient(140deg,#0a614e,#082f2b);color:#fff;box-shadow:0 17px 32px #0c594629}
+.d21-hero>small{font-size:10px;letter-spacing:1.6px;color:#a8d3bf}
+.d21-hero h1{font-size:28px;line-height:1.5;margin:9px 0 5px}
+.d21-hero p{font-size:13px;color:#d9e9de;line-height:1.8;margin:0 0 21px}
+.d21-hero-bottom{display:flex;align-items:end;justify-content:space-between;gap:12px}
+.d21-hero-bottom strong{font-size:31px;line-height:1.1;font-variant-numeric:tabular-nums}
+.d21-hero-bottom strong span{font-size:15px;color:#bdd6c7}
+.d21-hero-bottom>small{font-size:11px;color:#d5e9dd;text-align:right}
+.d21-progress{height:7px;margin-top:12px;border-radius:20px;background:#ffffff35;overflow:hidden}
+.d21-progress>span,.d21-item-meter>span,.d21-reader-progress>span{display:block;height:100%;background:#e8c886;border-radius:inherit;transition:width .18s ease}
+.d21-heading{font-size:17px;margin:25px 0 13px;color:#204438}
+.d21-items{display:grid;gap:11px}
+.d21-item{width:100%;display:flex;gap:12px;align-items:center;padding:17px 13px;border:1px solid #e3eae3;border-radius:17px;background:#fff;text-align:left;color:#214136;min-height:96px}
+.d21-item.is-done{border-color:#bcdcc8;background:#f8fcf8}
+.d21-index{flex:0 0 37px;height:37px;display:grid;place-items:center;border-radius:12px;background:#eaf4ed;color:#0b7252;font-weight:800}
+.d21-item-copy{flex:1;min-width:0;display:grid;gap:5px}
+.d21-item-copy>b{font-size:13px;line-height:1.5}
+.d21-item-copy>small{color:#85978a;font-size:11px}
+.d21-item-meter{height:5px;border-radius:10px;overflow:hidden;background:#eef2ec;margin-top:6px}
+.d21-item-meter>span{background:#27866a}
+.d21-item-count{color:#12634f;font-size:20px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.d21-item-count small{display:block;text-align:right;font-size:10px;color:#81988b;font-weight:500}
+.d21-disclaimer{font-size:11px;line-height:1.9;color:#7b795e;background:#fff8e9;padding:13px 15px;border:1px solid #eee3ce;border-radius:13px;margin:20px 0 0}
+.d21-save-note{font-size:11px;line-height:1.8;color:#799085;text-align:center;margin:14px 10px}
+.d21-success{border-radius:13px;padding:14px;margin-top:13px;background:#e4f5e9;color:#11674e;text-align:center;font-weight:750}
+.d21-reader{position:fixed;inset:0;left:50%;transform:translateX(-50%);max-width:640px;background:#f6f7f2;z-index:35;display:flex;flex-direction:column;height:100dvh;overflow:hidden;color:#173b32}
+.d21-reader-head{flex-shrink:0;display:flex;align-items:center;gap:13px;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 18px 15px;background:#0a4034;color:#fff}
+.d21-reader-head button{width:38px;height:38px;border:0;border-radius:12px;background:#ffffff1b;color:#fff;font-size:20px}
+.d21-reader-head>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;min-width:0;flex:1}
+.d21-reader-head small{font-size:10px;letter-spacing:1px;color:#b8d8ca}
+.d21-reader-head b{font-size:13px}
+.d21-reader-progress{height:4px;background:#d7e1d8;flex-shrink:0}
+.d21-reader-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;min-height:0}
+.d21-reader-inner{max-width:610px;margin:auto;padding:29px 20px 32px;text-align:center}
+.d21-flower{font-size:27px;color:#b69c61}
+.d21-reader-inner h1{font-size:24px;line-height:1.6;margin:13px 0 5px}
+.d21-goal{font-size:12px;color:#84958a;margin-bottom:24px}
+.d21-tabs{display:flex;background:#e9eee7;padding:4px;border-radius:13px;gap:3px;margin:0 0 15px}
+.d21-tabs button{border:0;background:none;color:#6b8472;padding:12px 4px;font-size:12px;font-weight:650;flex:1;border-radius:10px;min-width:0}
+.d21-tabs button.active{background:#fff;color:#0c654f;box-shadow:0 2px 8px #245f4318}
+.d21-reading-paper{background:#fff;border:1px solid #e5eae2;box-shadow:0 8px 23px #0b4d3110;padding:27px 18px;border-radius:18px}
+.d21-reading-paper small,.d21-meaning small{display:block;color:#719180;font-size:11px;letter-spacing:.3px;text-align:left}
+.d21-reading-paper p{font-size:21px;line-height:2;color:#154734;margin:22px 0 5px;white-space:pre-line}
+.d21-reading-paper.is-arabic p{font-size:31px;line-height:2.05;direction:rtl;font-family:serif}
+.d21-reading-paper.large p{font-size:25px}
+.d21-reading-paper.large.is-arabic p{font-size:36px}
+.d21-meaning{margin-top:16px;padding:15px 20px;text-align:left;background:#eaf1e9;border-radius:15px}
+.d21-meaning p{font-size:13px;line-height:1.9;margin:9px 0 0}
+.d21-source{font-size:11px;line-height:1.9;color:#667d6e;margin-top:20px}
+.d21-source a{white-space:nowrap;text-decoration:underline}
+.d21-dock{flex-shrink:0;padding:15px 19px calc(18px + env(safe-area-inset-bottom));background:#fff;box-shadow:0 -8px 22px #16473314;border-top:1px solid #e5ece7}
+.d21-dock-count{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px;color:#618071}
+.d21-dock-count span{font-size:12px}
+.d21-dock-count strong{font-size:25px;color:#0b6851;font-variant-numeric:tabular-nums}
+.d21-dock-count strong small{font-size:14px;color:#86988d}
+.d21-action-row{display:flex;gap:10px}
+.d21-minus{width:56px;border:1px solid #dce8dd;border-radius:14px;background:#f4f8f4;color:#416c58;font-size:26px}
+.d21-add{flex:1;min-height:54px;padding:10px;border:0;border-radius:14px;background:#0e6953;color:#fff;font-size:15px;font-weight:800}
+.d21-add:disabled{background:#dff1e6;color:#0c7655;opacity:1}
+.d21-minus:disabled{opacity:.35}
+.d21-next{margin-top:8px;width:100%;border:0;background:transparent;color:#0a684e;font-weight:750;padding:8px}
+@media(max-width:360px){.d21-reader-head{padding-left:10px;padding-right:10px}.d21-tabs button{font-size:11px}.d21-reader-inner{padding-left:13px;padding-right:13px}.d21-home-copy strong{font-size:15px}}

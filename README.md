@@ -28,3 +28,12 @@ Publish repository's `main` branch root using GitHub Pages. The site manifest an
 - **আরও → আসমাউল হুসনা** opens 99 commonly taught names with Arabic, Bengali pronunciation, meaning, search, and general source-grounded virtue.
 - Existing iPhone-local records and storage keys are retained. Do not delete the Home Screen app before taking a JSON backup.
 - Evidence for general merits of the Names: [Quran 7:180](https://quran.com/7/180), [Sahih al-Bukhari 2736](https://sunnah.com/bukhari:2736). Source for the traditional list: [Islamic Relief](https://islamic-relief.org/99-names-of-allah-al-asma-ul-husna/). Scholarly enumerations vary; no individual name is claimed to guarantee a specific worldly result after a particular number of repetitions.
+
+## Daily 21-count zikr (November 2026)
+
+- A separate **দৈনিক ২১ বার যিকির** routine is available from Home and **আরও**; it does not modify the established post-salah zikr counts.
+- Three items: **লা হাওলা ওয়ালা কুওয়াতা ইল্লা বিল্লাহিল আলিয়্যিল আযীম**, **আস্তাগফিরুল্লাহ, ইন্নাল্লাহা গাফুরুর রাহীম**, and **আল্লাহুম্মা সাল্লি ওয়া সাল্লিম আলা নাবিয়্যিনা মুহাম্মাদ**.
+- Each has a personal daily target of 21 repetitions, Arabic text, Bengali pronunciation, meaning, source context, and a tap counter with undo and progress.
+- The 21-repetition count is a **personal preference, not an authenticated Sunnah prescription or a claim of specific guaranteed merit**.
+- Records are separated under `dhikr_dubai_daily21_v1`, keyed to Dubai local dates. Current records are retained when switching views, included in JSON backup/restore, and cleared by the existing global reset with confirmation.
+- Offline PWA assets include `daily-zikr.js` and `daily-zikr.css` using cache `dubai-dhikr-v10.7.0`.
