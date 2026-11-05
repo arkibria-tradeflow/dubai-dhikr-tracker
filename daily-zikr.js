@@ -5,19 +5,19 @@
   const KEY='dhikr_dubai_daily21_v1';
   const GOAL=21;
   const ITEMS=[
-    {id:'hawqala',title:'লা হাওলা ওয়ালা কুওয়াতা ইল্লা বিল্লাহ',
+    {id:'hawqala',title:'লা হাওলা ওয়ালা কুওয়াতা ইল্লা বিল্লাহ',readerTitle:'লা হাওলা ওয়ালা কুওয়াতা',
       arabic:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ',
       pron:'লা হাওলা ওয়ালা কুওয়াতা ইল্লা বিল্লাহিল আলিয়্যিল আযীম।',
       meaning:'মহান ও সর্বোচ্চ আল্লাহর সাহায্য ছাড়া কোনো শক্তি বা সামর্থ্য নেই।',
       note:'আল্লাহর ওপর নির্ভরতা',source:'মূল “লা হাওলা ওয়ালা কুওয়াতা ইল্লা বিল্লাহ” বাক্যের ফজিলত: সহিহ বুখারি ৬৩৮৪।',
       sourceUrl:'https://sunnah.com/bukhari:6384'},
-    {id:'istighfar',title:'আস্তাগফিরুল্লাহ, ইন্নাল্লাহা গাফুরুর রাহীম',
+    {id:'istighfar',title:'আস্তাগফিরুল্লাহ, ইন্নাল্লাহা গাফুরুর রাহীম',readerTitle:'ইস্তিগফার',
       arabic:'أَسْتَغْفِرُ اللَّهَ، إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ',
       pron:'আস্তাগফিরুল্লাহ। ইন্নাল্লাহা গাফুরুর রাহীম।',
       meaning:'আমি আল্লাহর কাছে ক্ষমা প্রার্থনা করছি। নিশ্চয়ই আল্লাহ অত্যন্ত ক্ষমাশীল, পরম দয়ালু।',
       note:'ক্ষমা প্রার্থনা',source:'ইস্তিগফারের সাধারণ ফজিলত: সুরা নুহ ৭১:১০–১২।',
       sourceUrl:'https://quran.com/71/10-12'},
-    {id:'salawat',title:'আল্লাহুম্মা সাল্লি ওয়া সাল্লিম আলা নাবিয়্যিনা মুহাম্মাদ',
+    {id:'salawat',title:'আল্লাহুম্মা সাল্লি ওয়া সাল্লিম আলা নাবিয়্যিনা মুহাম্মাদ',readerTitle:'দরুদ শরিফ',
       arabic:'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ',
       pron:'আল্লাহুম্মা সাল্লি ওয়া সাল্লিম আলা নাবিয়্যিনা মুহাম্মাদ।',
       meaning:'হে আল্লাহ! আমাদের নবী মুহাম্মদ ﷺ-এর ওপর রহমত ও শান্তি বর্ষণ করুন।',
@@ -91,25 +91,25 @@
     ).join('');
     return '<section class="d21-reader">'+
       '<header class="d21-reader-head"><button type="button" data-d21="close" aria-label="যিকির তালিকায় ফিরুন">✕</button>'+
-      '<div><small>DAILY DHIKR • '+bn(index+1)+' / ৩</small><b>'+esc(item.note)+'</b></div>'+
+      '<div class="d21-reader-context"><strong>দৈনিক যিকির</strong><small>'+bn(index+1)+' / ৩ · '+esc(item.note)+'</small></div>'+ 
       '<button type="button" data-d21="font" aria-label="ফন্টের আকার পরিবর্তন">A'+(readingSize==='large'?'−':'+')+'</button></header>'+
       '<div class="d21-reader-progress"><span style="width:'+(n/GOAL*100)+'%"></span></div>'+
       '<div class="d21-reader-scroll"><div class="d21-reader-inner">'+
-      '<span class="d21-flower">✦</span><h1>'+esc(item.title)+'</h1>'+
+      '<span class="d21-flower">✦</span><h1>'+esc(item.readerTitle||item.title)+'</h1>'+ 
       '<p class="d21-goal">'+bn(GOAL)+' বার পড়ুন • ব্যক্তিগত লক্ষ্য</p>'+
       '<div class="d21-tabs" role="tablist" aria-label="পাঠের ধরন">'+tabs+'</div>'+
       '<div class="d21-reading-paper '+(tab==='ar'?'is-arabic':'')+' '+(readingSize==='large'?'large':'')+
       '" '+(tab==='ar'?'lang="ar" dir="rtl"':'lang="bn"')+'><small>'+
       (tab==='ar'?'মূল আরবি':tab==='meaning'?'বাংলা অর্থ':'বাংলা উচ্চারণ')+
       '</small><p>'+esc(reading)+'</p></div>'+
-      '<div class="d21-meaning"><small>অর্থ ও শিক্ষা</small><p>'+esc(item.meaning)+'</p></div>'+
+      (tab==='meaning'?'':'<div class="d21-meaning"><small>বাংলা অর্থ</small><p>'+esc(item.meaning)+'</p></div>')+
       '<p class="d21-source">'+esc(item.source)+' <a href="'+item.sourceUrl+'" target="_blank" rel="noopener noreferrer">উৎস দেখুন ↗</a></p>'+
       '<p class="d21-disclaimer">২১ বার ব্যক্তিগত লক্ষ্য, নির্দিষ্ট সুন্নাহ বা বিশেষ ফলের নিশ্চয়তা নয়। বাংলা উচ্চারণের পাশাপাশি শুদ্ধ আরবি শিখুন।</p>'+
       '</div></div>'+
       '<footer class="d21-dock"><div class="d21-dock-count"><span>পড়া হয়েছে</span><strong>'+bn(n)+' <small>/ '+bn(GOAL)+'</small></strong></div>'+
       '<div class="d21-action-row"><button type="button" class="d21-minus" data-d21="adjust" data-id="'+item.id+'" data-delta="-1" '+(n===0?'disabled':'')+' aria-label="একবার কমান">−</button>'+
       '<button type="button" class="d21-add" data-d21="adjust" data-id="'+item.id+'" data-delta="1" '+(n===GOAL?'disabled':'')+'>'+
-      (n===GOAL?'✓ সম্পন্ন হয়েছে':'✦ পড়া হয়েছে · ট্যাপ করুন')+'</button></div>'+
+      (n===GOAL?'✓ সম্পন্ন হয়েছে':'পড়েছি <span aria-hidden="true">+১</span>')+'</button></div>'+ 
       (n===GOAL?'<button type="button" class="d21-next" data-d21="next">'+(index<ITEMS.length-1?'পরবর্তী যিকির →':'তালিকায় ফিরে যান →')+'</button>':'')+
       '</footer></section>';
   }
@@ -134,6 +134,12 @@
     if(nav)nav.hidden=reader;
     if(!reader)document.querySelector('.nav [data-screen="more"]')?.classList.add('active');
   };
+  function renderKeepReadingPosition(){
+    const top=document.querySelector('.d21-reader-scroll')?.scrollTop||0;
+    render();
+    const scroll=document.querySelector('.d21-reader-scroll');
+    if(scroll)scroll.scrollTop=top;
+  }
   function adjust(id,delta){
     if(!ITEMS.some(x=>x.id===id)||!Number.isInteger(delta)||Math.abs(delta)!==1)return;
     const old=count(id),next=Math.min(GOAL,Math.max(0,old+delta));
@@ -142,7 +148,7 @@
     const changed={...records,[d]:{...(records[d]||{}),[id]:next}};
     if(!safeWrite(KEY,changed))return;
     records=changed;
-    render();
+    renderKeepReadingPosition();
     if(next===GOAL&&delta>0)toast('আলহামদুলিল্লাহ! ২১ বার সম্পন্ন হয়েছে।');
   }
   document.addEventListener('click',function(event){
@@ -156,8 +162,8 @@
     else if(action==='open-reader'){selected=control.dataset.id;tab='pron';screen='daily21-reader';render();window.scrollTo(0,0);}
     else if(action==='close'){screen='daily21';render();window.scrollTo(0,0);}
     else if(action==='adjust'){adjust(control.dataset.id,Number(control.dataset.delta));}
-    else if(action==='tab'){tab=control.dataset.tab;render();}
-    else if(action==='font'){readingSize=readingSize==='large'?'normal':'large';safeWrite('dhikr_dubai_reading_size_v3',readingSize);render();}
+    else if(action==='tab'){tab=control.dataset.tab;renderKeepReadingPosition();}
+    else if(action==='font'){readingSize=readingSize==='large'?'normal':'large';safeWrite('dhikr_dubai_reading_size_v3',readingSize);renderKeepReadingPosition();}
     else if(action==='next'){
       const index=ITEMS.findIndex(x=>x.id===selected);
       if(index<ITEMS.length-1){selected=ITEMS[index+1].id;tab='pron';render();}
