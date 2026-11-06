@@ -1,5 +1,16 @@
 /* Phase 3: final legibility, keyboard access, safe areas and small-screen polish.
    Uses system fonts only; keeps the established emerald / gold identity. */
+.p3-visually-hidden {
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
 :root {
   --p3-focus: #ffe3a4;
   --p3-muted: #c9d8cd;
@@ -193,4 +204,40 @@ button:not(:disabled), a[href] { touch-action: manipulation; }
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* Standalone Qur'an reader: clear recovery and readable longer text. */
+.reader .reader-retry {
+  min-height:48px;
+  display:block;
+  width:100%;
+  border:1px solid #b9dfa7;
+  border-radius:13px;
+  background:#14784e;
+  color:#fff;
+  font-size:15px;
+  line-height:1.5;
+  font-weight:750;
+  margin:16px 0 10px;
+  padding:10px 13px;
+}
+.reader .pending p {font-size:14px;line-height:1.8;}
+.reader .pending a {min-height:46px;display:grid;place-items:center;}
+.reader .verse .words {word-break:normal;overflow-wrap:break-word;}
+.reader .verse .number {flex:0 0 32px;width:32px;height:32px;}
+.reader .heading strong {line-height:1.45;}
+.reader .modes button:focus-visible,
+.reader .reader-retry:focus-visible {outline:3px solid #ffe3a4;outline-offset:3px;}
+.reader .scroll:focus-visible {outline-offset:-4px;}
+.reader .modes button {flex:0 0 auto;}
+@media(max-width:360px) {
+  .reader .modes .primary {display:none;}
+  .reader .modes button {flex:1 1 0;min-width:0;}
+  .reader .footer #prev,.reader .footer #next {white-space:normal;line-height:1.45;}
+  .reader .footer {padding-inline:8px;gap:5px;}
+  .reader .verse{gap:9px;}
+  .reader .verses{padding-inline:12px;}
+}
+@media(max-height:590px) {
+  .reader .footer {max-height:44dvh;overflow-y:auto;}
 }
