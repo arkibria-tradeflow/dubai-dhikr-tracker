@@ -51,3 +51,19 @@ This release improves presentation and navigation without changing the existing 
 - **Compatibility:** new `phase2-experience.js` and `phase2-experience.css` load after earlier modules; the offline PWA cache name is `dubai-dhikr-v10.9.0`. Existing JSON export/import remains unchanged.
 
 Automated source-based regression checks are in `tests/phase2-experience.mjs`. Device-specific layout and VoiceOver acceptance should still be checked on iPhone before declaring visual QA complete.
+
+## Phase 3: accessibility, polish and offline resilience (v11.0.0)
+
+- Updated Bengali typography and interface labels for clarity, with a compact reflow at narrow (320–360 CSS px) widths, improved reader-safe areas and visible keyboard focus.
+- Higher readability on Home, History, prayer choices and reader footers, plus styling for reduced motion and increased contrast preferences.
+- A polite network-status notice on Home and Namaz explains when saved prayer times are being shown offline, when prayer times are loading, and how to retry when the service fails. It **does not invent prayer times**.
+- Improved reader screen navigation focus and a single screen-reader announcement region to avoid repeated whole-page announcements.
+- The stand-alone Qur'an reader now shows a clearly labeled **আবার চেষ্টা করুন** action when online surah content fails. Existing navigation and completion remain unchanged.
+- Fixed the service worker's offline fallback for versioned local assets such as `app.js?v=9.0.0`: cache reads use `ignoreSearch:true` to match precached canonical filenames, and cache misses return a meaningful 503 response instead of an undefined response.
+- Updated PWA cache to `dubai-dhikr-v11.0.0` and corrected the installed-app description for location-aware functionality.
+- Source/offline regression tests: `node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs`.
+- Chromium mobile smoke tests: `tests/phase3-mobile.spec.mjs` use 320px, 375px and 430px viewports, daily-reader count, online/offline transitions, Qur'an completion and text enlargement checks. GitHub Actions runs these on PRs.
+
+**Unverified without an actual device:** iPhone Safari/PWA, VoiceOver gestures, iOS Dynamic Type, true 200% browser text enlargement and all device/safe-area combinations. Do not claim formal WCAG 2.2 AA conformance from code tests alone.
+
+**Privacy/data:** Phase 3 does not change, clear, migrate or upload existing local counts and personal reading records. Reinstalling a PWA can remove its local storage; update via reopening rather than uninstalling.
