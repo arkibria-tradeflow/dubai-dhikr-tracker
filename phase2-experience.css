@@ -1,0 +1,93 @@
+/* Phase 2: one calm emerald system, consistent reading controls and meaningful home hierarchy. */
+:root{--p2-card:#0b2d26;--p2-card-raised:#103a2e;--p2-border:#365a46;--p2-text:#f5f5e9;--p2-soft:#bdd1c1;--p2-accent:#eacb85;--p2-action:#188255;--p2-radius:18px}
+.p2-home{padding-bottom:23px}
+.p2-intro{padding:7px 2px 13px}
+.p2-eyebrow{display:block;color:var(--p2-accent);font-size:12px;font-weight:700;letter-spacing:.15px}
+.p2-intro h1{font-size:clamp(23px,6.2vw,29px);line-height:1.35;margin:7px 0 6px;color:#fff6db;letter-spacing:-.4px}
+.p2-intro p{margin:0;color:#b6cdbd;font-size:13px;line-height:1.65}
+.p2-primary{display:flex;width:100%;min-height:91px;align-items:center;justify-content:space-between;gap:14px;border:1px solid #99eab3;border-radius:var(--p2-radius);padding:17px 19px;background:linear-gradient(130deg,#229962,#086c4a);box-shadow:0 9px 22px #04381f66;color:#fff;line-height:1.4;text-align:left}
+.p2-primary span:first-child{display:grid;gap:6px;min-width:0}
+.p2-primary small{display:block;color:#e2f9df;font-size:12px;opacity:.94}
+.p2-primary strong{display:block;font-size:17px;line-height:1.45}
+.p2-primary b,.p2-primary>span:last-child{font-size:23px;flex:0 0 auto;font-weight:700}
+.p2-primary-idle{background:linear-gradient(120deg,#153c2d,#0b3329);border-color:#4d7658;box-shadow:none}
+.p2-status-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.p2-status-row>div{min-height:91px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;border:1px solid var(--p2-border);border-radius:16px;background:var(--p2-card);padding:13px 14px}
+.p2-status-row small{font-size:12px;color:var(--p2-soft);line-height:1.45}
+.p2-status-row strong{font-size:25px;font-weight:800;color:#f7f1d8;line-height:1.2;font-variant-numeric:tabular-nums}
+.p2-status-row strong span{font-size:14px;color:#b2caba}
+.p2-time-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #395f4c;border-radius:15px;background:#0b3028;padding:13px 15px;margin:13px 0}
+.p2-time-strip>span{display:grid;gap:3px}
+.p2-time-strip small{font-size:11px;color:#bccea8}
+.p2-time-strip strong{font-size:14px;color:#f7f7e8;line-height:1.45}
+.p2-time-strip>b{font-size:15px;white-space:nowrap;color:#eac679}
+.p2-personal{width:100%;display:flex;align-items:center;gap:13px;min-height:79px;margin:13px 0 20px;padding:14px 15px;text-align:left;background:#12362d;color:#f9efd5;border:1px solid #5e7252;border-radius:16px}
+.p2-personal-icon{display:grid;place-items:center;width:43px;height:43px;flex:0 0 43px;background:#28533e;color:#f2d495;border-radius:13px;font-size:24px}
+.p2-personal span:nth-child(2){display:grid;gap:5px;flex:1;min-width:0}
+.p2-personal strong{font-size:15px;line-height:1.4}
+.p2-personal small{color:#b9d0bf;font-size:12px}
+.p2-personal>span:last-child{font-size:26px;color:#e5c880}
+.p2-home .ex-mini-title{margin:23px 2px 12px}
+.p2-home .ex-mini-title h2{font-size:18px}
+.p2-home .ex-mini-title button{min-height:44px;padding:9px 6px;font-size:13px}
+.p2-secondary-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 0}
+.p2-secondary-links>button{display:flex;align-items:center;gap:11px;min-height:81px;padding:13px 10px;border:1px solid #3c604b;background:#0b3026;border-radius:16px;color:#eaf3e8;text-align:left}
+.p2-secondary-links>button>span:first-child{color:#edca84;font-size:24px}
+.p2-secondary-links>button>span:nth-child(2){display:grid;gap:4px;flex:1;min-width:0}
+.p2-secondary-links strong{font-size:13px;line-height:1.3}
+.p2-secondary-links small{font-size:11px;line-height:1.45;color:#b1c4b6}
+.p2-secondary-links>button>span:last-child{font-size:22px;color:#eacb83}
+.p2-history-summary{background:#0b2f27;border:1px solid #45664e;border-radius:20px;margin:15px 0 18px;padding:16px}
+.p2-history-head{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:13px}
+.p2-history-head strong{font-size:18px;color:#ffe8b2}
+.p2-history-head small{font-size:12px;color:#becfbd;text-align:right;line-height:1.5}
+.p2-record-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.p2-record-tile{border:1px solid #355e49;border-radius:14px;padding:13px 11px;background:#113b2d;min-height:116px;display:flex;flex-direction:column;gap:6px}
+.p2-record-tile small{font-size:11px;line-height:1.45;color:#d0dfcb}
+.p2-record-tile strong{font-size:23px;color:#f6d891;line-height:1.1}
+.p2-record-tile span{font-size:11px;line-height:1.5;color:#adbdad}
+.p2-record-tile:last-child{grid-column:1/-1;min-height:95px}
+.p2-note{font-size:12px;line-height:1.75;color:#b5c5b4;margin:13px 1px 1px}
+.p2-history-mode .ex-history-extra{display:none!important}
+.p2-history-mode .mini-stats{margin-top:7px}
+.p2-reader-tabs{display:flex;flex-shrink:0;gap:5px;padding:5px 15px 9px;border-bottom:1px solid #365947;background:#09271f}
+.p2-reader-tabs button{flex:1;min-height:46px;background:#143a2e;color:#d3e4d4;border:1px solid transparent;border-radius:12px;font-size:14px;font-weight:700}
+.p2-reader-tabs button.active{background:#d8bc7d;color:#1a3228;border-color:#edcd91}
+.p2-dua-complete{display:block;width:100%;min-height:53px;border:1px solid #a3e5ad;border-radius:13px;background:#168357;color:#f6fff4;font-size:15px;font-weight:800;margin-bottom:9px}
+.p2-dua-complete:disabled{opacity:1;color:#c6e9d2;background:#184e38;border-color:#58785c}
+.p2-dua-reader .ex-reader-content{padding-top:19px}
+.p2-dua-reader .ex-reader-flower{font-size:25px;margin:2px 0 9px;filter:none}
+.p2-dua-reader .ex-reader-content h1{font-size:24px;margin:10px 0 15px}
+.p2-dua-reader .ex-reader-paper,.p2-dua-reader .ex-reader-meaning{border-radius:17px;padding:18px 18px}
+.p2-dua-reader .ex-reader-paper small,.p2-dua-reader .ex-reader-meaning small{margin-bottom:10px}
+.p2-dua-reader .ex-reader-paper p{line-height:1.9}
+.p2-dua-reader .ex-reader-paper[hidden],.p2-dua-reader .ex-reader-meaning[hidden]{display:none!important}
+.p2-reader-standard{max-width:650px}
+.p2-reader-standard .ex-reader-header button,.p2-reader-standard .d21-reader-head button,.p2-reader-standard .v2-focus-head button,.p2-reader-standard .nt-reader-head button{min-width:44px;min-height:44px}
+.p2-reader-standard .d21-tabs button,.p2-reader-standard .v2-tab,.p2-reader-standard .v7-secondary-modes button{min-height:44px}
+.p2-reader-standard .ex-reader-scroll,.p2-reader-standard .nt-reading-scroll,.p2-reader-standard .d21-reader-scroll,.p2-reader-standard .v2-focus-reading,.p2-reader-standard .v7-reading-scroll{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.p2-reader-standard .ex-reader-dock,.p2-reader-standard .nt-reader-dock,.p2-reader-standard .d21-dock,.p2-reader-standard .v2-focus-dock,.p2-reader-standard .v7-q-footer{padding-bottom:max(13px,calc(11px + env(safe-area-inset-bottom)))}
+.p2-primary:focus-visible,.p2-personal:focus-visible,.p2-secondary-links button:focus-visible,.p2-dua-complete:focus-visible,.p2-reader-tabs button:focus-visible{outline:3px solid #e5ca81;outline-offset:3px}
+.geo-sheet .p2-advanced{border:1px solid #456c54;border-radius:14px;padding:2px 13px 10px;margin:18px 0 14px;background:#0a3027}
+.geo-sheet .p2-advanced summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-weight:800;font-size:14px;color:#f5d79e;list-style:none;line-height:1.5}
+.geo-sheet .p2-advanced summary::-webkit-details-marker{display:none}
+.geo-sheet .p2-advanced summary:before{content:'›';font-size:23px;margin-right:9px}
+.geo-sheet .p2-advanced[open] summary:before{content:'⌄'}
+.geo-sheet .p2-advanced .geo-divider{margin-top:0}
+.geo-sheet .p2-onboard-step{font-size:12px;color:#e2c17f;font-weight:800;letter-spacing:.3px}
+.geo-sheet .p2-onboard-help{font-size:12px;line-height:1.6;color:#b9ceba;margin:0 0 13px}
+.reader .top{min-height:63px}
+.reader .modes{gap:6px;padding:8px 12px}
+.reader .modes button{min-height:44px;font-size:13px}
+.reader .tools button{width:44px;height:44px}
+.reader .verses{padding-bottom:32px}
+.reader .footer a,.reader .footer button{min-height:48px}
+@media(max-width:375px){
+  .p2-status-row{gap:8px}.p2-status-row>div{padding:11px 10px}
+  .p2-status-row small{font-size:11px}.p2-primary{padding:14px 15px}
+  .p2-secondary-links{gap:7px}.p2-secondary-links>button{gap:7px;padding:10px 7px}
+  .p2-record-grid{gap:7px}.p2-record-tile{padding:11px 9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .p2-primary,.p2-personal,.p2-secondary-links>button{transition:none!important}
+}
