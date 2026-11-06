@@ -1,0 +1,196 @@
+/* Phase 3: final legibility, keyboard access, safe areas and small-screen polish.
+   Uses system fonts only; keeps the established emerald / gold identity. */
+:root {
+  --p3-focus: #ffe3a4;
+  --p3-muted: #c9d8cd;
+  --p3-reader-line: 1.9;
+}
+html { scroll-padding-bottom: calc(106px + env(safe-area-inset-bottom)); }
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; }
+button, a, input, select, summary { -webkit-tap-highlight-color: rgba(250,214,136,.18); }
+button:not(:disabled), a[href] { touch-action: manipulation; }
+:where(button,a[href],input,select,textarea,summary,[tabindex="0"]):focus-visible {
+  outline: 3px solid var(--p3-focus) !important;
+  outline-offset: 3px !important;
+}
+:where(.p2-home,.ex-view,.salah-shell,.geo-sheet,.ex-reader-content,.nt-reader-inner,.d21-reader-inner,.v2-focus-body) {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+:where(.p2-intro,.ex-page-title,.p2-record-tile,.p2-primary,.ex-prayer-info,.salah-unit) {
+  min-width: 0;
+}
+.p2-intro h1 { line-height: 1.48; letter-spacing: 0; }
+.p2-primary strong,.p2-personal strong,.p2-time-strip strong,.p2-record-tile strong {
+  line-height: 1.55;
+}
+.p2-status-row small,.p2-record-tile small,.p2-secondary-links small,.p2-personal small,.p2-eyebrow,.p2-time-strip small {
+  font-size: max(12px, .76rem);
+  line-height: 1.55;
+}
+.p2-record-tile span,.p2-note,.ex-footnote,.ex-more-list small,.ex-dua-row small {
+  font-size: max(12px, .75rem);
+  line-height: 1.7;
+}
+.p2-status-row strong,.p2-record-tile strong { font-variant-numeric: tabular-nums; }
+.p2-home .ex-prayer-grid .ex-prayer-status { font-size: max(12px, .75rem); }
+.p2-home .ex-prayer-grid .ex-prayer-info small { font-size: max(12px, .75rem); }
+.p2-home .salah-learn-shortcut { font-size: max(13px, .8125rem); }
+.p2-secondary-links>button { padding: 13px 12px; }
+.p2-secondary-links>button>span:nth-child(2) { overflow-wrap: anywhere; }
+.p2-history-head { flex-wrap: wrap; }
+.p2-history-head small { text-align: left; }
+.nav-in { gap: 1px; }
+.nav-btn { min-height: 52px !important; padding: 8px 2px !important; }
+.nav-btn>span:last-child { line-height: 1.35; font-size: max(11px, .7rem); }
+:where(.p2-home,.ex-view) .ex-mini-title button { min-height: 44px; }
+.p2-reader-standard .ex-reader-header,
+.p2-reader-standard .nt-reader-head,
+.p2-reader-standard .d21-reader-head,
+.p2-reader-standard .v2-focus-head { gap: 8px; }
+:where(.ex-reader,.nt-fullscreen,.d21-reader,.v2-focus-page,.v7-quran) {
+  max-height: 100dvh;
+}
+:where(.ex-reader-scroll,.nt-reading-scroll,.d21-reader-scroll,.v2-focus-reading,.v7-reading-scroll) {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+:where(.ex-reader-paper,.nt-reading-card,.d21-reading-paper,.v2-reading-paper,.v7-reading-text) p {
+  line-height: var(--p3-reader-line);
+  white-space: normal;
+  letter-spacing: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+:where([lang="ar"],.v7-arabic-mode,.is-arabic) {
+  font-family: "Geeza Pro","Noto Naskh Arabic","Traditional Arabic",serif;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+:where(.v2-reading-paper.is-arabic,.d21-reading-paper.is-arabic,.v7-arabic-mode,[lang="ar"]):not(button) {
+  unicode-bidi: isolate;
+}
+.p2-dua-reader .ex-reader-content h1,
+.d21-reader-inner h1,
+.v2-focus-body h1,
+.nt-reader-inner h1 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.p2-reader-standard .ex-reader-dock,
+.p2-reader-standard .nt-reader-dock,
+.p2-reader-standard .d21-dock,
+.p2-reader-standard .v2-focus-dock {
+  flex-shrink: 0;
+}
+.p2-reader-tabs button,
+.d21-tabs button,
+.v2-focus-tabs button,
+.v7-secondary-modes button {
+  min-height: 44px;
+  line-height: 1.45;
+}
+.p3-network-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #a98946;
+  background: #342d1e;
+  color: #fbe8ba;
+  border-radius: 15px;
+  padding: 13px 14px;
+  margin: 10px 0 16px;
+}
+.p3-network-icon {
+  flex: 0 0 23px;
+  font-size: 19px;
+  line-height: 1.35;
+}
+.p3-network-copy { min-width: 0; flex: 1; }
+.p3-network-copy strong {
+  display:block;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.p3-network-copy p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #efe0c2;
+  margin: 4px 0 0;
+}
+.p3-network-retry {
+  min-width: 62px;
+  min-height: 44px;
+  border: 1px solid #e0bb74;
+  border-radius: 11px;
+  padding: 7px 11px;
+  background: #584a2f;
+  color: #fff3d5;
+  font-size: 13px;
+  font-weight: 750;
+}
+.p3-network-banner[hidden]{display:none!important}
+#toast{
+  max-width: min(92vw, 520px);
+  overflow-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.geo-sheet .p2-advanced summary { padding-block: 6px; }
+.geo-sheet .geo-gps,
+.geo-sheet .geo-keep,
+.geo-sheet .geo-method-apply,
+.geo-sheet .geo-results button { min-height: 44px; }
+.geo-sheet :where(input, select) { min-height: 48px; font-size: 16px; }
+.geo-overlay { padding-bottom: env(safe-area-inset-bottom); }
+.p2-dua-complete { min-height: 54px; line-height: 1.45; padding: 10px 12px; }
+@media (max-width: 360px) {
+  .p2-home .ex-prayer-grid {grid-template-columns: 1fr;}
+  .p2-home .ex-prayer-grid>.salah-tile-choice:last-child:nth-child(odd) { grid-column: auto; }
+  .p2-home .ex-prayer-grid .ex-prayer-tile { min-height: 74px; }
+  .p2-home .ex-prayer-grid .salah-tile-choice { display: grid; grid-template-columns: minmax(0,1fr) minmax(105px,auto); align-items:stretch; }
+  .p2-home .ex-prayer-grid .salah-learn-shortcut { min-height: 60px; align-self:stretch; }
+  .p2-home .ex-prayer-grid .salah-tile-choice .ex-prayer-tile { flex-direction: column; justify-content: center; }
+  .p2-secondary-links { grid-template-columns:1fr; }
+  .p2-status-row{grid-template-columns:1fr;}
+  .p2-status-row>div{min-height:75px;}
+  .p2-record-grid { grid-template-columns: 1fr; }
+  .p2-record-tile:last-child { grid-column:auto; }
+  .p2-record-tile{min-height:88px;}
+  .p2-intro h1 {font-size: 23px;}
+  .p2-primary{padding:14px 15px;}
+  .p2-reader-tabs button {font-size:13px;}
+  .d21-reader-inner {padding-inline:12px;}
+}
+@media (max-height: 620px) {
+  .p2-reader-standard .ex-reader-dock,
+  .p2-reader-standard .nt-reader-dock,
+  .p2-reader-standard .d21-dock,
+  .p2-reader-standard .v2-focus-dock {
+    max-height: 38dvh;
+    overflow-y: auto;
+  }
+  .p2-dua-reader .ex-reader-flower,
+  .d21-reader .d21-flower {display:none;}
+}
+@media (prefers-contrast: more) {
+  .p2-status-row>div,.p2-record-tile,.p2-personal,.p2-secondary-links>button {
+    border-color:#d9d5aa;
+  }
+  .nav-btn:not(.active) {color:#dfebdf!important}
+  .p2-record-tile small,.p2-record-tile span,.p2-secondary-links small {color:#e0eadd;}
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
