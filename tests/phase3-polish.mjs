@@ -43,7 +43,7 @@ test('reading controls, Bengali reflow, contrast and error recovery have hooks',
   assert.match(script,/getAnnouncer/);
   assert.match(script,/updateBanner/);
   assert.match(script,/data-p3="retry-times"/);
-  assert.match(reader,/id=\\"reader-retry\\"/);
+  assert.match(reader,/id="reader-retry"/);
   assert.match(reader,/location\.reload\(\)/);
   assert.doesNotMatch(script,/localStorage\.setItem/);
 });
