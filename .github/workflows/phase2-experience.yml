@@ -1,0 +1,34 @@
+name: Verify Phase 2 mobile experience
+on:
+  pull_request:
+    paths:
+      - 'phase2-experience.js'
+      - 'phase2-experience.css'
+      - 'reader.html'
+      - 'location-prayers.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/phase2-experience.mjs'
+      - '.github/workflows/phase2-experience.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'phase2-experience.js'
+      - 'phase2-experience.css'
+      - 'reader.html'
+      - 'location-prayers.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/phase2-experience.mjs'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run Phase 1 and Phase 2 regression tests
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs
