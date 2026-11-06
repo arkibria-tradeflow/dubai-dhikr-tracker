@@ -45,8 +45,8 @@ test('phase 2 code and inline Quran readers are syntactically valid',()=>{
   assert.doesNotThrow(()=>new Script(code));
   assert.doesNotThrow(()=>new Script(location));
   assert.doesNotThrow(()=>new Script(worker));
-  for(const match of quran.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/g)){
-    if(/src=|type="application\\/json"/.test(match[1]))continue;
+  for(const match of quran.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)){
+    if(/src=|type="application\/json"/.test(match[1]))continue;
     assert.doesNotThrow(()=>new Script(match[2]));
   }
 });
@@ -60,7 +60,7 @@ test('Home makes the post-prayer dhikr action primary, and retains other routes'
   assert.match(html,/data-screen="night"/);
   assert.match(html,/data-screen="history"/);
   assert.match(html,/ঢাকা/);
-  assert.match(html,/11 \\/ ৬৩/);
+  assert.match(html,/11 \/ ৬৩/);
   assert.doesNotMatch(html,/class="ex-hero ex-mosque"/);
 });
 
@@ -74,7 +74,7 @@ test('History counts activities separately without changing existing history',()
   assert.match(html,/দোয়া পাঠ/);
   assert.match(html,/রাতের নামাজ/);
   assert.match(html,/Existing history/);
-  assert.match(html,/11 \\/ ৬৩/);
+  assert.match(html,/11 \/ ৬৩/);
 });
 
 test('Dua reader keeps list navigation and offers reading tabs and save action',()=>{
@@ -90,13 +90,13 @@ test('Dua reader keeps list navigation and offers reading tabs and save action',
 
 test('location onboarding, Quran tab semantics, and PWA assets are registered',()=>{
   assert.match(location,/<details class="p2-advanced">/);
-  assert.match(location,/ধাপ ১ \\/ ২/);
-  assert.match(page,/phase2-experience.js\\?v=1.0.0/);
-  assert.match(page,/phase2-experience.css\\?v=1.0.0/);
-  assert.match(quran,/phase2-experience.css\\?v=1.0.0/);
+  assert.match(location,/ধাপ ১ \/ ২/);
+  assert.match(page,/phase2-experience.js\?v=1.0.0/);
+  assert.match(page,/phase2-experience.css\?v=1.0.0/);
+  assert.match(quran,/phase2-experience.css\?v=1.0.0/);
   assert.match(quran,/role="tablist"/);
   assert.match(quran,/aria-selected/);
   assert.match(stylesheet,/p2-reader-standard/);
   assert.match(worker,/dubai-dhikr-v10.9.0/);
-  assert.match(worker,/'\\.\\/phase2-experience.js'/);
+  assert.match(worker,/'\.\/phase2-experience.js'/);
 });
