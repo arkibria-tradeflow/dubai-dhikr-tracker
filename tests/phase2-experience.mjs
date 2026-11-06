@@ -97,6 +97,6 @@ test('location onboarding, Quran tab semantics, and PWA assets are registered',(
   assert.match(quran,/role="tablist"/);
   assert.match(quran,/aria-selected/);
   assert.match(stylesheet,/p2-reader-standard/);
-  assert.match(worker,/dubai-dhikr-v10.9.0/);
+  assert.match(worker,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   assert.match(worker,/'\.\/phase2-experience.js'/);
 });
