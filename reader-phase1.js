@@ -11,6 +11,7 @@
   const online=extra.includes(number);
   const footer=document.getElementById('footer');
   if(!footer)return;
+  footer.classList.add('phase1-footer');
   const next=document.getElementById('next'),prev=document.getElementById('prev');
   const from=new URLSearchParams(location.search).get('from')==='all'?'all':'ten';
   const back='./?view=quran&collection='+from;
