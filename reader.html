@@ -17,7 +17,7 @@ body{overflow:hidden}.reader{height:100dvh;max-width:680px;margin:0 auto;display
 /* Phase 1: accessible read-completion and navigation controls. */
 .modes button{min-height:44px}
 .tools button{width:44px;height:44px}
-.footer:has(.reader-complete){display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px}
+.footer.phase1-footer{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px}
 .footer .reader-complete{grid-column:1/-1;min-height:48px;width:100%;border:1px solid #94dfb1;background:#157c55;color:#fff;border-radius:12px;font-size:15px;font-weight:800}
 .footer .reader-complete:disabled{background:#164b37;border-color:#477965;color:#d9eadd;opacity:1}
 .footer .reader-save-status{grid-column:1/-1;font-size:12px;text-align:center;color:#e9d18f}
@@ -91,7 +91,7 @@ function draw(){
 target.classList.toggle('arabic',mode==='ar');
 target.classList.toggle('large',enlarged);
 for(const button of modes.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));
-if(mode==='bn'&&!rows.every(r=>r.bn)){target.innerHTML='<div class="pending"><p>বাংলা উচ্চারণ লোড হচ্ছে।</p></div>';return;}
+if(mode==='bn'&&!rows.every(r=>r.bn)){target.innerHTML='<div class="pending"><p>বাংলা উচ্চারণ বর্তমানে উপলব্ধ নয়। আরবি অথবা বাংলা অর্থ ট্যাব ব্যবহার করুন।</p></div>';return;}
 const basmala=mode==='ar'?'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ':mode==='bn'?'বিসমিল্লাহির রাহমানির রাহীম।':'পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে।';
 target.innerHTML='<article class="verses"><p class="basmala">'+escape(basmala)+'</p>'+rows.map((r,i)=>'<div class="verse"><span class="number">'+String(i+1).replace(/[0-9]/g,x=>'০১২৩৪৫৬৭৮৯'[Number(x)])+'</span><span class="words">'+escape(r[mode])+'</span></div>').join('')+'<p class="endnote">সুরার সমস্ত '+rows.length+'টি আয়াত</p></article>';
 }
@@ -113,7 +113,7 @@ const pronunciations=data.surahs[String(no)];
 if(!Array.isArray(pronunciations)||pronunciations.length!==rows.length||pronunciations.some(x=>!x?.trim()))throw Error('Pronunciation count mismatch');
 rows.forEach((r,i)=>r.bn=pronunciations[i]);
 mode='bn';draw();window.dispatchEvent(new Event('dhikr:surah-ready'));
-}).catch(()=>{mode='ar';draw();info.textContent+=' · উচ্চারণ সাময়িকভাবে অনুপলব্ধ';window.dispatchEvent(new Event('dhikr:surah-ready'))});
+}).catch(()=>{mode='ar';const pronButton=modes.querySelector('[data-mode="bn"]');if(pronButton){pronButton.disabled=true;pronButton.title='এই সুরার বাংলা উচ্চারণ সাময়িকভাবে অনুপলব্ধ'}draw();info.textContent+=' · উচ্চারণ সাময়িকভাবে অনুপলব্ধ';window.dispatchEvent(new Event('dhikr:surah-ready'))});
 
 }).catch(()=>{target.innerHTML='<div class="pending"><p>এখন সুরার পাঠ লোড করা যাচ্ছে না। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p><a href="https://quran.com/bn/'+no+'" target="_blank" rel="noopener">Quran.com-এ পড়ুন →</a></div>';window.dispatchEvent(new Event('dhikr:surah-failed'))});
 })();
