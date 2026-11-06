@@ -16,7 +16,6 @@
     const location=window.DhikrGeo?.location;
     return location?.name||'আপনার শহর';
   };
-  const oldHome=renderExperienceHome;
   renderExperienceHome=function(){
     const today=dayInfo(),s=todayStat(today.day),valid=validTimes(today.tm);
     const next=PRAYERS.find(p=>valid&&today.now<minutes(today.tm[p.key]));
@@ -69,6 +68,7 @@
       '<div class="p2-record-grid">'+tiles+'</div>'+
       '<p class="p2-note">এখানে নামাজ আদায়ের সংখ্যা নয়, নামাজ-পরবর্তী যিকিরের সেশন গণনা দেখানো হয়। রাতের রাকাত ওই রাতের শুরুর তারিখে সংরক্ষিত থাকে।</p></section>';
     let html=oldHistory().replace('আমার জিকিরের রেকর্ড','আমার আমলের ইতিহাস');
+    html=html.replaceAll(' Dubai</small>',' '+esc(currentCity())+'</small>');
     const anchor='<div class="mini-stats">';
     if(html.includes(anchor))html=html.replace(anchor,summary+anchor);
     return html;
@@ -108,7 +108,9 @@
     if(empty)empty.hidden=shown!==0;
   }
   const oldRender=render;
+  let lastScreen=null;
   render=function(){
+    const previousScroll=lastScreen===screen&&['today','history'].includes(screen)?window.scrollY||0:0;
     const value=oldRender();
     const root=document.getElementById('root');
     if(!root)return value;
@@ -129,6 +131,8 @@
     if(['focus','daily21-reader','dua-reader','night-reader','quran-reader'].includes(screen)){
       root.querySelectorAll('.v2-focus-page,.d21-reader,.ex-reader,.nt-fullscreen,.v7-quran').forEach(el=>el.classList.add('p2-reader-standard'));
     }
+    if(previousScroll>0)requestAnimationFrame(()=>window.scrollTo(0,previousScroll));
+    lastScreen=screen;
     return value;
   };
   document.addEventListener('click',event=>{
