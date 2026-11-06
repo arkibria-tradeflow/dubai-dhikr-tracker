@@ -3,8 +3,17 @@
   const D=window.SalahData;if(!D)return;
   let choice="Fajr",unit=0,step=0,origin="prayers",showBn=true,showMeaning=true;
   const oldTiles=expPrayerTiles,oldRender=render;
+  // Keep the existing post-prayer dhikr action. Prayer learning is a separate action.
   expPrayerTiles=function(info,mode){
-    return oldTiles(info,mode).replaceAll('data-action="prayer"','data-action="salah-tile"').replace(/\sdisabled aria-disabled="true"/g,"").replace(/(<span class="ex-prayer-status">)লক(<\/span>)/g,"$1নিয়ম দেখুন$2");
+    return oldTiles(info,mode).replace(/<button\b[^>]*data-action="prayer"[^>]*>[\s\S]*?<\/button>/g,tile=>{
+      const key=tile.match(/data-prayer="([^"]+)"/)?.[1];
+      const p=PRAYERS.find(p=>p.key===key);
+      if(!p)return tile;
+      const available=unlocked(key,info);
+      const main=tile.replace('<button ', '<button aria-label="'+esc(p.bn+(available?' নামাজের পর যিকির পড়ুন':' নামাজের পর যিকির, ওয়াক্ত এখনো শুরু হয়নি'))+'" ');
+      return '<div class="salah-tile-choice">'+main+
+        '<button type="button" class="salah-learn-shortcut" data-salah="learn" data-prayer="'+key+'" aria-label="'+esc(p.bn)+' নামাজ শেখার গাইড খুলুন">নামাজ শিখুন</button></div>';
+    });
   };
   const conf=()=>D.prayers[choice],type=()=>conf().units[unit];
   const B=s=>esc(String(s||""));
@@ -94,11 +103,11 @@
     screen="session";repaint();
   }
   document.addEventListener("click",e=>{
-    const btn=e.target.closest("[data-salah], [data-action='salah-tile'], [data-action='prayer']");
+    const btn=e.target.closest("[data-salah], [data-action='salah-tile']");
     if(!btn||btn.disabled)return;
     const action=btn.dataset.salah||"tile";
     e.preventDefault();e.stopImmediatePropagation();
-    if(action==="tile"){origin=screen==="today"?"today":"prayers";begin(btn.dataset.prayer);}
+    if(action==="learn"||action==="tile"){origin=screen==="today"?"today":"prayers";begin(btn.dataset.prayer);}
     else if(action==="night"){origin="night";begin("Tahajjud");}
     else if(action==="back"){screen=screen==="salah-overview"?origin:"salah-overview";repaint();}
     else if(action==="unit"){unit=Number(btn.dataset.index);step=0;repaint();}

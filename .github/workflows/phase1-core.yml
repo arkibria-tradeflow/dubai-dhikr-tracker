@@ -1,0 +1,41 @@
+name: Phase 1 core UX regression checks
+on:
+  pull_request:
+    paths:
+      - 'app.js'
+      - 'experience.js'
+      - 'index.html'
+      - 'salah-companion.js'
+      - 'location-prayers.js'
+      - 'v9-native-links.js'
+      - 'reader.html'
+      - 'reader-phase1.js'
+      - 'phase1-core.css'
+      - 'sw.js'
+      - 'tests/phase1-core.mjs'
+      - '.github/workflows/phase1-core.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experience.js'
+      - 'index.html'
+      - 'salah-companion.js'
+      - 'location-prayers.js'
+      - 'v9-native-links.js'
+      - 'reader.html'
+      - 'reader-phase1.js'
+      - 'phase1-core.css'
+      - 'sw.js'
+      - 'tests/phase1-core.mjs'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Phase 1 static and accessibility checks
+        run: node --test tests/phase1-core.mjs
