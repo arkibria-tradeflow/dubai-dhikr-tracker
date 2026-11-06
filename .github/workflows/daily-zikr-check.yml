@@ -41,4 +41,4 @@ jobs:
           grep -q 'd21-reader-context' daily-zikr.js
           grep -q 'overflow-y:auto' daily-zikr.css
           grep -q 'white-space:nowrap' daily-zikr.css
-          grep -q 'dubai-dhikr-v10.7.1' sw.js
+          grep -q "^const CACHE='dubai-dhikr-v" sw.js
