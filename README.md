@@ -37,3 +37,17 @@ Publish repository's `main` branch root using GitHub Pages. The site manifest an
 - The 21-repetition count is a **personal preference, not an authenticated Sunnah prescription or a claim of specific guaranteed merit**.
 - Records are separated under `dhikr_dubai_daily21_v1`, keyed to Dubai local dates. Current records are retained when switching views, included in JSON backup/restore, and cleared by the existing global reset with confirmation.
 - Offline PWA assets include `daily-zikr.js` and `daily-zikr.css` using cache `dubai-dhikr-v10.7.0`.
+
+## Phase 2 UX improvements (v10.9.0)
+
+This release improves presentation and navigation without changing the existing five-waqt, Tahajjud, Qur'an, Dua or daily-21 counting storage keys.
+
+- **Home:** shows the next available post-prayer dhikr action first, then clear five-waqt and personal-dhikr totals, next prayer time, and concise routes to other practices.
+- **History:** adds a date-specific summary of five-waqt dhikr sessions, 21-count practice, Qur'an completions, Dua completions and recorded night-prayer rakaat. It explicitly distinguishes *post-prayer dhikr sessions* from actual prayer performance.
+- **Dua reader:** adds simple Bengali-pronunciation and meaning tabs, an explicit daily completion button and familiar reader geometry while keeping existing previous/next and library controls. The Dua data does not include verified Arabic text, so an Arabic tab is **not** fabricated.
+- **Qur'an:** retains the supported 30-surah flow, improves tab semantics and preserves search and list return position in browser **session storage**.
+- **Onboarding:** keeps city/GPS selection prominent, with optional advanced calculation-method controls in a disclosure.
+- **Reading controls:** harmonizes touch targets, safe-area padding and focused styling across the existing reader types.
+- **Compatibility:** new `phase2-experience.js` and `phase2-experience.css` load after earlier modules; the offline PWA cache name is `dubai-dhikr-v10.9.0`. Existing JSON export/import remains unchanged.
+
+Automated source-based regression checks are in `tests/phase2-experience.mjs`. Device-specific layout and VoiceOver acceptance should still be checked on iPhone before declaring visual QA complete.
