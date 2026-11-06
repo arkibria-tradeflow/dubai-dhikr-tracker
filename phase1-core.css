@@ -1,0 +1,31 @@
+/* Phase 1: clearer prayer actions and minimum touch/readability fixes. */
+/* Distinguish continuing after-prayer dhikr from learning how to pray. */
+.salah-tile-choice{display:flex;flex-direction:column;gap:5px;min-width:0}
+.salah-tile-choice .ex-prayer-tile{width:100%;min-width:0;flex:1}
+.salah-tile-choice .salah-learn-shortcut{width:100%;min-height:44px;padding:8px 5px;border-radius:11px;background:#163c31;color:#e7cd91;border:1px solid #4b6954;font-weight:750;font-size:12px}
+.salah-tile-choice .salah-learn-shortcut:active{background:#275440}
+.ex-prayer-grid .salah-tile-choice .ex-prayer-tile{min-height:91px}
+.ex-prayer-grid .salah-learn-shortcut{line-height:1.25}
+.ex-prayer-list .salah-tile-choice{display:grid;grid-template-columns:minmax(0,1fr) minmax(104px,auto);gap:8px}
+.ex-prayer-list .salah-tile-choice .ex-prayer-tile{min-height:82px}
+.ex-prayer-list .salah-tile-choice .salah-learn-shortcut{min-height:48px;align-self:stretch;padding:7px 10px}
+@media(max-width:375px){
+  .ex-prayer-list .salah-tile-choice{grid-template-columns:minmax(0,1fr) 99px;gap:6px}
+  .ex-prayer-grid .salah-tile-choice .ex-prayer-tile{padding:10px 3px}
+}
+.ex-prayer-info small{font-size:12px}
+.ex-prayer-status{font-size:11px}
+.ex-prayer-list .ex-prayer-status{font-size:12px}
+.ex-surah-row.ex-unavailable{opacity:1;color:#a7bbaf;background:#091f1b;border-color:#27443b}
+.ex-surah-row.ex-unavailable .ex-surah-no{opacity:.7}
+.ex-surah-row.ex-unavailable .ex-goldarrow{color:#748d80}
+.ex-surah-row.ex-unavailable small{color:#9eb8a9}
+.ex-surah-row:focus-visible,.salah-learn-shortcut:focus-visible,.ex-prayer-tile:focus-visible{outline:3px solid #f2d28a;outline-offset:3px}
+.ex-surah-row,.salah-learn-shortcut{touch-action:manipulation}
+.ex-surah-row small,.ex-dua-row small,.ex-more-list small{font-size:12px}
+.nav-btn{font-size:11px!important}
+@media(prefers-reduced-motion:reduce){
+  .ex-view{animation:none!important}
+  .ex-prayer-tile,.ex-primary-action,.ex-surah-row{transition:none!important}
+  html{scroll-behavior:auto!important}
+}
