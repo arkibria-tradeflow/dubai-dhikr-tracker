@@ -28,6 +28,12 @@
 .p2-personal small{color:#b9d0bf;font-size:12px}
 .p2-personal>span:last-child{font-size:26px;color:#e5c880}
 .p2-home .ex-mini-title{margin:23px 2px 12px}
+.p2-home .ex-prayer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.p2-home .ex-prayer-grid>.salah-tile-choice:last-child:nth-child(odd){grid-column:1/-1}
+.p2-home .ex-prayer-grid .ex-prayer-tile{min-height:92px}
+.p2-home .ex-prayer-grid .salah-learn-shortcut{font-size:13px;min-height:44px}
+.p2-home .ex-prayer-grid .salah-tile-choice .ex-prayer-tile:not(:disabled):after{content:"যিকির খুলুন ›";font-size:12px;font-weight:750;line-height:1.35;color:#f0d18a;margin-top:3px}
+.p2-home .ex-prayer-grid>.salah-tile-choice:last-child:nth-child(odd) .ex-prayer-tile{flex-direction:row;justify-content:center;gap:14px}
 .p2-home .ex-mini-title h2{font-size:18px}
 .p2-home .ex-mini-title button{min-height:44px;padding:9px 6px;font-size:13px}
 .p2-secondary-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 0}
