@@ -66,7 +66,7 @@ test('all list, topic filters and existing reading links remain intact',()=>{
   assert.match(html,/data-exp="dua-filter" data-filter="all" aria-pressed="true"/);
   assert.match(html,/id="dc-dua-search"/);
   assert.match(html,/id="dc-search-status"/);
-  assert.match(html,/আল্লাহ/); // Dua content and notes remain available
+  assert.match(html,/সুরা আল-কাসাস ২৮:২৪/); // Source references remain visible
 });
 test('active topic only renders selected category items',()=>{
   const html=renderDuas('work').html();
