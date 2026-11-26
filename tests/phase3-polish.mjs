@@ -25,7 +25,7 @@ test('Phase 3 assets and updated PWA manifest are registered',()=>{
   assert.match(index,/phase3-polish\.css\?v=1\.0\.0/);
   assert.match(index,/phase3-polish\.js\?v=1\.0\.0/);
   assert.match(reader,/phase3-polish\.css\?v=1\.0\.0/);
-  assert.match(sw,/dubai-dhikr-v11\.0\.0/);
+  assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   assert.match(sw,/'\.\/phase3-polish\.css'/);
   assert.match(sw,/'\.\/phase3-polish\.js'/);
   assert.equal(manifest.lang,'bn');

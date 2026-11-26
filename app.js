@@ -196,5 +196,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');
 
 document.getElementById('restore-input').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';importFile(f)});
 currentDay=dayInfo().day;render();setTimeout(()=>updateTimes(),0);
-setInterval(()=>{const day=dayInfo().day;if(day!==currentDay){currentDay=day;if(screen==='night'||screen==='night-reader'){render();updateTimes();return}cancelFinish();screen='today';openId=null;focusId=null;histOffset=0;render();updateTimes()}else if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer))screen='today';render()}},15000);
+function refreshOnClockTick(){const day=dayInfo().day;if(day!==currentDay){currentDay=day;if(screen==='night'||screen==='night-reader'){render();updateTimes();return}cancelFinish();screen='today';openId=null;focusId=null;histOffset=0;render();updateTimes();return}if(screen==='today'||screen==='session'){if(screen==='session'&&!unlocked(prayer)){screen='today';render();return}if(typeof window.DhikrStableTick==='function')window.DhikrStableTick();else render()}}
+setInterval(refreshOnClockTick,15000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshOnClockTick()});
 if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
