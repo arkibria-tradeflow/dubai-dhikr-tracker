@@ -8,7 +8,16 @@ let qdb=expClean(safeRead(QKEY,{}),'s'), dudb=expClean(safeRead(DUAKEY,{}),'d');
 let quranTab='ten',selectedSurah=112,selectedDua='rizq-need',readerOrigin='quran',duaFilter='all';
 function expClean(data,kind){const out={};if(!data||typeof data!=='object'||Array.isArray(data))return out;const valid=kind==='s'?[...NIGHT_SURAHS.map(x=>String(x.n)),...'78,79,80,81,82,83,84,85,93,94,95,96,97,98,99,100,101,102,104,111'.split(',')]:NIGHT_DUAS.map(x=>x.id);for(const [date,rows] of Object.entries(data).slice(0,900)){if(!/^\d{4}-\d\d-\d\d$/.test(date)||!Array.isArray(rows))continue;out[date]=[...new Set(rows.filter(x=>valid.includes(String(x))).map(String))]}return out}
 function expHas(db,id){return (db[dayInfo().day]||[]).includes(String(id))}
-function expToggle(kind,id){const q=kind==='q';let state=q?qdb:dudb;const day=dayInfo().day;let existing=new Set(state[day]||[]);if(existing.has(String(id)))existing.delete(String(id));else existing.add(String(id));state[day]=[...existing];safeWrite(q?QKEY:DUAKEY,state);try{navigator.vibrate?.(12)}catch(e){};}
+function expToggle(kind,id){
+ const q=kind==='q',state=q?qdb:dudb,day=dayInfo().day;
+ const next=new Set(state[day]||[]);
+ if(next.has(String(id)))next.delete(String(id));else next.add(String(id));
+ const changed={...state,[day]:[...next]};
+ if(!safeWrite(q?QKEY:DUAKEY,changed))return false;
+ if(q)qdb=changed;else dudb=changed;
+ try{navigator.vibrate?.(12)}catch(e){}
+ return true;
+}
 function expIcon(type){const shapes={home:'⌂',prayers:'♧',quran:'▤',duas:'♧',more:'☷',check:'✓',right:'›',moon:'☾',star:'✦'};return `<span class="ex-icon ex-icon-${type}" aria-hidden="true">${shapes[type]||'✦'}</span>`}
 function expHeader(label='DUBAI · UAE'){const p=dayInfo();return `<header class="ex-top"><div class="ex-appmark"><span class="ex-badge">☪</span><div><strong>যিকির</strong><small>${esc(label)}</small></div></div><button class="ex-top-action" data-action="nav" data-screen="settings" aria-label="সেটিংস">${icon('settings',20)}</button></header>`}
 function expKicker(text){return `<span class="ex-kicker">✦ ${text}</span>`}
@@ -49,11 +58,11 @@ document.addEventListener('click',event=>{const el=event.target.closest('[data-e
  if(cmd==='quran-tab'){quranTab=el.dataset.tab;render()}
  else if(cmd==='surah-open'){selectedSurah=Number(el.dataset.no);screen='quran-reader';render();window.scrollTo(0,0)}
  else if(cmd==='reader-close'){screen='quran';render();window.scrollTo(0,0)}
- else if(cmd==='surah-mark'){expToggle('q',selectedSurah);render();toast('সুরার রেকর্ড সেভ হয়েছে')}
+ else if(cmd==='surah-mark'){if(expToggle('q',selectedSurah)){render();toast('সুরার রেকর্ড সেভ হয়েছে')}}
  else if(cmd==='dua-filter'){duaFilter=el.dataset.filter;render()}
  else if(cmd==='dua-open'){selectedDua=el.dataset.id;screen='dua-reader';render();window.scrollTo(0,0)}
  else if(cmd==='dua-close'){screen='duas';render();window.scrollTo(0,0)}
- else if(cmd==='dua-mark'){expToggle('d',selectedDua);render();toast('দোয়ার রেকর্ড সেভ হয়েছে')}
+ else if(cmd==='dua-mark'){if(expToggle('d',selectedDua)){render();toast('দোয়ার রেকর্ড সেভ হয়েছে')}}
  else if(cmd==='font'){readingSize=readingSize==='normal'?'large':'normal';safeWrite('dhikr_dubai_reading_size_v3',readingSize);const pos=document.querySelector('.ex-reader-scroll')?.scrollTop||0;render();const sc=document.querySelector('.ex-reader-scroll');if(sc)sc.scrollTop=pos}
 });
 document.addEventListener('input',event=>{if(event.target.id!=='ex-search-surah')return;const q=event.target.value.toLowerCase().trim().replace(/[০-৯]/g,ch=>String('০১২৩৪৫৬৭৮৯'.indexOf(ch)));let count=0;document.querySelectorAll('.ex-surah-row').forEach(el=>{const show=el.dataset.filterText.includes(q);el.hidden=!show;if(show)count++});const empty=document.getElementById('ex-search-empty');if(empty)empty.hidden=count>0});
