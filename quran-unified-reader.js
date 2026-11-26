@@ -116,10 +116,45 @@
     const rect=scroller.getBoundingClientRect();
     scroller.scrollTop+=(el.getBoundingClientRect().top-rect.top)-place.offset;
   }
-  function readableLayers(row){
-    return (options.ar?'<p class="uv-arabic" lang="ar" dir="rtl">'+esc(row.ar)+'</p>':'')+
+  // Some Qur'an editions prefix ayah 1 with Bismillah. This is a display-only
+  // adjustment: the fetched Qur'an record is never modified. We already render
+  // the same Bismillah above the verses, so avoid showing it twice.
+  function firstAyahArabic(text,index){
+    if(index!==0)return text;
+    const parts=String(text).trim().split(/\s+/);
+    if(parts.length<5)return text;
+    const normalize=word=>word.normalize('NFKD')
+      .replace(/[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g,'')
+      .replace(/[أإآٱ]/g,'ا');
+    const opening=parts.slice(0,4).map(normalize).join(' ');
+    if(opening!=='بسم الله الرحمن الرحيم')return text;
+    const remainder=parts.slice(4).join(' ').trim();
+    return remainder||text;
+  }
+  function readableLayers(row,index){
+    return (options.ar?'<p class="uv-arabic" lang="ar" dir="rtl">'+esc(firstAyahArabic(row.ar,index))+'</p>':'')+
       (options.bn&&!pronUnavailable?'<p class="uv-pron" lang="bn">'+esc(row.bn)+'</p>':'')+
       (options.meaning?'<p class="uv-meaning" lang="bn">'+esc(row.meaning)+'</p>':'');
+  }
+  // Only genuinely long verses get a small local reduction. Shorter ayahs keep
+  // their selected size, while every line must remain inside the reading column.
+  function fitArabicVerses(){
+    for(const element of target.querySelectorAll('.uv-arabic')){
+      element.style.fontSize='';
+      const base=parseFloat(getComputedStyle(element).fontSize);
+      if(!Number.isFinite(base)||base<=0)continue;
+      const minimum=Math.max(21,base-5);
+      let size=base;
+      while(size>minimum){
+        const lineHeight=parseFloat(getComputedStyle(element).lineHeight)||size*1.7;
+        const widthOverflow=element.scrollWidth>element.clientWidth+2;
+        const longVerse=element.textContent.trim().length>64 &&
+          element.getBoundingClientRect().height>lineHeight*3.75;
+        if(!widthOverflow&&!longVerse)break;
+        size=Math.max(minimum,size-1);
+        element.style.fontSize=size+'px';
+      }
+    }
   }
   function basmala(){
     return '<div class="uv-basmala">'+
@@ -136,10 +171,11 @@
       basmala()+
       rows.map((r,i)=>'<section class="verse uv-ayah" id="uv-ayah-'+(i+1)+'" aria-label="আয়াত '+numberBN(i+1)+'">'+
         '<span class="uv-ayah-number" aria-hidden="true">'+numberBN(i+1)+'</span>'+
-        '<div class="uv-ayah-text">'+readableLayers(r)+'</div></section>').join('')+
+        '<div class="uv-ayah-text">'+readableLayers(r,i)+'</div></section>').join('')+
       '<p class="uv-endnote">সুরার '+numberBN(rows.length)+'টি আয়াত</p></article>';
     updateSize();
     updateControls();
+    fitArabicVerses();
     restore(place);
   }
   toolbar.addEventListener('change',event=>{
@@ -162,8 +198,12 @@
     level=Math.max(-2,Math.min(2,level+Number(button.dataset.uvSize)));
     try{localStorage.setItem(SIZE_KEY,String(level))}catch(e){}
     updateSize();
+    fitArabicVerses();
     restore(place);
   });
+  window.addEventListener('resize',()=>{
+    if(rows&&isValid(rows))fitArabicVerses();
+  },{passive:true});
   window.addEventListener('dhikr:surah-data',event=>{
     const detail=event.detail;
     if(detail?.number!==number||!isValid(detail.rows))return;
