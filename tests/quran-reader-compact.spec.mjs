@@ -202,3 +202,70 @@ for(const width of [320,375,430]){
     await expect(inputs.nth(1)).toBeChecked();
   });
 }
+
+
+for(const width of [320,375,430]){
+  test('all ayah text has real left and right padding at '+width+'px',async({page})=>{
+    await showLocal(page,width,812);
+    await expect(page.locator('#readerBody .verses.uv-verses')).toHaveCount(1);
+    const check=async()=>page.evaluate(()=>{
+      const article=document.querySelector('#readerBody .verses.uv-verses');
+      const artRect=article.getBoundingClientRect();
+      const computed=getComputedStyle(article);
+      const rows=[...article.querySelectorAll('.uv-ayah')];
+      const lines=[...article.querySelectorAll('.uv-ayah-text>p')];
+      const number=rows[0].querySelector('.uv-ayah-number').getBoundingClientRect();
+      return {
+        leftPadding:parseFloat(computed.paddingLeft),
+        rightPadding:parseFloat(computed.paddingRight),
+        numberLeft:number.left,
+        pageLeft:artRect.left,
+        pageRight:artRect.right,
+        rowsInside:rows.every(row=>{
+          const rect=row.getBoundingClientRect();
+          return rect.left>=artRect.left+parseFloat(computed.paddingLeft)-1 &&
+            rect.right<=artRect.right-parseFloat(computed.paddingRight)+1;
+        }),
+        linesInside:lines.every(el=>{
+          const rect=el.getBoundingClientRect();
+          return rect.left>=artRect.left+parseFloat(computed.paddingLeft)-1 &&
+            rect.right<=artRect.right-parseFloat(computed.paddingRight)+1 &&
+            el.scrollWidth<=el.clientWidth+2;
+        }),
+        noOverflow:document.documentElement.scrollWidth<=innerWidth+2
+      };
+    });
+    for(const layers of ['all','arabic-only']){
+      if(layers==='arabic-only'){
+        await page.locator('[data-uv-layer="bn"]').uncheck();
+        await page.locator('[data-uv-layer="meaning"]').uncheck();
+      }
+      const result=await check();
+      expect(result.leftPadding).toBeGreaterThanOrEqual(19);
+      expect(result.rightPadding).toBeGreaterThanOrEqual(19);
+      expect(result.numberLeft-result.pageLeft).toBeGreaterThanOrEqual(19);
+      expect(result.rowsInside).toBe(true);
+      expect(result.linesInside).toBe(true);
+      expect(result.noOverflow).toBe(true);
+    }
+  });
+}
+
+test('long online Arabic ayahs keep at least 20px gutters on narrow iPhone',async({page})=>{
+  await page.setViewportSize({width:320,height:568});
+  await mockLongSurah(page);
+  await page.goto(base+'/reader.html?surah=78&from=all');
+  await expect(page.locator('#readerBody .verses.uv-verses .uv-ayah')).toHaveCount(40);
+  const positions=await page.evaluate(()=>{
+    const article=document.querySelector('.verses.uv-verses');
+    const rect=article.getBoundingClientRect();
+    const pad=parseFloat(getComputedStyle(article).paddingRight);
+    return [...article.querySelectorAll('.uv-arabic')].map(el=>({
+      rightGap:rect.right-el.getBoundingClientRect().right,
+      overflow:el.scrollWidth>el.clientWidth+2,
+      expected:pad
+    }));
+  });
+  expect(positions.length).toBe(40);
+  expect(positions.every(p=>p.rightGap>=p.expected-1&&!p.overflow)).toBe(true);
+});
