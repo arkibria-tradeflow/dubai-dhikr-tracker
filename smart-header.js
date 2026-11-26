@@ -24,6 +24,7 @@
   }
   function enabled(){
     return window.innerWidth<=maxWidth&&!hiddenScreens.has(screen)&&
+      !document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]')&&
       !document.body.classList.contains('focus-mode')&&
       !document.querySelector('.bk-overlay,.geo-overlay,.dua-flow-overlay:not([hidden])');
   }
