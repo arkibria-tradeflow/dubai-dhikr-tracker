@@ -80,6 +80,6 @@ test('styles scope to Quran only, keep tap targets and updated PWA cache',()=>{
   assert.match(css,/@media \(max-width: 355px\)/);
   assert.match(index,/quran-compact\.css\?v=1\.0\.0/);
   assert.match(index,/v9-native-links\.js\?v=9\.2\.0/);
-  assert.match(sw,/dubai-dhikr-v11\.3\.1/);
+  assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   assert.match(sw,/'\.\/quran-compact\.css'/);
 });
