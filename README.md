@@ -78,3 +78,15 @@ Automated source-based regression checks are in `tests/phase2-experience.mjs`. D
 - Tests include clock-boundary and idle-update unit checks, plus Playwright browser checks of focus, DOM continuity, monthly calendar refresh, and existing Dhikr workflows.
 
 This stage addresses only screen stability. Counter-write integrity and data backup improvements remain separate, subsequent Stage A tasks.
+
+## Phase 4 — Stage A2: Counter Save Reliability (v11.2.0)
+
+- Five-waqt Dhikr and Tahajjud/Witr counters **prepare a new record first** and update the displayed/in-memory count **only after local device storage confirms the write**. Failed saves do not create ghost progress, trigger completion or show a misleading successful record.
+- The legacy Qur'an and Dua completion toggles now follow the same save-first pattern. Success messages and vibration only occur after the saved value is committed.
+- Personal Daily 21 was already transactional; its existing save-before-display pattern, one-tap decrement and 21-per-item targets are preserved.
+- Completed five-waqt Dhikr sessions now request explicit confirmation before **resetting an entire recitation**. Regular minus-one undo remains immediate; Tahajjud still supports minus-two and Witr/reading completion can be untoggled.
+- On-device JSON formats, record keys, saved counts and existing exports/imports are unchanged.
+- PWA cache is now `dubai-dhikr-v11.2.0`, with updated versioned script references.
+- Regression coverage includes injected storage errors, saved-state integrity, finish-state suppression on failed writes, per-item undo and successful save semantics. Playwright mobile tests cover real interactions and reload persistence.
+
+This is Stage A2 only. Future backup/restore safeguards and broader multi-tab synchronization are separate improvements. Storage errors remain visible in the app's existing Bengali error toast.
