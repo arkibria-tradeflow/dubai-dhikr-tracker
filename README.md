@@ -152,3 +152,16 @@ The stand-alone `reader.html` now renders each ayah as a **single vertically sta
 - No changes to Qur'an content, existing completion records, other activity counters, import/export formats or app navigation. New preferences are isolated under `dhikr_dubai_reader_views_v1` and `dhikr_dubai_reader_size_v4`.
 - Files: `quran-unified-reader.js`, `quran-unified-reader.css` and small compatibility changes to `reader.html` and `reader-phase1.js`. PWA cache `dubai-dhikr-v11.4.0`.
 - Automated tests check verse alignment, selected layer combinations, five text sizes, mobile widths, a single-row footer, current progress, saved state and online pronunciation failure. Device-specific iPhone Safari/VoiceOver review remains necessary.
+
+## Qur'an reader mobile compactness and wrapping (v11.4.1)
+
+Following iPhone feedback, the stand-alone Qur'an reader has a tighter but accessible layout:
+
+- **Top-left X:** closes the reader back to the original Qur'an catalogue (rather than a backward arrow). The separate Previous/Next surah actions remain in the footer.
+- **Less dominant controls:** the Arabic / Bengali pronunciation / Bengali meaning checkboxes use restrained styling and compact visual spacing while preserving 44px touch targets. The header and A−/A+ font controls are lighter.
+- **Denser reading flow:** smaller but readable default Arabic, pronunciation and meaning font sizes and line heights; less space between layers and between ayahs. The bottom Previous / Save / Next row has shorter 44px buttons and respects the iPhone bottom safe area.
+- **No clipped Arabic:** the ayah column and each text layer have explicit width constraints and line-wrap behavior. Long Arabic verses wrap naturally and may shrink by at most 5px **only within that ayah**, while shorter ayahs retain the selected font size. Font-size preferences still apply across the reader.
+- **Avoid unintended Bismillah duplication:** where a source-fetched surah prefixes its first Arabic ayah with Bismillah, the display removes that redundant prefix when a separate Bismillah is already shown above the verses. Underlying Arabic source and associated records are **not** changed.
+- Tested at 320/375/430px Chromium viewports with a simulated very long Arabic ayah, duplicate-prefix case, normal offline surah, close navigation and compact three-action footer. Real iPhone Safari and VoiceOver review remains separately necessary.
+
+Files: `reader.html`, `quran-unified-reader.js`, `quran-unified-reader.css`, plus automated tests. PWA cache version `dubai-dhikr-v11.4.1`. Existing completion counts, backup format and language selection preferences are preserved.
