@@ -1,0 +1,130 @@
+/* Smart mobile navigation header. Mounted independently of the scrolling page:
+   avoids sticky-position limitations from transforms and clipped containers. */
+.smart-head{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:22;
+  background:rgba(7,37,31,.94);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(216,190,119,.28);
+  box-shadow:0 10px 30px rgba(0,9,7,.32);
+  opacity:0;
+  transform:translate3d(0,-105%,0);
+  pointer-events:none;
+  visibility:hidden;
+  transition:transform .2s ease,opacity .16s ease,visibility 0s linear .2s;
+  will-change:transform;
+}
+.smart-head.is-visible{
+  visibility:visible;
+  opacity:1;
+  transform:translate3d(0,0,0);
+  pointer-events:auto;
+  transition:transform .2s ease,opacity .16s ease;
+}
+.smart-head-inner{max-width:570px;width:100%;margin:0 auto;padding:0 15px}
+.smart-head .smart-head-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:9px;
+  width:100%;
+  max-width:none;
+  min-height:58px;
+  margin:0;
+  padding:calc(6px + env(safe-area-inset-top)) 0 8px;
+  color:#f5efda;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  transform:none;
+}
+.smart-head .smart-head-content.ex-top{min-height:58px}
+.smart-head .ex-appmark{
+  display:flex;align-items:center;gap:9px;min-width:0;flex:1;
+}
+.smart-head .ex-badge{
+  width:34px;height:34px;flex:0 0 34px;
+  font-size:18px;border-radius:10px;box-shadow:none;
+}
+.smart-head .ex-appmark>div{flex:1;min-width:0}
+.smart-head .ex-appmark strong{
+  display:block;font-size:17px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.smart-head .ex-appmark small{
+  display:block;font-size:10px;letter-spacing:0;
+  line-height:1.4;margin-top:2px;color:#d6b978;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.smart-head .ex-top-action,.smart-head .smart-head-top{
+  display:grid;place-items:center;
+  width:44px;height:44px;flex:0 0 44px;
+  min-width:44px;min-height:44px;
+  padding:0;
+  background:#143c31;border:1px solid #507159;
+  border-radius:12px;color:#edce86;
+}
+.smart-head .smart-head-top{font-size:25px;font-weight:650}
+.smart-head .ex-backhead{font-size:15px;min-height:58px;line-height:1.35}
+.smart-head .ex-backhead>button{
+  min-width:44px;min-height:44px;flex:0 0 44px;
+  display:grid;place-items:center;
+  border:1px solid #4a6d56;border-radius:12px;
+  background:#143b30;color:#efdbaf;
+}
+.smart-head .ex-backhead>span:not(:last-child){
+  flex:1;text-align:center;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.smart-head .ex-backhead>span:last-child{font-size:22px}
+.smart-head .v2-simple-header{
+  height:auto;font-size:14px;line-height:1.4;
+}
+.smart-head .v2-back{
+  min-width:44px;min-height:44px;width:44px;height:44px;flex:0 0 44px;
+  background:#143b30;color:#f4e6c6;border-color:#52745f;
+}
+.smart-head .v2-simple-header>div{
+  flex:1;min-width:0;text-align:center;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.smart-head .v2-header-moon{color:#ddbf7a;flex:0 0 30px}
+.smart-head .header{min-height:58px}
+.smart-head .brand{min-width:0;flex:1;gap:9px}
+.smart-head .brand-mark{
+  width:35px;height:35px;flex:0 0 35px;
+  background:#1b4837;color:#e4d6a6;font-size:20px;box-shadow:none;
+}
+.smart-head .brand-name{font-size:17px;color:#f5efda}
+.smart-head .brand-sub{font-size:10px;color:#d0bc86}
+.smart-head .smallpill{
+  background:#184032;border-color:#4e6c53;color:#e1d7b3;
+  padding:7px 9px;font-size:11px;flex:0 0 auto;
+}
+.smart-head .salah-head{min-height:58px}
+.smart-head .salah-head>button{
+  min-width:44px;min-height:44px;width:44px;height:44px;flex:0 0 44px;
+  border-radius:12px;font-size:23px;
+}
+.smart-head .salah-head strong{font-size:15px;line-height:1.35}
+.smart-head .salah-head small{font-size:10px}
+.smart-head .salah-head>span{width:24px;font-size:21px}
+.smart-head :where(button,a):focus-visible{
+  outline:3px solid #f4d98f!important;outline-offset:2px!important;
+}
+@media(max-width:360px){
+  .smart-head-inner{padding:0 10px}
+  .smart-head .smart-head-content{gap:6px}
+  .smart-head .ex-appmark{gap:7px}
+  .smart-head .ex-appmark strong{font-size:16px}
+  .smart-head .ex-badge{height:32px;width:32px;flex-basis:32px}
+  .smart-head .smallpill{font-size:10px;padding:6px}
+}
+@media(min-width:768px){
+  .smart-head{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .smart-head,.smart-head.is-visible{transition:none!important}
+}

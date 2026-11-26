@@ -1,0 +1,61 @@
+name: Smart mobile scroll header
+on:
+  pull_request:
+    paths:
+      - 'smart-header.js'
+      - 'smart-header.css'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/smart-header.mjs'
+      - 'tests/smart-header.spec.mjs'
+      - '.github/workflows/smart-header.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'smart-header.js'
+      - 'smart-header.css'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/smart-header.mjs'
+      - 'tests/smart-header.spec.mjs'
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run smart header and existing UX regression tests
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/smart-header.mjs
+  mobile-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start local app server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-smart-header.log 2>&1 &
+          sleep 2
+      - name: Check smart header, Quran and Dua mobile navigation
+        run: npx playwright test tests/smart-header.spec.mjs tests/quran-compact.spec.mjs tests/dua-compact.spec.mjs --reporter=line
+      - name: Save failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-header-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore

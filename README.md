@@ -128,3 +128,15 @@ The Dua collection now uses a focused, space-efficient header consistent with th
 Implementation: `dua-compact.js`, `dua-compact.css`, loaded after other existing app modules. PWA cache `dubai-dhikr-v11.3.2`. No localStorage keys or record formats changed.
 
 QA: `node --test tests/dua-compact.mjs` and Playwright `tests/dua-compact.spec.mjs`, together with previous Quran, mobile and recovery suites.
+
+## Smart Mobile Header — scroll direction controls (v11.3.3)
+
+- On phone-sized screens (up to 767 CSS px), the app's existing page header stays in its normal position near the top. After scrolling past the header, a compact fixed version slides into view **when scrolling upward**; it disappears again **when scrolling downward**.
+- The overlay preserves the active screen's existing back/settings controls; for the primary app header it also provides an accessible **back to top** button. The existing five-tab bottom navigation remains unchanged.
+- Home, Namaz, Qur'an, Dua, More, History, Settings, daily practice and applicable prayer-guidance pages can reuse their current header content without changing their original page components.
+- It is deliberately hidden for full-screen readers, while the user is typing in a search field, or while a recovery/location/dialog modal is open. It is not shown on desktop sizes.
+- The overlay does not occupy document layout space or change scroll position. Input focus and the primary app controls are retained. Safe-area padding, 44px controls, reduced-motion preferences and focus visibility are supported.
+- New isolated files are `smart-header.js` and `smart-header.css`, loaded last after all current rendering modules. PWA cache: `dubai-dhikr-v11.3.3`.
+- Automated checks cover mobile scrolling up/down, active navigation, reader exclusion, iPhone-sized viewports and existing Quran/Dua interactions.
+
+No change to on-device counts, saved records, prayer timing, prayer content, reader storage or backup formats.
