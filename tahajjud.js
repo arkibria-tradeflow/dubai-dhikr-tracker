@@ -43,7 +43,7 @@ function nClean(raw){const data={nights:{}};if(!raw||typeof raw!=='object')retur
 }
 let nightDb=nClean(safeRead(NIGHT_STORAGE,{nights:{}}));
 let nightTab='steps',nightReadType=null,nightReadId=null,nightReadOrigin='duas',nightNotice=false;
-function nightSave(){safeWrite(NIGHT_STORAGE,nightDb)}
+function nightSave(){return safeWrite(NIGHT_STORAGE,nightDb)}
 function shiftDate(date,n){const [y,m,d]=date.split('-').map(Number);return new Date(Date.UTC(y,m-1,d+n)).toISOString().slice(0,10)}
 function nightWindow(){const p=dayInfo(),today=p.day, t=p.tm,nightAfterIsha=validTimes(t)&&p.now>=minutes(t.Isha),beforeFajr=validTimes(t)&&p.now<minutes(t.Fajr);
  const active=nightAfterIsha||beforeFajr;const date=beforeFajr?shiftDate(today,-1):today;const start=times[date]||null;const end=times[shiftDate(date,1)]||null;
@@ -52,7 +52,18 @@ function nightWindow(){const p=dayInfo(),today=p.day, t=p.tm,nightAfterIsha=vali
  return {active,date,lastThird,nextFajr:beforeFajr?t?.Fajr:end?.Fajr,isha:start?.Isha,source:start?.source||t?.source||null};
 }
 function nightRecord(date){return nightDb.nights[date]||{rakaat:0,witr:false,duas:[],surahs:[],updatedAt:null}}
-function nightMutate(fn){const w=nightWindow();if(!w.active){toast('তাহাজ্জুদের রেকর্ড এশার পর থেকে ফজরের আগে খোলা থাকবে');return false}let rec=nightDb.nights[w.date];if(!rec)rec=nightDb.nights[w.date]={rakaat:0,witr:false,duas:[],surahs:[]};fn(rec);rec.updatedAt=new Date().toISOString();nightSave();return true}
+function nightMutate(fn){
+ const w=nightWindow();
+ if(!w.active){toast('তাহাজ্জুদের রেকর্ড এশার পর থেকে ফজরের আগে খোলা থাকবে');return false}
+ const current=nightRecord(w.date);
+ const rec={...current,duas:[...(current.duas||[])],surahs:[...(current.surahs||[])]};
+ fn(rec);
+ rec.updatedAt=new Date().toISOString();
+ const next={...nightDb,nights:{...nightDb.nights,[w.date]:rec}};
+ if(!safeWrite(NIGHT_STORAGE,next))return false;
+ nightDb=next;
+ return true;
+}
 function nReaderParagraphs(s){return String(s||'').split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('')}
 function nSectionTabs(){return `<div class="nt-tabs" role="tablist" aria-label="তাহাজ্জুদ বিভাগ">${[['steps','নামাজ'],['duas','দোয়া ও আমল'],['surahs','১০টি সুরা']].map(([id,label])=>`<button role="tab" class="${nightTab===id?'on':''}" aria-selected="${nightTab===id}" data-night="tab" data-tab="${id}">${label}</button>`).join('')}</div>`}
 function renderNight(){const w=nightWindow(),record=nightRecord(w.date);
