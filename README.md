@@ -114,3 +114,17 @@ Backup and restore now have an explicit local-device safety workflow:
 - Search and surah list begin substantially higher on mobile. Phone-width browser checks ensure the first available surah is visible above the bottom navigation on 320px, 375px and 430px screens.
 - Scoped CSS in `quran-compact.css` affects **only** the Qur'an catalogue; the Home, Dua, Namaz and reading screens retain their styling.
 - Versioned catalogue script `v9-native-links.js?v=9.2.0` and PWA cache `dubai-dhikr-v11.3.1` deliver the update without uninstalling the app or clearing records.
+
+## Dua Library compact layout (v11.3.2)
+
+The Dua collection now uses a focused, space-efficient header consistent with the updated Qur'an catalogue:
+- Smaller brand header and one clearly labeled Bengali title, without the redundant English kicker or decorative promotional card
+- Compact total Dua count, and a separate contextual count of how many readings were marked as read today
+- Search by Bengali Dua title, topic or citation (including Bengali digits), with an empty-results message and input focus retained
+- Readable swipeable topic filters with selected state and keyboard focus preservation when changing topics
+- Faster access to the first Dua card, consistent 44px filter tap targets and mobile layouts at 320/375/430 CSS pixels
+- Existing `data-exp="dua-open"` and `data-exp="dua-filter"` action paths remain unchanged; no modification to the reader, sources, completion records or other screens
+
+Implementation: `dua-compact.js`, `dua-compact.css`, loaded after other existing app modules. PWA cache `dubai-dhikr-v11.3.2`. No localStorage keys or record formats changed.
+
+QA: `node --test tests/dua-compact.mjs` and Playwright `tests/dua-compact.spec.mjs`, together with previous Quran, mobile and recovery suites.
