@@ -134,7 +134,7 @@
     target.classList.remove('arabic','large');
     target.innerHTML='<article class="uv-verses" aria-label="সুরার আয়াতসমূহ">'+
       basmala()+
-      rows.map((r,i)=>'<section class="uv-ayah" id="uv-ayah-'+(i+1)+'" aria-label="আয়াত '+numberBN(i+1)+'">'+
+      rows.map((r,i)=>'<section class="verse uv-ayah" id="uv-ayah-'+(i+1)+'" aria-label="আয়াত '+numberBN(i+1)+'">'+
         '<span class="uv-ayah-number" aria-hidden="true">'+numberBN(i+1)+'</span>'+
         '<div class="uv-ayah-text">'+readableLayers(r)+'</div></section>').join('')+
       '<p class="uv-endnote">সুরার '+numberBN(rows.length)+'টি আয়াত</p></article>';
