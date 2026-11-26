@@ -53,7 +53,7 @@ test('search understands new topic aliases without showing empty categories',asy
   await input.fill('আত্মশুদ্ধি');
   await expect(page.locator('.dc-dua-row:visible')).toHaveCount(1);
   await expect(page.locator('.dc-dua-row:visible')).toContainText('ইস্তিগফার');
-  await input.fill('পরীক্ষা');
+  await input.fill('পড়াশোনা');
   await expect(page.locator('.dc-dua-row:visible')).toHaveCount(1);
   await expect(page.locator('.dc-dua-row:visible')).toContainText('সঠিক জ্ঞান');
   await input.fill('হজ');
