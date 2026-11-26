@@ -171,3 +171,11 @@ Files: `reader.html`, `quran-unified-reader.js`, `quran-unified-reader.css`, plu
 Based on the latest iPhone screenshot, the three Arabic / pronunciation / meaning toggles no longer look like large green buttons. Both selected and unselected labels are now **fully transparent**, with **no card border or filled background**. Only the small native checkboxes and discreet Bengali labels remain. The group itself also has no background fill.
 
 The 44px tap areas, independent selections, saved choices, ayah rendering, font controls, and the three-button footer are unchanged. Versioned CSS and PWA cache were refreshed without altering records. Regression checks verify computed transparent backgrounds and zero borders on both checkbox states at 320px, 375px and 430px mobile widths.
+
+## Qur'an reader horizontal gutters (v11.4.3)
+
+An iPhone screenshot exposed a selector mismatch: the unified reader emitted `class="uv-verses"`, while the intended left/right padding CSS targeted `.verses.uv-verses`. Consequently, the ayah number and Arabic could touch the phone edges despite passing wrapping checks.
+
+The reader now emits `class="verses uv-verses"` and enforces an actual **20–30 CSS-pixel inset on both sides** of the full reading area, including Arabic, Bengali pronunciation, meaning, Bismillah and the verse number column. RTL line wrapping and existing individual long-ayah font fitting are preserved. The checkbox controls, bottom navigation, Qur'an content and saved data are unchanged.
+
+New Chromium tests measure computed margins and each rendered row at 320px, 375px and 430px widths, both with all text layers visible and Arabic-only, plus 40 long online ayahs. PWA cache: `dubai-dhikr-v11.4.3`.
