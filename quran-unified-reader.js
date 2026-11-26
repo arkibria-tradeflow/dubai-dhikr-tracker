@@ -167,7 +167,7 @@
     if(!isValid(rows))return;
     const place=preserve?anchor():null;
     target.classList.remove('arabic','large');
-    target.innerHTML='<article class="uv-verses" aria-label="সুরার আয়াতসমূহ">'+
+    target.innerHTML='<article class="verses uv-verses" aria-label="সুরার আয়াতসমূহ">'+
       basmala()+
       rows.map((r,i)=>'<section class="verse uv-ayah" id="uv-ayah-'+(i+1)+'" aria-label="আয়াত '+numberBN(i+1)+'">'+
         '<span class="uv-ayah-number" aria-hidden="true">'+numberBN(i+1)+'</span>'+
