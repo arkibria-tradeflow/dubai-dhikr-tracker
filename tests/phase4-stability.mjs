@@ -95,5 +95,5 @@ test('PWA and index include stable clock script',()=>{
   assert.match(index,/app\.js\?v=9\.0\.\d+/);
   assert.match(index,/location-prayers\.js\?v=10\.9\.1/);
   assert.match(worker,/'\.\/phase4-stability\.js'/);
-  assert.match(worker,/dubai-dhikr-v11\.\d+\.0/);
+  assert.match(worker,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
 });
