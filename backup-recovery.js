@@ -36,7 +36,7 @@
     return counts(data).map(item=>'<div class="bk-stat"><span>'+item[0]+'</span><strong>'+bn(item[1])+' <small>'+item[2]+'</small></strong></div>').join('');
   }
   function downloadBackup(){
-    if(txn?.isBlocked()){toast('আগের রেকর্ড উদ্ধার অসম্পূর্ণ। প্রথমে স্টোরেজ সমস্যা সমাধান করুন।');return false}
+    if(txn?.isBlocked())toast('রেকর্ড উদ্ধার অসম্পূর্ণ—ডাউনলোডের ফাইলে আংশিক তথ্য থাকতে পারে।');
     try{
       const blob=new Blob([JSON.stringify(bundle(),null,2)],{type:'application/json'});
       const url=URL.createObjectURL(blob);
@@ -88,7 +88,7 @@
   }
   function modal(type,contents){
     if(txn?.isBlocked()){toast('রেকর্ড উদ্ধার অসম্পূর্ণ। এখন প্রতিস্থাপন বা মুছবেন না।');return}
-    if(host)hide();
+    if(host){host.remove();host=null;document.body.classList.remove('bk-dialog-open')}
     returnFocus=document.activeElement;
     host=document.createElement('div');
     host.className='bk-overlay';
