@@ -382,3 +382,25 @@
   .reader .uv-footer #prev,
   .reader .uv-footer #next{font-size:11px}
 }
+
+/* v11.4.3 — Real reading gutters. The rendered article now includes the
+   legacy 'verses' class, so this selector matches the DOM on iPhone Safari.
+   Keep Arabic, Bengali pronunciation, meaning and ayah numbers all inside
+   the same padded column rather than against the screen edges. */
+.reader #readerBody{width:100%;min-width:0}
+.reader #readerBody .verses.uv-verses{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  max-width:680px;
+  margin-inline:auto;
+  padding:7px clamp(20px,5.3vw,30px) 22px;
+}
+.reader #readerBody .verses.uv-verses .uv-ayah{
+  max-width:100%;
+  min-width:0;
+}
+.reader #readerBody .verses.uv-verses .uv-ayah-text{
+  max-width:100%;
+  min-width:0;
+}
