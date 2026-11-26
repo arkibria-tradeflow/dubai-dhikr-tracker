@@ -1,0 +1,65 @@
+name: Phase 4 A3 — Backup & Recovery
+on:
+  pull_request:
+    paths:
+      - 'backup-journal.js'
+      - 'backup-recovery.js'
+      - 'backup-recovery.css'
+      - 'experience.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/phase4-backup.mjs'
+      - 'tests/phase4-backup.spec.mjs'
+      - '.github/workflows/phase4-a3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backup-journal.js'
+      - 'backup-recovery.js'
+      - 'backup-recovery.css'
+      - 'experience.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/phase4-backup.mjs'
+      - 'tests/phase4-backup.spec.mjs'
+jobs:
+  source-and-recovery:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: All code and rollback regression tests
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs
+  mobile-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Serve app
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-a3-server.log 2>&1 &
+          sleep 2
+      - name: Full mobile regression and recovery flows
+        run: npx playwright test tests/phase3-mobile.spec.mjs tests/phase4-stability.spec.mjs tests/phase4-counter.spec.mjs tests/phase4-backup.spec.mjs --reporter=line
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-a3-failure
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore
