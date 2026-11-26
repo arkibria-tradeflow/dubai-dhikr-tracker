@@ -179,3 +179,17 @@ An iPhone screenshot exposed a selector mismatch: the unified reader emitted `cl
 The reader now emits `class="verses uv-verses"` and enforces an actual **20–30 CSS-pixel inset on both sides** of the full reading area, including Arabic, Bengali pronunciation, meaning, Bismillah and the verse number column. RTL line wrapping and existing individual long-ayah font fitting are preserved. The checkbox controls, bottom navigation, Qur'an content and saved data are unchanged.
 
 New Chromium tests measure computed margins and each rendered row at 320px, 375px and 430px widths, both with all text layers visible and Arabic-only, plus 40 long online ayahs. PWA cache: `dubai-dhikr-v11.4.3`.
+
+
+## Dua Library expansion — Phase 1 foundation (v11.5.0)
+
+- Established **20 top-level Bengali life-topic categories** with subtopics in the new **dua-catalog.js** module. Empty categories are intentionally not advertised as populated on the live UI.
+- Mapped all **11 original Dua IDs** to the new taxonomy and topic tags. Original text, citations, user activity records, exports, reader and existing five legacy category chips remain intact.
+- Every entry now has structured source classification (Qur'an/Hadith/dhikr/personal), citation scope, nullable Arabic and an internal **pending-review** editorial status. No source is automatically certified as independently verified.
+- Existing search understands extra topic synonyms. A new category directory and redesigned reader are reserved for Phase 2 and Phase 3.
+- Added **docs/dua-editorial-playbook.md** and **docs/dua-entry-template.json** for reviewed source onboarding. Neither invents nor publishes new sacred wording.
+- New validation guards against duplicate IDs, invalid categories, invented Arabic for personal Bengali wording, unsupported repetition counts and premature source-verification claims.
+- Node and Chromium tests cover all 20 categories, 11 stable IDs, topic search, saved records and existing reader compatibility.
+- The PWA cache advances to **dubai-dhikr-v11.5.0**. Existing localStorage keys and backup formats are unchanged.
+
+**Next:** The proposed 100+ Dua target requires independent source verification and phased publication. Phase 1 adds no new devotional text and makes no blanket authenticity claims.
