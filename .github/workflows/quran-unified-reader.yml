@@ -9,6 +9,8 @@ on:
       - 'sw.js'
       - 'tests/quran-unified-reader.mjs'
       - 'tests/quran-unified-reader.spec.mjs'
+      - 'tests/quran-reader-compact.mjs'
+      - 'tests/quran-reader-compact.spec.mjs'
       - 'tests/smart-header.mjs'
       - '.github/workflows/quran-unified-reader.yml'
   push:
@@ -21,6 +23,8 @@ on:
       - 'sw.js'
       - 'tests/quran-unified-reader.mjs'
       - 'tests/quran-unified-reader.spec.mjs'
+      - 'tests/quran-reader-compact.mjs'
+      - 'tests/quran-reader-compact.spec.mjs'
 jobs:
   regressions:
     runs-on: ubuntu-latest
@@ -32,7 +36,7 @@ jobs:
         with:
           node-version: '22'
       - name: Run Quran and existing source regression checks
-        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/smart-header.mjs tests/quran-unified-reader.mjs
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/smart-header.mjs tests/quran-unified-reader.mjs tests/quran-reader-compact.mjs
   mobile-chromium:
     runs-on: ubuntu-24.04
     timeout-minutes: 17
@@ -52,7 +56,7 @@ jobs:
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-unified-reader.log 2>&1 &
           sleep 2
       - name: Verify verse-by-verse reader and existing mobile paths
-        run: npx playwright test tests/quran-unified-reader.spec.mjs tests/phase3-mobile.spec.mjs tests/quran-compact.spec.mjs --reporter=line
+        run: npx playwright test tests/quran-unified-reader.spec.mjs tests/quran-reader-compact.spec.mjs tests/phase3-mobile.spec.mjs tests/quran-compact.spec.mjs --reporter=line
       - name: Upload browser failures
         if: failure()
         uses: actions/upload-artifact@v4

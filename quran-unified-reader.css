@@ -200,3 +200,182 @@
 @media(prefers-reduced-motion:reduce){
   .uv-ayah,.uv-size-controls button{transition:none!important}
 }
+
+/* v11.4.1: calm, compact controls and strictly bounded mobile verse columns. */
+.reader .top{
+  min-height:54px;
+  padding:calc(4px + env(safe-area-inset-top)) 9px 5px;
+  gap:7px;
+}
+.reader .top .heading strong{font-size:15.5px;line-height:1.3}
+.reader .top .heading small{font-size:10.5px;line-height:1.35}
+.reader .back{
+  border:1px solid #496957;
+  background:#14372c;
+  color:#e3c888;
+  font-size:20px;
+  border-radius:11px;
+}
+.reader .uv-size-controls{
+  gap:0;
+  padding:0 2px;
+  background:#123427;
+  border-color:#47654f;
+  border-radius:11px;
+}
+.reader .uv-size-controls button{
+  font-size:12px;
+  font-weight:750;
+  color:#e3c78b;
+}
+.reader .modes.uv-options{
+  padding:2px 9px 3px;
+  gap:4px;
+  background:#09271f;
+  border-bottom-color:#315343;
+}
+.reader .uv-options label{
+  min-height:44px;
+  gap:6px;
+  padding:3px 6px;
+  font-size:12px;
+  font-weight:650;
+  line-height:1.3;
+  border:1px solid transparent;
+  border-radius:9px;
+  color:#b9cbbb;
+  background:transparent;
+}
+.reader .uv-options label.uv-checked{
+  color:#ecdfb7;
+  border-color:#496b50;
+  background:#244637;
+  box-shadow:none;
+}
+.reader .uv-options input{
+  width:15px;
+  height:15px;
+  flex:0 0 15px;
+  accent-color:#dec486;
+}
+.reader .verses.uv-verses{
+  width:100%;
+  max-width:680px;
+  min-width:0;
+  margin:0 auto;
+  padding:6px 12px 18px;
+}
+.reader .uv-basmala{
+  padding:3px 0 8px;
+  margin:0;
+  border-bottom:1px solid #315143;
+}
+.reader .uv-basmala p{
+  margin:1px 0;
+  line-height:1.5;
+  font-size:calc(13px + var(--uv-bn-offset,0px));
+}
+.reader .uv-basmala p[lang="ar"]{
+  font-size:calc(21px + var(--uv-ar-offset,0px));
+  line-height:1.8;
+}
+.reader .uv-basmala p:not([lang="ar"]):last-child{
+  font-size:calc(12px + var(--uv-meaning-offset,0px));
+}
+.reader .verse.uv-ayah{
+  display:grid;
+  grid-template-columns:25px minmax(0,1fr);
+  align-items:start;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  direction:ltr;
+  gap:9px;
+  padding:11px 0 12px;
+  margin:0;
+  border-bottom:1px solid #315143;
+  box-sizing:border-box;
+}
+.reader .uv-ayah-number{
+  width:25px;
+  height:25px;
+  min-width:25px;
+  margin-top:5px;
+  font-size:11px;
+}
+.reader .uv-ayah-text{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  gap:5px;
+}
+.reader .uv-ayah-text>p{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  margin:0;
+  padding:0;
+  text-indent:0;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:none;
+}
+.reader .uv-arabic{
+  font-size:clamp(22px,calc(26px + var(--uv-ar-offset,0px)),36px);
+  line-height:1.78;
+  font-weight:400;
+  direction:rtl;
+  text-align:right;
+  unicode-bidi:isolate;
+  letter-spacing:0;
+}
+.reader .uv-pron{
+  font-size:clamp(14px,calc(17px + var(--uv-bn-offset,0px)),23px);
+  line-height:1.55;
+}
+.reader .uv-meaning{
+  font-size:clamp(12.5px,calc(14.5px + var(--uv-meaning-offset,0px)),20px);
+  line-height:1.58;
+}
+.reader .uv-endnote{margin:16px 0 7px}
+.reader .footer.phase1-footer.uv-footer{
+  gap:5px;
+  padding:5px 8px max(6px,calc(5px + env(safe-area-inset-bottom)));
+  border-top-color:#3e5f4d;
+  background:#08251e;
+}
+.reader .uv-footer .reader-complete,
+.reader .uv-footer #prev,
+.reader .uv-footer #next{
+  min-height:44px;
+  padding:5px 4px;
+  font-size:11.5px;
+  line-height:1.3;
+  border-radius:10px;
+  box-shadow:none;
+}
+.reader .uv-footer .reader-complete{
+  background:#176d50;
+  border:1px solid #5da583;
+  color:#f5f6e7;
+}
+.reader .uv-footer #prev{background:#112e25;border-color:#86754f;color:#e1c993}
+.reader .uv-footer #next{background:#165a43;border-color:#589d79;color:#f1f9ec}
+@media(max-width:355px){
+  .reader .top{padding-inline:7px;gap:4px}
+  .reader .top .heading strong{font-size:14px}
+  .reader .top .heading small{font-size:10px}
+  .reader .verses.uv-verses{padding-inline:9px}
+  .reader .verse.uv-ayah{grid-template-columns:23px minmax(0,1fr);gap:7px}
+  .reader .uv-ayah-number{width:23px;height:23px;min-width:23px}
+  .reader .uv-options label{font-size:11.5px;padding:3px 3px;gap:4px}
+  .reader .uv-footer .reader-complete,
+  .reader .uv-footer #prev,
+  .reader .uv-footer #next{font-size:11px}
+}

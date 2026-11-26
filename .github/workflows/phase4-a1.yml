@@ -44,6 +44,14 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save @playwright/test@1.56.1
+      - name: Ignore unrelated Microsoft apt mirror outages
+        run: |
+          for file in /etc/apt/sources.list.d/*; do
+            [ -f "$file" ] || continue
+            if grep -q 'packages.microsoft.com' "$file"; then
+              sudo mv "$file" "$file.disabled"
+            fi
+          done
       - run: npx playwright install --with-deps chromium
       - name: Start test server
         run: |
