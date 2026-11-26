@@ -170,6 +170,8 @@
       return {valid:false,issues:['A candidate must be a structured Dua record.']};
     if(typeof record.id!=='string'||!(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).test(record.id))
       issues.push('Stable slug ID is required.');
+    if(entryById.has(record.id))
+      issues.push('Dua ID already exists; preserve its canonical record instead of duplicating it.');
     if(typeof record.title!=='string'||record.title.trim().length<3)
       issues.push('A meaningful title is required.');
     if(!categoryById.has(record.primaryCategory))
@@ -202,6 +204,9 @@
       issues.push('Unrecognized editorial status.');
     const publication=record.editorial?.status==='verified'||record.editorial?.status==='published';
     if(publication){
+      if(record.source?.kind!=='personal'&&
+        (typeof record.text?.arabic!=='string'||!record.text.arabic.trim()))
+        issues.push('Sourced Arabic/Hadith entries require checked Arabic text before verification or publication.');
       const fields=['sourceChecked','wordingChecked','pronunciationChecked','meaningChecked'];
       if(fields.some(key=>record.editorial[key]!==true)||
         typeof record.editorial.reviewer!=='string'||!record.editorial.reviewer.trim()||
