@@ -140,3 +140,15 @@ QA: `node --test tests/dua-compact.mjs` and Playwright `tests/dua-compact.spec.m
 - Automated checks cover mobile scrolling up/down, active navigation, reader exclusion, iPhone-sized viewports and existing Quran/Dua interactions.
 
 No change to on-device counts, saved records, prayer timing, prayer content, reader storage or backup formats.
+
+## Unified Qur'an verse reader (v11.4.0)
+
+The stand-alone `reader.html` now renders each ayah as a **single vertically stacked reading block** in its natural order: Arabic (right-to-left), verified Bengali-script pronunciation and Bengali meaning. Arabic, pronunciation and meaning are three **independently selectable checkboxes**; at least one layer stays selected. The choices are saved locally for subsequent surahs.
+
+- The small top-right font controls **A− / A+** support five presets, including **two sizes smaller** than the default. The previous larger-font setting is honored on first use. Font and content toggles preserve the visible ayah position rather than moving to the beginning.
+- The bottom dock keeps **Previous / Save / Next on a single row** above the device's safe area. Saving remains explicit, retains the selected prayer-location timezone and does not happen merely by navigating to another surah.
+- The floating page scroll arrows are hidden; the reader uses natural touch scrolling and keeps the existing Back link and supported-surah navigation.
+- Offline surahs retain the matching source arrays for all three layers. The online 20-surah reader still sources Arabic and Bengali meaning from the existing API and Bengali pronunciation only from the verified local pronunciation files. If pronunciation cannot be verified, its checkbox is disabled, an explanation appears, and Arabic + meaning remain readable. No guessed pronunciation is generated.
+- No changes to Qur'an content, existing completion records, other activity counters, import/export formats or app navigation. New preferences are isolated under `dhikr_dubai_reader_views_v1` and `dhikr_dubai_reader_size_v4`.
+- Files: `quran-unified-reader.js`, `quran-unified-reader.css` and small compatibility changes to `reader.html` and `reader-phase1.js`. PWA cache `dubai-dhikr-v11.4.0`.
+- Automated tests check verse alignment, selected layer combinations, five text sizes, mobile widths, a single-row footer, current progress, saved state and online pronunciation failure. Device-specific iPhone Safari/VoiceOver review remains necessary.

@@ -48,7 +48,7 @@
   let readable=!online||!!document.querySelector('#readerBody .verses');
   function paint(){
     const done=isComplete();
-    complete.textContent=done?'✓ আজ পড়েছেন':readable?'✓ পড়া শেষ — সেভ করুন':'পাঠ লোড হচ্ছে…';
+    complete.textContent=done?'✓ আজ পড়েছেন':readable?'✓ সেভ করুন':'লোড হচ্ছে…';
     complete.disabled=done||!readable;
     complete.setAttribute('aria-label',done?'আজ এই সুরা পড়েছেন':readable?'এই সুরার পাঠ সম্পন্ন হিসেবে সংরক্ষণ করুন':'পাঠ লোড হলে সেভ করা যাবে');
     status.textContent='';
