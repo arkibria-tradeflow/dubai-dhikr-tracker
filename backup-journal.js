@@ -23,6 +23,7 @@
   function restore(before){
     if(!validMap(before))throw Error('Invalid backup rollback snapshot');
     for(const key of KEYS){
+      if(localStorage.getItem(key)===before[key])continue;
       if(before[key]===null)localStorage.removeItem(key);
       else localStorage.setItem(key,before[key]);
       if(localStorage.getItem(key)!==before[key])throw Error('Rollback verification failed');
