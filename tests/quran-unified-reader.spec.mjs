@@ -56,7 +56,7 @@ test('independent checkboxes never hide all three reading layers',async({page})=
   await expect(page.locator('.uv-meaning')).toHaveCount(4);
   await meaning.uncheck();
   await expect(page.locator('.uv-meaning')).toHaveCount(0);
-  await ar.uncheck();
+  await ar.click(); // Last visible layer must stay selected.
   await expect(ar).toBeChecked();
   await pron.check();
   await expect(page.locator('.uv-pron')).toHaveCount(4);
