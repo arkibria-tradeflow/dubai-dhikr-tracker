@@ -91,11 +91,16 @@ async function updateTimes(){if(loading)return;loading=true;err='';if(screen!=='
 function countChange(id,delta){
  const info=dayInfo();if(!unlocked(prayer,info)){toast('এই নামাজের সময় এখনো শুরু হয়নি');cancelFinish();screen='today';render();return}
  const d=STEPS.find(x=>x.id===id);if(!d||!stepsFor(prayer).includes(d))return;
- const k=keyFor(info.day,prayer);if(!db.sessions[k])db.sessions[k]={items:{}};
- const session=db.sessions[k],x=session.items[id]||{count:0,completedAt:null},max=target(d,prayer),previous=Number(x.count)||0;
+ const k=keyFor(info.day,prayer);
+ const existing=db.sessions[k]||{items:{}};
+ const x=(existing.items||{})[id]||{count:0,completedAt:null},max=target(d,prayer),previous=Number(x.count)||0;
  const cnt=Math.min(max,Math.max(0,previous+delta));if(previous===cnt)return;
- session.items[id]={count:cnt,updatedAt:new Date().toISOString(),completedAt:cnt===max?new Date().toISOString():null};
- if(!safeWrite(DATA_KEY,db))return;
+ // Prepare the next state without mutating the live counter. Commit only after storage succeeds.
+ const stamp=new Date().toISOString();
+ const proposed={...db,sessions:{...db.sessions,[k]:{...existing,items:{...(existing.items||{}),
+   [id]:{...x,count:cnt,updatedAt:stamp,completedAt:cnt===max?stamp:null}}}}};
+ if(!safeWrite(DATA_KEY,proposed))return;
+ db=proposed;
  if(navigator.vibrate&&delta>0)try{navigator.vibrate(cnt===max?40:12)}catch(e){}
  if(cnt===max&&previous<max&&delta>0&&screen==='focus'&&focusId===id){
    finishing=true;finishNext=nextUnfinished(prayer,id);const token=++finishToken;
@@ -126,7 +131,7 @@ function renderToday(){
  ${err?`<div class="errbox">${esc(err)} <button data-action="refresh">আবার চেষ্টা করুন</button></div>`:''}
  <div class="v2-home-note">${valid?'ওয়াক্ত শুরু হলে সেই নামাজের জিকির খুলবে। পরের নামাজ আগে থেকে খোলা যাবে না।':'সময়সূচি না পাওয়া পর্যন্ত ভবিষ্যৎ ওয়াক্ত বন্ধ থাকবে।'}<br><small>সময়: ${esc(i.tm?.source||'দুবাই গণনাভিত্তিক সময়')}</small></div>`;
 }
-function renderDua(d,idx,s,p){const n=itemCount(s,d),max=target(d,p),full=n>=max,opened=openId===d.id;return `<section class="dua ${opened?'open':''}"><button class="dua-head" data-action="expand" data-id="${d.id}" aria-expanded="${opened}"><span class="dua-n ${full?'complete':''}">${full?icon('check',15):bn(idx+1)}</span><div style="min-width:0;flex:1"><div class="dua-title">${esc(d.title)}</div><div class="dua-sub">${bn(max)} বার • ${full?'পড়া হয়েছে':n?`${bn(n)} / ${bn(max)} বার পড়েছেন`:'পড়তে ট্যাপ করুন'}</div></div><div class="dua-hright">${full?'✓ ':''}${icon('chevron',17).replace('width="17"','class="rot" width="17"')}</div></button>${opened?`<div class="dua-body"><div class="fieldlabel">বাংলা উচ্চারণ</div><div class="pron">${esc(d.pron)}</div><div class="extra"><div class="fieldlabel">আরবি</div><div class="arabic">${esc(d.arabic).replace(/\n/g,'<br>')}</div></div><div class="extra"><div class="fieldlabel">বাংলা অর্থ</div><div class="meaning">${esc(d.meaning)}</div></div><div class="count-wrap"><div><div class="count-text">পড়ার সংখ্যা</div><div class="count-num">${bn(n)} <span style="font-size:13px;color:#70907d">/ ${bn(max)}</span></div></div><div class="count-actions"><button class="count-button minus" data-action="adjust" data-id="${d.id}" data-delta="-1" ${n===0?'disabled':''} aria-label="একবার কমান">−</button><button class="count-button" data-action="adjust" data-id="${d.id}" data-delta="1" ${full?'disabled':''} aria-label="একবার গণনা করুন">${full?icon('check',18):'+'}</button></div></div><div class="count-foot">${max>1?'প্রতি বার পড়ার পর + চাপুন।':'পড়া শেষ হলে + চাপুন।'} প্রতিটি পরিবর্তন এই ডিভাইসে সেভ হবে।</div>${full?`<button class="single-btn complete" data-action="adjust" data-id="${d.id}" data-delta="-${max}">✓ পড়া হয়েছে — আবার শুরু করুন</button>`:''}</div>`:''}</section>`}
+function renderDua(d,idx,s,p){const n=itemCount(s,d),max=target(d,p),full=n>=max,opened=openId===d.id;return `<section class="dua ${opened?'open':''}"><button class="dua-head" data-action="expand" data-id="${d.id}" aria-expanded="${opened}"><span class="dua-n ${full?'complete':''}">${full?icon('check',15):bn(idx+1)}</span><div style="min-width:0;flex:1"><div class="dua-title">${esc(d.title)}</div><div class="dua-sub">${bn(max)} বার • ${full?'পড়া হয়েছে':n?`${bn(n)} / ${bn(max)} বার পড়েছেন`:'পড়তে ট্যাপ করুন'}</div></div><div class="dua-hright">${full?'✓ ':''}${icon('chevron',17).replace('width="17"','class="rot" width="17"')}</div></button>${opened?`<div class="dua-body"><div class="fieldlabel">বাংলা উচ্চারণ</div><div class="pron">${esc(d.pron)}</div><div class="extra"><div class="fieldlabel">আরবি</div><div class="arabic">${esc(d.arabic).replace(/\n/g,'<br>')}</div></div><div class="extra"><div class="fieldlabel">বাংলা অর্থ</div><div class="meaning">${esc(d.meaning)}</div></div><div class="count-wrap"><div><div class="count-text">পড়ার সংখ্যা</div><div class="count-num">${bn(n)} <span style="font-size:13px;color:#70907d">/ ${bn(max)}</span></div></div><div class="count-actions"><button class="count-button minus" data-action="adjust" data-id="${d.id}" data-delta="-1" ${n===0?'disabled':''} aria-label="একবার কমান">−</button><button class="count-button" data-action="adjust" data-id="${d.id}" data-delta="1" ${full?'disabled':''} aria-label="একবার গণনা করুন">${full?icon('check',18):'+'}</button></div></div><div class="count-foot">${max>1?'প্রতি বার পড়ার পর + চাপুন।':'পড়া শেষ হলে + চাপুন।'} প্রতিটি পরিবর্তন এই ডিভাইসে সেভ হবে।</div>${full?`<button class="single-btn complete" data-action="reset-dhikr" data-id="${d.id}">✓ পড়া হয়েছে — আবার শুরু করুন</button>`:''}</div>`:''}</section>`}
 function renderSession(){
  const info=dayInfo(),p=PRAYERS.find(p=>p.key===prayer);if(!unlocked(prayer,info)){screen='today';return renderToday()}
  const sess=sessionFor(info.day,prayer),steps=stepsFor(prayer),stats=sessionStats(info.day,prayer),first=firstUnfinished(prayer);
@@ -186,6 +191,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');
  else if(a==='focus-next'){const next=nextUnfinished(prayer,focusId);if(next)openFocus(next);else{focusId=null;screen='session';render()}}
  else if(a==='finish-next'){finishGo()}
  else if(a==='adjust'){countChange(b.dataset.id,Number(b.dataset.delta))}
+ else if(a==='reset-dhikr'){const d=STEPS.find(x=>x.id===b.dataset.id);if(d&&stepsFor(prayer).includes(d)&&confirm('এই যিকিরের সংরক্ষিত গণনা শূন্য করবেন?'))countChange(d.id,-target(d,prayer))}
  else if(a==='refresh'){updateTimes()}
  else if(a==='history-offset'){histOffset=Math.min(0,Math.max(-3650,histOffset+Number(b.dataset.delta)));render()}
  else if(a==='export'){dlBackup()}
