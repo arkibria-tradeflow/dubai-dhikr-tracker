@@ -24,7 +24,7 @@ async function open(page,tab='duas'){
 }
 async function scroll(page,to){
   await page.evaluate(y=>window.scrollTo(0,y),to);
-  await page.waitForTimeout(115);
+  await page.waitForTimeout(290); // Allow the 200 ms smart-header slide animation to settle.
 }
 for(const [width,height] of [[320,568],[375,812],[430,932]]){
   test('smart Dua header appears when scrolling UP, hides DOWN at '+width+'px',async({page})=>{
