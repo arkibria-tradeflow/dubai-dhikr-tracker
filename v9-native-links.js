@@ -23,6 +23,23 @@
         '<div '+attrs+' aria-disabled="true" aria-label="'+esc(title)+', পাঠ এখনো যুক্ত হয়নি">'+copy+'</div>';
     }).join('');
     let html=originalCatalog();
+    // Quran-only layout: keep the app controls, replace repeated headings and the
+    // oversized promotional banner with a compact title and real daily progress.
+    html=html.replace('<div class="ex-view">','<div class="ex-view qc-quran-page">')
+      .replace('THE HOLY QUR’AN','কুরআন লাইব্রেরি');
+    const start=html.indexOf('<span class="ex-kicker">✦ QUR’AN LIBRARY</span>');
+    const end=html.indexOf('<div class="ex-segment" role="tablist">',start);
+    if(start>=0&&end>start){
+      const completed=(qdb[dayInfo().day]||[]).length;
+      const compact='<section class="qc-intro" aria-labelledby="qc-title">'+
+        '<div class="qc-heading"><div class="qc-title-group">'+
+        '<h1 id="qc-title">আল-কুরআন</h1>'+
+        '<p>৩০টি সুরা উপলব্ধ <span aria-hidden="true">•</span> ১০টি অফলাইনে</p>'+
+        '</div><div class="qc-today" aria-label="আজ '+bn(completed)+'টি সুরা পড়েছেন">'+
+        '<span>আজ পড়েছেন</span><strong>'+bn(completed)+' <small>টি</small></strong></div></div>'+
+        '</section>';
+      html=html.slice(0,start)+compact+html.slice(end);
+    }
     const anchor=/<div class="ex-surah-list">[\s\S]*?<\/div>(?=<p id="ex-search-empty")/;
     if(!anchor.test(html))return html;
     html=html.replace(anchor,'<div class="ex-surah-list">'+rows+'</div>');
