@@ -79,3 +79,10 @@ test('patched asset URLs and PWA cache are available',()=>{
   assert.match(sw,/'\.\/quran-unified-reader\.css'/);
   assert.match(sw,/'\.\/quran-unified-reader\.js'/);
 });
+
+test('Quran layer options have zero filled backgrounds in checked and unchecked states',()=>{
+  assert.match(css,/\.reader \.modes\.uv-options\{[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\{[\s\S]*?border:0;[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\.uv-checked\{[\s\S]*?border:0;[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\{[\s\S]*?min-height:44px;/);
+});
