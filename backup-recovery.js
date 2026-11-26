@@ -185,8 +185,9 @@
   document.addEventListener('click',event=>{
     const button=event.target.closest('[data-bk]');
     if(!button||!host)return;
-    event.preventDefault();
     const action=button.dataset.bk;
+    if(action==='ack')return; // Let the native checkbox toggle and emit change.
+    event.preventDefault();
     if(action==='cancel')hide();
     else if(action==='export')downloadBackup();
     else if(action==='commit')doCommit();
