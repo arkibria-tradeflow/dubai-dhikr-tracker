@@ -73,9 +73,16 @@ test('checkbox and footer buttons are quieter and shorter, but still tappable',(
 });
 
 test('patched asset URLs and PWA cache are available',()=>{
-  assert.match(html,/quran-unified-reader\.css\?v=1\.0\.1/);
+  assert.match(html,/quran-unified-reader\.css\?v=1\.0\.2/);
   assert.match(html,/quran-unified-reader\.js\?v=1\.0\.1/);
-  assert.match(sw,/dubai-dhikr-v11\.4\.1/);
+  assert.match(sw,/dubai-dhikr-v11\.4\.2/);
   assert.match(sw,/'\.\/quran-unified-reader\.css'/);
   assert.match(sw,/'\.\/quran-unified-reader\.js'/);
+});
+
+test('Quran layer options have zero filled backgrounds in checked and unchecked states',()=>{
+  assert.match(css,/\.reader \.modes\.uv-options\{[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\{[\s\S]*?border:0;[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\.uv-checked\{[\s\S]*?border:0;[\s\S]*?background:transparent;/);
+  assert.match(css,/\.reader \.uv-options label\{[\s\S]*?min-height:44px;/);
 });

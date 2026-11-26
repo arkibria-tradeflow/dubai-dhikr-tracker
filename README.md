@@ -165,3 +165,9 @@ Following iPhone feedback, the stand-alone Qur'an reader has a tighter but acces
 - Tested at 320/375/430px Chromium viewports with a simulated very long Arabic ayah, duplicate-prefix case, normal offline surah, close navigation and compact three-action footer. Real iPhone Safari and VoiceOver review remains separately necessary.
 
 Files: `reader.html`, `quran-unified-reader.js`, `quran-unified-reader.css`, plus automated tests. PWA cache version `dubai-dhikr-v11.4.1`. Existing completion counts, backup format and language selection preferences are preserved.
+
+## Transparent Qur'an reader checkboxes (v11.4.2)
+
+Based on the latest iPhone screenshot, the three Arabic / pronunciation / meaning toggles no longer look like large green buttons. Both selected and unselected labels are now **fully transparent**, with **no card border or filled background**. Only the small native checkboxes and discreet Bengali labels remain. The group itself also has no background fill.
+
+The 44px tap areas, independent selections, saved choices, ayah rendering, font controls, and the three-button footer are unchanged. Versioned CSS and PWA cache were refreshed without altering records. Regression checks verify computed transparent backgrounds and zero borders on both checkbox states at 320px, 375px and 430px mobile widths.

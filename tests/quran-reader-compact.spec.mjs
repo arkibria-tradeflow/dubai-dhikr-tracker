@@ -159,3 +159,46 @@ test('long verse resizing remains local after changing reader font level',async(
   expect(metrics.longFont).toBeLessThan(metrics.shortFont);
   expect(metrics.noOverflow).toBe(true);
 });
+
+for(const width of [320,375,430]){
+  test('Quran display checkboxes have no background cards at '+width+'px',async({page})=>{
+    await showLocal(page,width,812);
+    const inputs=page.locator('.uv-options input[type="checkbox"]');
+    await expect(inputs).toHaveCount(3);
+    const appearance=await page.locator('.uv-options').evaluate(toolbar=>{
+      const labels=[...toolbar.querySelectorAll('label')];
+      return {
+        toolbarBackground:getComputedStyle(toolbar).backgroundColor,
+        options:labels.map(label=>{
+          const style=getComputedStyle(label);
+          const r=label.getBoundingClientRect();
+          return {
+            background:style.backgroundColor,
+            borderTop:style.borderTopWidth,
+            borderBottom:style.borderBottomWidth,
+            height:r.height,
+            checked:label.querySelector('input').checked
+          };
+        })
+      };
+    });
+    expect(appearance.toolbarBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(appearance.options).toHaveLength(3);
+    for(const option of appearance.options){
+      expect(option.background).toBe('rgba(0, 0, 0, 0)');
+      expect(option.borderTop).toBe('0px');
+      expect(option.borderBottom).toBe('0px');
+      expect(option.height).toBeGreaterThanOrEqual(44);
+      expect(option.checked).toBe(true);
+    }
+    await inputs.nth(1).uncheck();
+    await expect(inputs.nth(1)).not.toBeChecked();
+    const unchecked=await page.locator('.uv-options label').nth(1).evaluate(label=>({
+      background:getComputedStyle(label).backgroundColor,
+      border:getComputedStyle(label).borderTopWidth
+    }));
+    expect(unchecked).toEqual({background:'rgba(0, 0, 0, 0)',border:'0px'});
+    await inputs.nth(1).check();
+    await expect(inputs.nth(1)).toBeChecked();
+  });
+}

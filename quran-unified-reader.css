@@ -228,35 +228,38 @@
   font-weight:750;
   color:#e3c78b;
 }
+/* The selectors are intentionally more specific than the legacy tab styling:
+   checkboxes are plain controls, not three colored pill cards. */
 .reader .modes.uv-options{
-  padding:2px 9px 3px;
-  gap:4px;
-  background:#09271f;
-  border-bottom-color:#315343;
+  padding:1px 9px;
+  gap:0;
+  background:transparent;
+  border-bottom:1px solid #315143;
 }
 .reader .uv-options label{
   min-height:44px;
-  gap:6px;
-  padding:3px 6px;
+  gap:5px;
+  padding:2px 3px;
   font-size:12px;
-  font-weight:650;
-  line-height:1.3;
-  border:1px solid transparent;
-  border-radius:9px;
+  font-weight:550;
+  line-height:1.25;
+  border:0;
+  border-radius:0;
   color:#b9cbbb;
   background:transparent;
+  box-shadow:none;
 }
 .reader .uv-options label.uv-checked{
-  color:#ecdfb7;
-  border-color:#496b50;
-  background:#244637;
+  color:#e9ddbb;
+  border:0;
+  background:transparent;
   box-shadow:none;
 }
 .reader .uv-options input{
   width:15px;
   height:15px;
   flex:0 0 15px;
-  accent-color:#dec486;
+  accent-color:#d8bf86;
 }
 .reader .verses.uv-verses{
   width:100%;
@@ -374,7 +377,7 @@
   .reader .verses.uv-verses{padding-inline:9px}
   .reader .verse.uv-ayah{grid-template-columns:23px minmax(0,1fr);gap:7px}
   .reader .uv-ayah-number{width:23px;height:23px;min-width:23px}
-  .reader .uv-options label{font-size:11.5px;padding:3px 3px;gap:4px}
+  .reader .uv-options label{font-size:11.5px;padding:2px 2px;gap:4px}
   .reader .uv-footer .reader-complete,
   .reader .uv-footer #prev,
   .reader .uv-footer #next{font-size:11px}
