@@ -15,8 +15,8 @@
   background:#133729;padding:2px;
 }
 .uv-size-controls button{
-  min-width:40px;min-height:40px;
-  width:40px;height:40px;
+  min-width:44px;min-height:44px;
+  width:44px;height:44px;
   background:transparent;border:0;
   border-radius:9px;color:#f0d392;
   font-size:13px;font-weight:800;
@@ -186,7 +186,7 @@
   .reader .heading strong{font-size:15px}
   .reader .heading small{font-size:10px}
   .uv-size-controls{padding:1px}
-  .uv-size-controls button{width:38px;min-width:38px;height:42px;min-height:42px}
+  .uv-size-controls button{width:44px;min-width:44px;height:44px;min-height:44px}
   .reader .modes.uv-options{gap:5px;padding-inline:8px}
   .uv-options label{gap:5px;font-size:12px;padding:5px 3px}
   .uv-options input{width:17px;height:17px;flex-basis:17px}
