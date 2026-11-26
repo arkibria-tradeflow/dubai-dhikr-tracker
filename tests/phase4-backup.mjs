@@ -125,6 +125,7 @@ test('all backups are reviewed before restoration; destructive clear is routed t
   assert.match(ui,/const review=prepare\(raw\)/);
   assert.match(ui,/showRestore\(file,review\)/);
   assert.match(ui,/data-bk="ack"/);
+  assert.match(ui,/if\(action==='ack'\)return/); // Must not prevent default checkbox click
   assert.match(ui,/if\(!pending\|\|submitting\|\|!host\?\.querySelector\('#bk-ack'\)\?\.checked\)return/);
   assert.match(ui,/txn\.commit\(map\)/);
   assert.match(ui,/requestClear/);
