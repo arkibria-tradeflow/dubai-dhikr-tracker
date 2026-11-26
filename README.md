@@ -90,3 +90,18 @@ This stage addresses only screen stability. Counter-write integrity and data bac
 - Regression coverage includes injected storage errors, saved-state integrity, finish-state suppression on failed writes, per-item undo and successful save semantics. Playwright mobile tests cover real interactions and reload persistence.
 
 This is Stage A2 only. Future backup/restore safeguards and broader multi-tab synchronization are separate improvements. Storage errors remain visible in the app's existing Bengali error toast.
+
+## Phase 4 — Stage A3: Backup & Recovery (v11.3.0)
+
+Backup and restore now have an explicit local-device safety workflow:
+
+- **Preview before replacement:** after selecting a JSON archive, users see its name, version, export date and five activity-category totals, compared with the current device's records. The Replace button remains disabled until the user acknowledges the impact.
+- **Legacy support:** versions 1–4 remain supported. Missing categories in older backups are preserved from the current device, rather than silently wiped. Unknown future versions and malformed sections are rejected before any data is written.
+- **Safer transactions:** all five activity keys are written with read-back verification. A write-ahead recovery journal captures the exact prior localStorage strings. Failed operations restore the original strings, rather than leaving partly replaced records. An interrupted restore or delete is rolled back early on the next app launch, before any activity module reads storage. If rollback itself fails, further destructive changes are blocked and an error is shown.
+- **Delete protection:** the Delete All action shows a separate five-category summary, requires an acknowledgment checkbox and provides a Download Backup option before removal.
+- **Honest backup status:** the app distinguishes **download initiated** from a file verified as saved. Users must keep the JSON file securely in iPhone Files or another location. There is no account, cloud sync or server-side backup.
+- **Privacy:** exports remain user-initiated, local JSON downloads; no personal records are transmitted. Backup timestamps describe download requests only and do not certify file retention.
+- **Compatibility:** no changes to saved record keys, existing counts, prayer calculations or reader data. The new pre-app guard is in `backup-journal.js`; the UI is in `backup-recovery.js` and `backup-recovery.css`. PWA cache is `dubai-dhikr-v11.3.0`.
+- **Automated checks:** Node verifies correct rollback and restart recovery under simulated storage errors; Chromium tests the actual preview, cancel, legacy import, export, failed restore, and guarded Delete All flows.
+
+**Limitations:** localStorage is device/browser-specific, and backups are not verified after an external download. An unavailable or completely cleared browser storage area cannot be reconstructed without a separately saved backup file. iPhone Safari and VoiceOver require real-device acceptance.
