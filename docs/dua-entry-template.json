@@ -1,0 +1,36 @@
+{
+  "_templateOnly": "DRAFT TEMPLATE — NOT FOR PRODUCTION. Replace every placeholder and obtain independent source review before publication.",
+  "id": "replace-with-unique-stable-slug",
+  "title": "REPLACE WITH A SHORT BENGALI TITLE",
+  "primaryCategory": "daily-life",
+  "categoryIds": [
+    "daily-life"
+  ],
+  "tags": [
+    "বিষয়-শব্দ"
+  ],
+  "source": {
+    "kind": "quran",
+    "reference": "REPLACE WITH EXACT PRIMARY SOURCE",
+    "url": null,
+    "citationScope": "excerpt"
+  },
+  "text": {
+    "arabic": null,
+    "bengaliPronunciation": null,
+    "personalBengaliWording": null,
+    "bengaliMeaning": "REPLACE WITH REVIEWED BENGALI MEANING"
+  },
+  "editorial": {
+    "status": "draft",
+    "sourceChecked": false,
+    "wordingChecked": false,
+    "pronunciationChecked": false,
+    "meaningChecked": false,
+    "reviewer": null,
+    "reviewedAt": null,
+    "notes": "Draft; not authenticated and must not be added to the app automatically."
+  },
+  "prescribedCount": null,
+  "prescribedOccasion": null
+}
