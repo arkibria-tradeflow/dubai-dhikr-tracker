@@ -67,3 +67,14 @@ Automated source-based regression checks are in `tests/phase2-experience.mjs`. D
 **Unverified without an actual device:** iPhone Safari/PWA, VoiceOver gestures, iOS Dynamic Type, true 200% browser text enlargement and all device/safe-area combinations. Do not claim formal WCAG 2.2 AA conformance from code tests alone.
 
 **Privacy/data:** Phase 3 does not change, clear, migrate or upload existing local counts and personal reading records. Reinstalling a PWA can remove its local storage; update via reopening rather than uninstalling.
+
+## Phase 4 — Stage A1: Screen Stability (v11.1.0)
+
+- Home and post-prayer Dhikr session screens are **not rebuilt every 15 seconds**. The timer still runs but only refreshes the visible view when a newly available prayer changes the actionable state.
+- A day rollover still performs the existing safe reset of the navigation view and retrieves that day's timetable. Returning from a backgrounded app triggers an immediate time check.
+- Calendar downloads for earlier or later months update the local prayer-time cache **without resetting the visible Home/session** unless the selected day's timetable actually changed. Tahajjud overview can still refresh when date-relevant prayer times arrive.
+- No changes to counters, stored records, backup formats, Arabic/Bengali dhikr content, or prayer calculation methods.
+- `phase4-stability.js` is loaded after the existing three UX phases. Offline assets and script versions now use PWA cache `dubai-dhikr-v11.1.0`.
+- Tests include clock-boundary and idle-update unit checks, plus Playwright browser checks of focus, DOM continuity, monthly calendar refresh, and existing Dhikr workflows.
+
+This stage addresses only screen stability. Counter-write integrity and data backup improvements remain separate, subsequent Stage A tasks.
