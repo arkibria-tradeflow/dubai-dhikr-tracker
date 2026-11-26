@@ -138,7 +138,7 @@ test('recovery code is loaded before app records and offline assets include the 
   assert.ok(app.indexOf('backup-journal.js?v=1.0.0')<app.indexOf('app.js?v=9.0.2'));
   assert.ok(app.indexOf('backup-recovery.js?v=1.0.0')>app.indexOf('daily-zikr.js?v=1.0.1'));
   assert.match(app,/backup-recovery\.css\?v=1\.0\.0/);
-  assert.match(sw,/dubai-dhikr-v11\.3\.0/);
+  assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   for(const file of ['backup-journal.js','backup-recovery.js','backup-recovery.css'])
     assert.ok(sw.includes("'./"+file+"'"),file+' must be precached');
 });

@@ -105,3 +105,12 @@ Backup and restore now have an explicit local-device safety workflow:
 - **Automated checks:** Node verifies correct rollback and restart recovery under simulated storage errors; Chromium tests the actual preview, cancel, legacy import, export, failed restore, and guarded Delete All flows.
 
 **Limitations:** localStorage is device/browser-specific, and backups are not verified after an external download. An unavailable or completely cleared browser storage area cannot be reconstructed without a separately saved backup file. iPhone Safari and VoiceOver require real-device acceptance.
+
+## Qur'an Library compact header (v11.3.1)
+
+- Reduced the duplicated heading/intro stack on the **Qur'an catalogue** only: the app header is smaller, and the tall decorative Reading Journey card is replaced with a single compact title and live daily reading count.
+- The short subtitle shows **30 currently available surahs**, including **10 locally embedded offline readings**; 20 additional readings may need internet connectivity.
+- Both library tabs, search, settings action, all 30 supported reading links, unavailable-surah indicators, and on-device reading records are unchanged.
+- Search and surah list begin substantially higher on mobile. Phone-width browser checks ensure the first available surah is visible above the bottom navigation on 320px, 375px and 430px screens.
+- Scoped CSS in `quran-compact.css` affects **only** the Qur'an catalogue; the Home, Dua, Namaz and reading screens retain their styling.
+- Versioned catalogue script `v9-native-links.js?v=9.2.0` and PWA cache `dubai-dhikr-v11.3.1` deliver the update without uninstalling the app or clearing records.
