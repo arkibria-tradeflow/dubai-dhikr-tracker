@@ -105,6 +105,9 @@ test('search indexes topical synonyms, category names, and source text',()=>{
   assert.ok(catalog.list({query:'পরীক্ষা'}).some(x=>x.id==='work-knowledge'));
   assert.ok(catalog.list({kind:'personal'}).every(x=>x.source.kind==='personal'));
   assert.equal(catalog.normalize('ঋণ-২০২৬'),'ঋণ 2026');
+  assert.ok(catalog.searchText('work-knowledge').includes(catalog.normalize('পড়াশোনা')));
+  assert.equal(catalog.normalize('পড়াশোনা'),catalog.normalize('পড়াশোনা'));
+  assert.match(read('dua-compact.js'),/const shared=typeof window!==/);
   assert.equal(catalog.get('does-not-exist'),null);
 });
 test('draft validation rejects duplicate IDs, invented Arabic, claims and unreviewed publication',()=>{
