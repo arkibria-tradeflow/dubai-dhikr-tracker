@@ -1,0 +1,62 @@
+name: Compact Dua Library UI
+on:
+  pull_request:
+    paths:
+      - 'dua-compact.js'
+      - 'dua-compact.css'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-compact.mjs'
+      - 'tests/dua-compact.spec.mjs'
+      - 'tests/quran-compact.mjs'
+      - '.github/workflows/dua-compact.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'dua-compact.js'
+      - 'dua-compact.css'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-compact.mjs'
+      - 'tests/dua-compact.spec.mjs'
+jobs:
+  source-regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test Dua and all earlier UX/recovery features
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs
+  mobile-chromium:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start local website
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-dua-compact.log 2>&1 &
+          sleep 2
+      - name: Mobile Dua and existing Quran acceptance tests
+        run: npx playwright test tests/dua-compact.spec.mjs tests/quran-compact.spec.mjs tests/phase3-mobile.spec.mjs --reporter=line
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dua-compact-mobile-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore
