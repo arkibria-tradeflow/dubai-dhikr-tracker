@@ -86,3 +86,10 @@ test('Quran layer options have zero filled backgrounds in checked and unchecked 
   assert.match(css,/\.reader \.uv-options label\.uv-checked\{[\s\S]*?border:0;[\s\S]*?background:transparent;/);
   assert.match(css,/\.reader \.uv-options label\{[\s\S]*?min-height:44px;/);
 });
+
+test('rendered ayah article matches padded selector with guaranteed horizontal gutters',()=>{
+  assert.match(script,/class="verses uv-verses"/);
+  assert.match(css,/\.reader #readerBody \.verses\.uv-verses\{/);
+  assert.match(css,/padding:7px clamp\(20px,5\.3vw,30px\) 22px/);
+  assert.match(css,/max-width:680px/);
+});
