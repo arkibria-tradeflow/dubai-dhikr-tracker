@@ -95,7 +95,7 @@
   };
   const normalized=value=>String(value||'').normalize('NFKC').toLocaleLowerCase('bn')
     .replace(/[০-৯]/g,d=>String('০১২৩৪৫৬৭৮৯'.indexOf(d)))
-    .replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
+    .replace(/[^\p{L}\p{M}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
   const legacy=typeof NIGHT_DUAS!=='undefined'?NIGHT_DUAS:[];
   const entries=Object.freeze(legacy.map(original=>{
     const meta=descriptions[original.id];
