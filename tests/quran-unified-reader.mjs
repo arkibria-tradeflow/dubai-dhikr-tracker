@@ -78,7 +78,7 @@ test('previous, save and next are one footer row with readable mobile controls',
 });
 
 test('new files are registered and offline cached',()=>{
-  assert.match(reader,/quran-unified-reader\.css\?v=1\.0\.1/);
+  assert.match(reader,/quran-unified-reader\.css\?v=1\.0\.2/);
   assert.match(reader,/reader-phase1\.js\?v=1\.0\.1/);
   assert.match(reader,/quran-unified-reader\.js\?v=1\.0\.1/);
   assert.match(worker,/dubai-dhikr-v11\.4\.1/);
