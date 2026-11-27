@@ -158,7 +158,7 @@ test('header library list opens a searchable bottom sheet and supports selection
   await expect(page.locator('.dr3-sheet[role="dialog"]')).toBeVisible();
   await expect(page.locator('.dr3-sheet-list [data-dr3="select"]')).toHaveCount(11);
   await page.locator('#dr3-list-search').fill('ঋণ');
-  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]:visible')).toHaveCount(2);
+  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]:visible')).toHaveCount(4);
   await page.keyboard.press('Escape');
   await expect(page.locator('.dr3-sheet')).toHaveCount(0);
   await page.locator('[data-dr3="list"]').click();
