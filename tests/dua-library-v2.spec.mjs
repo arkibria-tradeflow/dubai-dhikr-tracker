@@ -77,7 +77,7 @@ test('category filter uses multiple tags without duplicating readings and can be
   const pick=page.locator('.dl2-cat[data-category="livelihood-debt"]');
   await pick.click();
   await expect(page.locator('.dl2-cat[data-category="livelihood-debt"]')).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.dl2-row-copy')).toHaveCount(3);
+  await expect(page.locator('.dl2-row-copy')).toHaveCount(4); // Includes cross-listed personal work dua.
   await expect(page.locator('#dl2-results-title')).toContainText('রিজিক');
   await page.locator('[data-dualib="clear-category"]').click();
   await expect(page.locator('.dl2-row-copy')).toHaveCount(11);
