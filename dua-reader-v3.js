@@ -202,7 +202,7 @@
       toast('আজকের দোয়া পাঠ সেভ হয়েছে');
     }else if(action==='list'){
       sheetOpen=true;sheetQuery='';
-      rerenderAt(undefined,'[data-dr3="dismiss"]');
+      rerenderAt(undefined,'.dr3-sheet-head [data-dr3="dismiss"]');
     }else if(action==='dismiss'){
       sheetOpen=false;sheetQuery='';
       rerenderAt(undefined,'[data-dr3="list"]');
