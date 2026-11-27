@@ -74,7 +74,8 @@ test('checkbox layers are independently selectable and cannot all be hidden',asy
   await pron.uncheck();
   await expect(page.locator('.dr3-pron')).toHaveCount(0);
   await expect(page.locator('.dr3-meaning')).toBeVisible();
-  await page.locator('[data-dr3-layer="meaning"]').uncheck();
+  await page.locator('[data-dr3-layer="meaning"]').click();
+  // The last visible layer is intentionally protected from being hidden.
   await expect(page.locator('[data-dr3-layer="meaning"]')).toBeChecked();
   await page.locator('[data-dr3-layer="pron"]').check();
   await expect(page.locator('.dr3-pron')).toBeVisible();
@@ -137,6 +138,7 @@ test('navigation follows the filtered category rather than duplicating entries',
   await page.setViewportSize({width:375,height:812});
   await page.goto(base+'/');
   await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('[data-dualib="expand"]').click();
   await page.locator('.dl2-cat[data-category="health-healing"]').click();
   await expect(page.locator('.dc-dua-row')).toHaveCount(2);
   await page.locator('.dc-dua-row').first().click();
