@@ -74,6 +74,7 @@ test('all 20 populated categories are discoverable and clickable',async({page})=
 test('category filter uses multiple tags without duplicating readings and can be cleared',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await open(page);
+  await page.locator('[data-dualib="expand"]').click();
   const pick=page.locator('.dl2-cat[data-category="livelihood-debt"]');
   await pick.click();
   await expect(page.locator('.dl2-cat[data-category="livelihood-debt"]')).toHaveAttribute('aria-pressed','true');
