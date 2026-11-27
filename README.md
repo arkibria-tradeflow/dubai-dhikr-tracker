@@ -208,3 +208,20 @@ The Dua section is now designed for discovering existing supplications rather th
 - **Offline readiness:** new JS/CSS are PWA-cached as **dubai-dhikr-v11.6.0**. No changes to the original reading counter keys, original backup schema or sacred text. The new Favorites and Recently Read lists are **device-local convenience data and are not included in the existing exported JSON backups**; users should not rely on backup/restore to transfer these preferences between devices.
 
 **Next — Phase 3:** compact unified Dua reader with independently selectable Arabic (only when verified), Bengali pronunciation/personal wording, and meaning, plus a concise 3-action footer. Source-reviewed editorial content expansion remains Phase 4.
+
+
+## Dua Reader Phase 3 — compact unified reading (v11.7.0)
+
+The general Dua reader (the **দোয়া** bottom-tab collection) now uses a clean, quiet reading screen. The Tahajjud reader and standalone Qur’an reader are not changed.
+
+- **One compact header:** close ✕, one-line Dua title with reading position, independently stored A−/A+ controls, and a small library-list button. The oversized moon, repeated title, decorated paper and stacked control bars are removed.
+- **Optional reading layers together:** unobtrusive transparent checkboxes independently show Bengali pronunciation/personal Bengali wording and meaning/explanation. When independently verified Arabic is available in the canonical catalogue, Arabic can appear as a third optional layer. **All 11 current entries have no verified Arabic**; none is generated, inserted or shown as a real ayah merely from Bengali transliteration.
+- **Personal dua is clearly labelled:** the original personally composed Bengali text is shown as “দোয়া”, its supporting explanation as “ব্যাখ্যা” and the source as personal wording—not as Qur’an or an attributed Hadith.
+- **Responsive content:** one bounded text column, natural Arabic RTL or Bengali wrapping, minimum 20px side gutters and adjustable 5-level font scale. Reader checkboxes are visually transparent without colored pill backgrounds; the header and footer retain 44px minimum interaction targets.
+- **One bottom row:** **আগের | ✓ সেভ করুন | পরের**. Save records the current Dua ID under the original dhikr_dubai_dua_v5 key once on the current configured date; a second tap does not undo a completed reading. Previous and Next follow the filtered Phase 2 list when the current Dua is in it. The header opens a searchable list of all 11 existing entries.
+- **Preserved preferences:** reader layer choices and font size are stored locally in dhikr_dua_reader_options_v1 independently of Qur’an and other reading-size settings. Existing Dua IDs, favorites, recently read, source references, search and saved daily records remain compatible. The new reader preferences are device-local and not yet included in the legacy JSON backup file.
+- **Source transparency:** every sourced Dua retains its existing primary reference link, with a concise pending-verification note for the 11 pre-existing records. No novel Dua content or unsupported religious instruction is added.
+
+Verification: tests/dua-reader-v3.mjs (source guard, reading layers, reviewed Arabic gate, font-size persistence, idempotent save, navigation) and tests/dua-reader-v3.spec.mjs (320/375/430px mobile reader geometry, toggles, list modal, save, category filters and legacy records). PWA offline cache version: dubai-dhikr-v11.7.0.
+
+Next, **Phase 4** should be independent source verification and carefully reviewed content expansion toward the 100+ Dua target; the 20 taxonomy categories from Phase 1 are not yet all populated.
