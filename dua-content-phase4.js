@@ -21,7 +21,7 @@ function h(id,title,arabic,pron,meaning,primary,secondary=[],tags=[]){
   items.push({id:'h-'+id,title,sourceKind:'hadith',ref:'হিসনুল মুসলিম '+id,
     url:'https://sunnah.com/hisn:'+id,
     arabic,pron:pron||null,meaning,primary,secondary,tags,
-    citationScope:'supplication',edition:'source-linked'});
+    citationScope:['21','178','179','207'].includes(String(id))?'excerpt':'supplication',edition:'source-linked'});
 }
 /* Qur'anic supplications; each cited verse has a visible source link. */
 q('2-127','2:127','ইবাদত কবুলের প্রার্থনা',
