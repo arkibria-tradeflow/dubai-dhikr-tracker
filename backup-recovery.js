@@ -165,6 +165,9 @@
     qdb=data.quran;
     dudb=data.duas;
     window.DailyZikr21.reload();
+    // Favorites are display preferences; Recent is reading activity.
+    // A successful restore or clear invalidates the previous device's recents.
+    window.DhikrDuaLibrary?.clearActivity();
     pending=null;
     hide();
     if(type==='restore'){screen='history';histOffset=0}
