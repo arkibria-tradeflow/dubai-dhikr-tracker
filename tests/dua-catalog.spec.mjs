@@ -26,7 +26,8 @@ test('new 20-category metadata loads, but the old 11 Duo rows and 5 legacy topic
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await open(page);
   await expect(page.locator('.dc-dua-row')).toHaveCount(11);
-  await expect(page.locator('.dc-filter-scroll [data-exp="dua-filter"]')).toHaveCount(6);
+  await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(4);
+  await expect(page.locator('.dl2-scopes button')).toHaveCount(3);
   const metadata=await page.evaluate(()=>{
     const c=window.DhikrDuaCatalog;
     return {
