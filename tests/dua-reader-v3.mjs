@@ -71,11 +71,11 @@ function app(){
 test('new script syntax, versioned assets and offline cache parse',()=>{
   assert.doesNotThrow(()=>new Script(code));
   assert.doesNotThrow(()=>new Script(sw));
-  assert.match(html,/dua-reader-v3\.js\?v=1\.0\.0/);
+  assert.match(html,/dua-reader-v3\.js\?v=1\.0\.1/);
   assert.match(html,/dua-reader-v3\.css\?v=1\.0\.0/);
   assert.match(sw,/'\.\/dua-reader-v3\.js'/);
   assert.match(sw,/'\.\/dua-reader-v3\.css'/);
-  assert.match(sw,/dubai-dhikr-v11\.7\.0/);
+  assert.match(sw,/dubai-dhikr-v11\.8\.0/);
   assert.ok(html.indexOf('dua-library-v2.js')<html.indexOf('dua-reader-v3.js'));
   assert.ok(html.indexOf('dua-reader-v3.js')<html.indexOf('smart-header.js'));
 });
