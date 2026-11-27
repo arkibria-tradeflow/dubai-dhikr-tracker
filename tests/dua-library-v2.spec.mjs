@@ -29,8 +29,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await open(page);
     await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(4);
     await expect(page.locator('.dl2-scopes button')).toHaveCount(3);
-    await expect(page.locator('.dc-dua-row')).toHaveCount(11);
-    await expect(page.locator('.dl2-fav')).toHaveCount(11);
+    await expect(page.locator('.dc-dua-row')).toHaveCount(69);
+    await expect(page.locator('.dl2-fav')).toHaveCount(69);
     const measurements=await page.evaluate(()=>{
       const w=innerWidth;
       const cats=[...document.querySelectorAll('.dl2-cat')].map(x=>x.getBoundingClientRect());
@@ -57,16 +57,16 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
   });
 }
 
-test('all 20 categories are discoverable and unpopulated categories are honest and disabled',async({page})=>{
+test('all 20 populated categories are discoverable and clickable',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await open(page);
   await page.locator('[data-dualib="expand"]').click();
   await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(20);
   const hajj=page.locator('.dl2-cat[data-category="hajj-umrah"]');
   await expect(hajj).toContainText('হজ ও উমরাহ');
-  await expect(hajj).toContainText('এখনও কোনো দোয়া যুক্ত হয়নি');
-  await expect(hajj).toHaveAttribute('aria-disabled','true');
-  await expect(hajj).not.toHaveAttribute('data-dualib','category');
+  await expect(hajj).toContainText('টি দোয়া');
+  await expect(hajj).toHaveAttribute('data-dualib','category');
+  await expect(hajj).not.toHaveAttribute('aria-disabled','true');
   await page.locator('[data-dualib="expand"]').click();
   await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(4);
 });
@@ -77,10 +77,10 @@ test('category filter uses multiple tags without duplicating readings and can be
   const pick=page.locator('.dl2-cat[data-category="livelihood-debt"]');
   await pick.click();
   await expect(page.locator('.dl2-cat[data-category="livelihood-debt"]')).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.dl2-row-copy')).toHaveCount(4); // Includes cross-listed personal work dua.
+  await expect(page.locator('.dl2-row-copy')).toHaveCount(8); // Includes source-linked cross-listed entries.
   await expect(page.locator('#dl2-results-title')).toContainText('রিজিক');
   await page.locator('[data-dualib="clear-category"]').click();
-  await expect(page.locator('.dl2-row-copy')).toHaveCount(11);
+  await expect(page.locator('.dl2-row-copy')).toHaveCount(69);
 });
 
 test('Bengali and source search stays focused, including combining marks',async({page})=>{
@@ -88,20 +88,19 @@ test('Bengali and source search stays focused, including combining marks',async(
   await open(page);
   const input=page.locator('#dc-dua-search');
   await input.fill('পড়াশোনা');
-  await expect(page.locator('.dc-dua-row')).toHaveCount(1);
-  await expect(page.locator('.dc-dua-row')).toContainText('সঠিক জ্ঞান');
+  await expect(page.locator('.dc-dua-row[data-id="work-knowledge"]')).toHaveCount(1);
   await expect(input).toBeFocused();
   await input.fill('তিরমিজি');
   await expect(page.locator('.dc-dua-row')).toHaveCount(1);
   await expect(input).toBeFocused();
-  await input.fill('হজ');
+  await input.fill('অচেনাবিষয়কোনোদোয়ানেই');
   await expect(page.locator('.dc-dua-row')).toHaveCount(0);
   await expect(page.locator('#dc-dua-empty')).toBeVisible();
   await expect(page.locator('.dl2-directory')).toBeHidden();
   await page.locator('[data-dualib="clear-search"]').click();
   await expect(input).toHaveValue('');
   await expect(input).toBeFocused();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
 });
 
 test('favorites can be saved, filtered, removed and preserved across page reload',async({page})=>{
