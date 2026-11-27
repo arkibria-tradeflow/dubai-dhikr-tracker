@@ -41,7 +41,7 @@ test('compact mobile style respects safe areas and reduced motion',()=>{
 test('script loads last and versioned assets are precached',()=>{
   assert.match(index,/smart-header\.css\?v=1\.0\.0/);
   assert.match(index,/smart-header\.js\?v=1\.0\.0/);
-  assert.ok(index.indexOf('smart-header.js?v=1.0.0')>index.indexOf('dua-compact.js?v=1.0.1'));
+  assert.ok(index.indexOf('smart-header.js?v=1.0.0')>index.indexOf('dua-compact.js?v=1.0.2'));
   assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   assert.match(sw,/'\.\/smart-header\.js'/);
   assert.match(sw,/'\.\/smart-header\.css'/);
