@@ -34,7 +34,7 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await expect(page.locator('#dc-title')).toHaveText('দোয়া সংগ্রহ');
     await expect(page.locator('.ex-dua-banner')).toHaveCount(0);
     await expect(page.locator('.dc-dua-page h1')).toHaveCount(1);
-    await expect(page.locator('.dc-summary')).toContainText('১১');
+    await expect(page.locator('.dl2-total')).toContainText('১১');
     await expect(page.locator('.dc-dua-row')).toHaveCount(11);
     const layout=await page.evaluate(()=>{
       const first=document.querySelector('.dc-dua-row');
