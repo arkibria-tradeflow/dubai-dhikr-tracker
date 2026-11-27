@@ -1,0 +1,70 @@
+name: Dua Reader Phase 3 — compact mobile reading
+on:
+  pull_request:
+    paths:
+      - 'dua-reader-v3.js'
+      - 'dua-reader-v3.css'
+      - 'dua-library-v2.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-reader-v3.mjs'
+      - 'tests/dua-reader-v3.spec.mjs'
+      - 'tests/dua-library-v2.mjs'
+      - '.github/workflows/dua-reader-phase3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'dua-reader-v3.js'
+      - 'dua-reader-v3.css'
+      - 'dua-library-v2.js'
+      - 'index.html'
+      - 'sw.js'
+jobs:
+  source-regressions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run Phase 3 reader and previous source regressions
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/dua-catalog.mjs tests/dua-library-v2.mjs tests/dua-reader-v3.mjs tests/smart-header.mjs tests/quran-unified-reader.mjs tests/quran-reader-compact.mjs
+  mobile-chromium:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright test tools
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Ignore unrelated Microsoft APT mirror outages
+        run: |
+          for file in /etc/apt/sources.list.d/*; do
+            [ -f "$file" ] || continue
+            if grep -q 'packages.microsoft.com' "$file"; then
+              sudo mv "$file" "$file.disabled"
+            fi
+          done
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Serve local app
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-dua-reader-v3.log 2>&1 &
+          sleep 2
+      - name: Verify compact reader and former app flows
+        run: npx playwright test tests/dua-reader-v3.spec.mjs tests/dua-library-v2.spec.mjs tests/dua-compact.spec.mjs tests/dua-catalog.spec.mjs tests/phase3-mobile.spec.mjs --reporter=line
+      - name: Upload failure traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dua-reader-phase3-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore
