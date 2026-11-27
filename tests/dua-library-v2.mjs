@@ -44,6 +44,7 @@ function app(initial={}){
   runInNewContext(legacy.slice(begin,end),env);
   runInNewContext(catalogSource,env);
   runInNewContext(src,env);
+  const original=runInNewContext('NIGHT_DUAS',env);
   const click=(action,details={})=>{
     const control={dataset:{dualib:action,...details}};
     const event={
@@ -52,7 +53,7 @@ function app(initial={}){
     };
     handlers.click[0](event);
   };
-  return {env,stored,click,render:()=>env.renderExperienceDuas(),library:env.window.DhikrDuaLibrary};
+  return {env,original,stored,click,render:()=>env.renderExperienceDuas(),library:env.window.DhikrDuaLibrary};
 }
 test('Phase 2 source, prior content and worker parse',()=>{
   for(const [name,code] of [['dua-library-v2.js',src],['sw.js',sw]])
@@ -69,7 +70,7 @@ test('new library is after old UI, before smart header and cached offline',()=>{
   assert.doesNotMatch(sw,/dua-entry-template\.json/);
 });
 test('initial page: 11 existing duas, four featured category cards and three quick scopes',()=>{
-  const {render,env}=app();
+  const {render,env,original}=app();
   const html=render();
   assert.match(html,/class="ex-view dc-dua-page dl2-page"/);
   assert.equal((html.match(/<h1\b/g)||[]).length,1);
@@ -82,7 +83,7 @@ test('initial page: 11 existing duas, four featured category cards and three qui
   assert.equal((html.match(/data-dualib="scope"/g)||[]).length,3);
   assert.match(html,/id="dc-dua-search"/);
   assert.match(html,/আজ পড়েছেন ১টি/);
-  assert.equal(env.NIGHT_DUAS.length,11);
+  assert.equal(original.length,11);
 });
 test('expanding directory displays all 20 categories with clearly disabled empty topics',()=>{
   const {click,render}=app();
@@ -125,10 +126,10 @@ test('recently read is tracked by original ID and completed legacy history is re
   assert.equal((render().match(/data-exp="dua-open"/g)||[]).length,1);
 });
 test('invalid draft categories do not become published text or available buttons',()=>{
-  const {render,click,env}=app();
+  const {render,click,env,original}=app();
   click('expand');
   const html=render();
-  assert.ok(env.NIGHT_DUAS.every(dua=>env.window.DhikrDuaCatalog.get(dua.id)));
+  assert.ok(original.every(dua=>env.window.DhikrDuaCatalog.get(dua.id)));
   assert.doesNotMatch(html,/data-exp="dua-open" data-id="draft/);
   assert.match(html,/নিজের ভাষার দোয়া/);
   assert.doesNotMatch(html,/new-authentic-dua/);
