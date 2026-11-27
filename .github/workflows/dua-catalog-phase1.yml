@@ -1,0 +1,71 @@
+name: Dua Library Phase 1 — taxonomy and source integrity
+on:
+  pull_request:
+    paths:
+      - 'dua-catalog.js'
+      - 'dua-compact.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-catalog.mjs'
+      - 'tests/dua-catalog.spec.mjs'
+      - 'docs/dua-editorial-playbook.md'
+      - 'docs/dua-entry-template.json'
+      - '.github/workflows/dua-catalog-phase1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'dua-catalog.js'
+      - 'dua-compact.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-catalog.mjs'
+      - 'tests/dua-catalog.spec.mjs'
+jobs:
+  source-review-regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run taxonomy and all previous regression tests
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/smart-header.mjs tests/quran-unified-reader.mjs tests/quran-reader-compact.mjs tests/dua-catalog.mjs
+  mobile-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install mobile browser test tools
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Ignore unrelated third-party APT mirror failures
+        run: |
+          for file in /etc/apt/sources.list.d/*; do
+            [ -f "$file" ] || continue
+            if grep -q 'packages.microsoft.com' "$file"; then
+              sudo mv "$file" "$file.disabled"
+            fi
+          done
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Serve local app
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-dua-catalog.log 2>&1 &
+          sleep 2
+      - name: Check Dua catalog, old Dua UI and mobile navigations
+        run: npx playwright test tests/dua-catalog.spec.mjs tests/dua-compact.spec.mjs tests/phase3-mobile.spec.mjs --reporter=line
+      - name: Save failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dua-phase1-test-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore

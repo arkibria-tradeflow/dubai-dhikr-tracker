@@ -2,11 +2,23 @@
 (function installCompactDuaCatalog(){
   'use strict';
   let searchTerm='';
-  const normalize=value=>String(value||'').toLocaleLowerCase('bn').trim()
-    .replace(/[০-৯]/g,n=>String('০১২৩৪৫৬৭৮৯'.indexOf(n)));
+  const normalize=value=>{
+    const text=String(value||'');
+    const shared=typeof window!=='undefined'?window.DhikrDuaCatalog?.normalize:null;
+    if(typeof shared==='function')return shared(text);
+    // Fallback uses the same Unicode normalization as the catalogue so
+    // Bengali composed letters, nukta and vowel marks remain searchable.
+    return text.normalize('NFKC').toLocaleLowerCase('bn')
+      .replace(/[০-৯]/g,n=>String('০১২৩৪৫৬৭৮৯'.indexOf(n)))
+      .replace(/[^\p{L}\p{M}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim();
+  };
   function sourceFor(dua){
     const group=NIGHT_GROUPS.find(item=>item.id===dua.group);
-    return normalize([dua.title,dua.ref,group?.name,dua.id].filter(Boolean).join(' '));
+    const catalog=typeof window!=='undefined'?window.DhikrDuaCatalog:null;
+    // Existing rows still use their original stable IDs. Search may also match
+    // verified structure fields (topics and synonyms), even before the Phase 2 UI.
+    const topicText=catalog?.searchText?.(dua.id)||'';
+    return normalize([dua.title,dua.ref,group?.name,dua.id,topicText].filter(Boolean).join(' '));
   }
   renderExperienceDuas=function(){
     const groups=[{id:'all',name:'সব'},...NIGHT_GROUPS.map(item=>({id:item.id,name:item.name}))];
