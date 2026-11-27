@@ -140,16 +140,16 @@ test('navigation follows the filtered category rather than duplicating entries',
   await page.locator('.nav [data-screen="duas"]').click();
   await page.locator('[data-dualib="expand"]').click();
   await page.locator('.dl2-cat[data-category="health-healing"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(2);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(4);
   await page.locator('.dc-dua-row').first().click();
   await expect(page.locator('.dr3-heading')).toContainText('কষ্ট');
   await expect(page.locator('[data-dr3="previous"]')).toBeDisabled();
   await page.locator('[data-dr3="next"]').click();
   await expect(page.locator('.dr3-heading')).toContainText('শিফা');
-  await expect(page.locator('[data-dr3="next"]')).toBeDisabled();
+  await expect(page.locator('[data-dr3="next"]')).toBeEnabled(); // Two more source-linked healing duas follow.
   await page.locator('.dr3-header [data-exp="dua-close"]').click();
   await expect(page.locator('.dl2-page')).toBeVisible();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(2);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(4);
   await expect(page.locator('.dl2-cat[data-category="health-healing"]')).toHaveAttribute('aria-pressed','true');
 });
 
@@ -158,9 +158,9 @@ test('header library list opens a searchable bottom sheet and supports selection
   await openDua(page);
   await page.locator('[data-dr3="list"]').click();
   await expect(page.locator('.dr3-sheet[role="dialog"]')).toBeVisible();
-  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]')).toHaveCount(11);
+  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]')).toHaveCount(69);
   await page.locator('#dr3-list-search').fill('ঋণ');
-  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]:visible')).toHaveCount(4);
+  await expect(page.locator('.dr3-sheet-list [data-id="rizq-halal"]:visible')).toHaveCount(1);
   await page.keyboard.press('Escape');
   await expect(page.locator('.dr3-sheet')).toHaveCount(0);
   await page.locator('[data-dr3="list"]').click();
