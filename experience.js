@@ -6,7 +6,7 @@ const SURA_BY_NO=new Map(NIGHT_SURAHS.map(s=>[s.n,s]));
 const QKEY='dhikr_dubai_quran_v5',DUAKEY='dhikr_dubai_dua_v5';
 let qdb=expClean(safeRead(QKEY,{}),'s'), dudb=expClean(safeRead(DUAKEY,{}),'d');
 let quranTab='ten',selectedSurah=112,selectedDua='rizq-need',readerOrigin='quran',duaFilter='all';
-function expClean(data,kind){const out={};if(!data||typeof data!=='object'||Array.isArray(data))return out;const valid=kind==='s'?[...NIGHT_SURAHS.map(x=>String(x.n)),...'78,79,80,81,82,83,84,85,93,94,95,96,97,98,99,100,101,102,104,111'.split(',')]:NIGHT_DUAS.map(x=>x.id);for(const [date,rows] of Object.entries(data).slice(0,900)){if(!/^\d{4}-\d\d-\d\d$/.test(date)||!Array.isArray(rows))continue;out[date]=[...new Set(rows.filter(x=>valid.includes(String(x))).map(String))]}return out}
+function expClean(data,kind){const out={};if(!data||typeof data!=='object'||Array.isArray(data))return out;const valid=kind==='s'?[...NIGHT_SURAHS.map(x=>String(x.n)),...'78,79,80,81,82,83,84,85,93,94,95,96,97,98,99,100,101,102,104,111'.split(',')]:(window.DhikrDuaCatalog?.entries||NIGHT_DUAS).map(x=>x.id);for(const [date,rows] of Object.entries(data).slice(0,900)){if(!/^\d{4}-\d\d-\d\d$/.test(date)||!Array.isArray(rows))continue;out[date]=[...new Set(rows.filter(x=>valid.includes(String(x))).map(String))]}return out}
 function expHas(db,id){return (db[dayInfo().day]||[]).includes(String(id))}
 function expToggle(kind,id){
  const q=kind==='q',state=q?qdb:dudb,day=dayInfo().day;
