@@ -62,7 +62,7 @@ test('Phase 2 source, prior content and worker parse',()=>{
 test('new library is after old UI, before smart header and cached offline',()=>{
   assert.ok(index.indexOf('dua-catalog.js?v=1.0.0')<index.indexOf('dua-library-v2.js?v=1.0.0'));
   assert.ok(index.indexOf('dua-compact.js?v=1.0.2')<index.indexOf('dua-library-v2.js?v=1.0.0'));
-  assert.ok(index.indexOf('dua-library-v2.js?v=1.0.0')<index.indexOf('smart-header.js?v=1.0.0'));
+  assert.ok(index.indexOf('dua-library-v2.js?v=1.0.1')<index.indexOf('smart-header.js?v=1.0.0'));
   assert.match(index,/dua-library-v2\.css\?v=1\.0\.0/);
   assert.match(sw,/'\.\/dua-library-v2\.js'/);
   assert.match(sw,/'\.\/dua-library-v2\.css'/);
