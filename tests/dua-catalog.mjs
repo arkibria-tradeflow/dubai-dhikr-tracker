@@ -142,8 +142,8 @@ test('unpublished draft template is separate from runtime',()=>{
   assert.doesNotMatch(sw,/dua-entry-template\.json/);
 });
 test('catalog script is loaded after legacy data and before current Dua UI',()=>{
-  assert.ok(page.indexOf('tahajjud.js?v=9.0.1')<page.indexOf('dua-catalog.js?v=1.0.0'));
-  assert.ok(page.indexOf('dua-catalog.js?v=1.0.0')<page.indexOf('dua-compact.js?v=1.0.2'));
+  assert.ok(page.indexOf('tahajjud.js?v=9.0.1')<page.indexOf('dua-catalog.js?v=1.0.1'));
+  assert.ok(page.indexOf('dua-catalog.js?v=1.0.1')<page.indexOf('dua-compact.js?v=1.0.2'));
   assert.match(sw,/'\.\/dua-catalog\.js'/);
   assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
 });
