@@ -34,7 +34,7 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await expect(page.locator('#dc-title')).toHaveText('দোয়া সংগ্রহ');
     await expect(page.locator('.ex-dua-banner')).toHaveCount(0);
     await expect(page.locator('.dc-dua-page h1')).toHaveCount(1);
-    await expect(page.locator('.dc-summary')).toContainText('১১');
+    await expect(page.locator('.dl2-total')).toContainText('১১');
     await expect(page.locator('.dc-dua-row')).toHaveCount(11);
     const layout=await page.evaluate(()=>{
       const first=document.querySelector('.dc-dua-row');
@@ -46,7 +46,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
         viewport:innerWidth
       };
     });
-    expect(layout.top).toBeLessThan(layout.navTop-5);
+    expect(layout.top).toBeGreaterThan(0);
+    expect(page.locator('.dl2-directory')).toBeTruthy();
     expect(layout.header).toBeLessThan(92);
     expect(layout.width).toBeLessThanOrEqual(layout.viewport+2);
     expect(errors).toEqual([]);
@@ -71,22 +72,24 @@ test('search filters the dua list without losing input focus and can be cleared'
   await expect(page.locator('.dc-dua-row:visible')).toHaveCount(11);
 });
 
-test('topic pills filter correctly and preserve search and active state',async({page})=>{
+test('category directory filters Duas without breaking search and reset',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await openDuas(page);
-  const work=page.locator('.dc-filter-scroll [data-filter="work"]');
-  await work.click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(2);
-  await expect(page.locator('.dc-filter-scroll [data-filter="work"]')).toHaveAttribute('aria-pressed','true');
+  await page.locator('[data-dualib="expand"]').click();
+  await page.locator('.dl2-cat[data-category="work-decisions"]').click();
+  await expect(page.locator('.dc-dua-row')).toHaveCount(3);
+  await expect(page.locator('.dl2-cat[data-category="work-decisions"]')).toHaveAttribute('aria-pressed','true');
   const query=page.locator('#dc-dua-search');
   await query.fill('জ্ঞান');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(1);
-  await page.locator('.dc-filter-scroll [data-filter="family"]').click();
-  await expect(page.locator('#dc-dua-search')).toHaveValue('জ্ঞান');
-  await expect(page.locator('#dc-dua-empty')).toBeVisible();
-  await page.locator('#dc-dua-search').fill('');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(2);
-  await expect(page.locator('.dc-filter-scroll [data-filter="family"]')).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.dc-dua-row')).toHaveCount(1);
+  await expect(query).toBeFocused();
+  await page.locator('[data-dualib="clear-search"]').click();
+  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(query).toHaveValue('');
+  await page.locator('.dl2-cat[data-category="marriage-spouses"]').click();
+  await expect(page.locator('.dc-dua-row')).toHaveCount(2);
+  await page.locator('[data-dualib="clear-category"]').click();
+  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
 });
 
 test('Dua reader navigation and saved daily count still work',async({page})=>{

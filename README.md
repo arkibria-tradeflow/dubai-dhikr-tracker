@@ -193,3 +193,18 @@ New Chromium tests measure computed margins and each rendered row at 320px, 375p
 - The PWA cache advances to **dubai-dhikr-v11.5.0**. Existing localStorage keys and backup formats are unchanged.
 
 **Next:** The proposed 100+ Dua target requires independent source verification and phased publication. Phase 1 adds no new devotional text and makes no blanket authenticity claims.
+
+
+## Dua Library Phase 2 — compact category-first discovery (v11.6.0)
+
+The Dua section is now designed for discovering existing supplications rather than scrolling through a large sequence of cards. This is **presentation and personal indexing only**; the existing 11 Dua texts and the older Dua reader are unchanged.
+
+- **Category directory:** four populated category shortcuts appear initially. “সব ২০ বিভাগ” expands the complete Phase 1 taxonomy as a responsive two-column grid. Unpopulated categories are labeled “এখনও কোনো দোয়া যুক্ত হয়নি” and are not clickable. One Dua may appear under multiple categories without duplicating its ID or reading history.
+- **Compact listings:** one-line primary titles when possible, source/context underneath, a simple read-state marker, a small independent favorite ☆/★ action, comfortable 44px controls and subdued emerald styling. The previous oversized glyph cards and horizontally scrolling category chips are replaced.
+- **Quick navigation:** “সব দোয়া / পছন্দের / সম্প্রতি” modes. Search uses the Phase 1 Bengali category/topic aliases, and includes legacy source references. An active category can be cleared. Query, scope and category are retained while opening and closing the existing reader; list scroll position is restored on close.
+- **Favorites:** stored under localStorage key **dhikr_dua_favorites_v1**, filtered against known stable Dua IDs. Selections persist after a reload.
+- **Recently Read:** stored under **dhikr_dua_recent_v1**, records the latest opened IDs, and also recognizes older completed readings from existing **dudb** records for continuity. This is personal activity, not a prescribed worship goal. Successful restore or destructive record clearing removes this device-only recent history; Favorites remain preferences.
+- **Content integrity:** do not claim unpopulated categories contain verified duas, do not generate missing Arabic, do not invent new Duas, promises of outcomes or repetition counts. The original 11 entries are still in the independent editorial source-review queue.
+- **Offline readiness:** new JS/CSS are PWA-cached as **dubai-dhikr-v11.6.0**. No changes to the original reading counter keys, original backup schema or sacred text. The new Favorites and Recently Read lists are **device-local convenience data and are not included in the existing exported JSON backups**; users should not rely on backup/restore to transfer these preferences between devices.
+
+**Next — Phase 3:** compact unified Dua reader with independently selectable Arabic (only when verified), Bengali pronunciation/personal wording, and meaning, plus a concise 3-action footer. Source-reviewed editorial content expansion remains Phase 4.

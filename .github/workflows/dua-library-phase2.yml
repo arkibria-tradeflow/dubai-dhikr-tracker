@@ -1,0 +1,75 @@
+name: Dua Library Phase 2 — mobile discovery and personal lists
+on:
+  pull_request:
+    paths:
+      - 'dua-library-v2.js'
+      - 'dua-library-v2.css'
+      - 'dua-compact.js'
+      - 'backup-recovery.js'
+      - 'experience.js'
+      - 'index.html'
+      - 'sw.js'
+      - 'tests/dua-library-v2.mjs'
+      - 'tests/dua-library-v2.spec.mjs'
+      - 'tests/dua-compact.spec.mjs'
+      - 'tests/dua-catalog.spec.mjs'
+      - '.github/workflows/dua-library-phase2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'dua-library-v2.js'
+      - 'dua-library-v2.css'
+      - 'dua-compact.js'
+      - 'backup-recovery.js'
+      - 'experience.js'
+      - 'index.html'
+      - 'sw.js'
+jobs:
+  source-regressions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run Phase 2 and prior source regression suites
+        run: node --test tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-stability.mjs tests/phase4-counter.mjs tests/phase4-backup.mjs tests/quran-compact.mjs tests/dua-compact.mjs tests/dua-catalog.mjs tests/dua-library-v2.mjs tests/smart-header.mjs tests/quran-unified-reader.mjs tests/quran-reader-compact.mjs
+  mobile-chromium:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test framework
+        run: npm install --no-save @playwright/test@1.56.1
+      - name: Avoid unrelated third-party apt failures
+        run: |
+          for file in /etc/apt/sources.list.d/*; do
+            [ -f "$file" ] || continue
+            if grep -q 'packages.microsoft.com' "$file"; then
+              sudo mv "$file" "$file.disabled"
+            fi
+          done
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start local app server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-dua-library-phase2.log 2>&1 &
+          sleep 2
+      - name: Check category directory, personal lists and existing readers
+        run: npx playwright test tests/dua-library-v2.spec.mjs tests/dua-compact.spec.mjs tests/dua-catalog.spec.mjs tests/phase3-mobile.spec.mjs --reporter=line
+      - name: Save failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dua-library-phase2-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore

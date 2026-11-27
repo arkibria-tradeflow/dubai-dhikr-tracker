@@ -93,7 +93,7 @@
     searchTerm=value;
   }
   document.addEventListener('input',event=>{
-    if(event.target?.id!=='dc-dua-search')return;
+    if(event.target?.id!=='dc-dua-search'||document.querySelector('.dl2-page'))return;
     filterVisible(event.target.value);
   },true);
   document.addEventListener('click',event=>{
