@@ -225,3 +225,21 @@ The general Dua reader (the **দোয়া** bottom-tab collection) now uses a c
 Verification: tests/dua-reader-v3.mjs (source guard, reading layers, reviewed Arabic gate, font-size persistence, idempotent save, navigation) and tests/dua-reader-v3.spec.mjs (320/375/430px mobile reader geometry, toggles, list modal, save, category filters and legacy records). PWA offline cache version: dubai-dhikr-v11.7.0.
 
 Next, **Phase 4** should be independent source verification and carefully reviewed content expansion toward the 100+ Dua target; the 20 taxonomy categories from Phase 1 are not yet all populated.
+
+
+## Dua Library Phase 4 — initial source-linked content expansion (v11.8.0)
+
+**New content added:** 58 source-linked Dua entries (29 Qur'anic supplications and 29 passages from Hisn al-Muslim), alongside 11 preserved legacy entries, for **69 total**. Every one of the 20 life-topic categories has at least one matching entry; Duas can legitimately be cross-listed under multiple topics without duplicate IDs.
+
+- **Primary references:** each new record links to its specific Quran.com verse or Sunnah.com Hisn al-Muslim entry, identifies Qur'an vs Hadith, stores Arabic source wording and a Bengali meaning. Bengali-script pronunciation is present for many, but omitted when not adequately prepared.
+- **Source scope:** some records cite short excerpts from longer verses or narrations and are explicitly marked with citationScope=excerpt. No prescribed recitation counts, outcome promises or added hadith grades are inserted.
+- **Editorial honesty:** new records are marked source_checked rather than verified/published. Their Arabic source transcript has been matched to the linked source, but Bengali meaning, Bengali-script pronunciation and independent religious editorial sign-off are still pending. A message in the reader explicitly discloses this. This is NOT a claim that an Islamic scholar has reviewed all records.
+- **Main mobile UI:** 69 rows are searchable and can be explored through all 20 category cards, Favorites, Recently Read and the compact Dua reader. Source-linked Arabic appears only on new records, with independent text-layer controls. Existing 11 Duas remain with their original Bengali text and no invented Arabic.
+- **Preserve data:** the original 11 IDs, Tahajjud's original subset, existing saved Dua reads, existing backup schema and original keys remain unchanged. New IDs are whitelisted by expClean so newly saved readings survive app reload or restore.
+- **Offline:** the new content module is pre-cached as part of dubai-dhikr-v11.8.0.
+
+### Editorial next steps
+
+The original target of **100+ prayers is not yet reached**. More candidate records must be source-checked and independently reviewed in subsequent batches. A qualified reader/editor should proofread Arabic orthography, verse boundaries, hadith context and grading where applicable, Bengali meanings and especially transliteration before declaring a record scholar-verified. Verify licensing and reuse conditions for translation/audio sources.
+
+Regression checks cover new counts, 20 populated categories, original IDs, reading records, source URLs, no unsourced Arabic on old records, 320/375/430px screens and single-row footer navigation.

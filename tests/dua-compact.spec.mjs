@@ -34,8 +34,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await expect(page.locator('#dc-title')).toHaveText('দোয়া সংগ্রহ');
     await expect(page.locator('.ex-dua-banner')).toHaveCount(0);
     await expect(page.locator('.dc-dua-page h1')).toHaveCount(1);
-    await expect(page.locator('.dl2-total')).toContainText('১১');
-    await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+    await expect(page.locator('.dl2-total')).toContainText('৬৯');
+    await expect(page.locator('.dc-dua-row')).toHaveCount(69);
     const layout=await page.evaluate(()=>{
       const first=document.querySelector('.dc-dua-row');
       return {
@@ -63,13 +63,13 @@ test('search filters the dua list without losing input focus and can be cleared'
   await expect(page.locator('#dc-search-status')).toContainText('১টি পাওয়া গেছে');
   await expect(field).toBeFocused();
   await field.fill('');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(69);
   await expect(field).toBeFocused();
   await field.fill('এমনকোনোদোয়ানেই');
   await expect(page.locator('#dc-dua-empty')).toBeVisible();
   await expect(page.locator('.dc-dua-row:visible')).toHaveCount(0);
   await field.fill('');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(69);
 });
 
 test('category directory filters Duas without breaking search and reset',async({page})=>{
@@ -77,19 +77,19 @@ test('category directory filters Duas without breaking search and reset',async({
   await openDuas(page);
   await page.locator('[data-dualib="expand"]').click();
   await page.locator('.dl2-cat[data-category="work-decisions"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(3);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(7);
   await expect(page.locator('.dl2-cat[data-category="work-decisions"]')).toHaveAttribute('aria-pressed','true');
   const query=page.locator('#dc-dua-search');
   await query.fill('জ্ঞান');
-  await expect(page.locator('.dc-dua-row')).toHaveCount(1);
+  await expect(page.locator('.dc-dua-row[data-id="work-knowledge"]')).toHaveCount(1);
   await expect(query).toBeFocused();
   await page.locator('[data-dualib="clear-search"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
   await expect(query).toHaveValue('');
   await page.locator('.dl2-cat[data-category="marriage-spouses"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(2);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(4);
   await page.locator('[data-dualib="clear-category"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
 });
 
 test('Dua reader navigation and saved daily count still work',async({page})=>{

@@ -31,7 +31,7 @@
     Object.freeze({id,name,en,description,subtopics:Object.freeze(subtopics.slice())})));
   const categoryById=new Map(categories.map(x=>[x.id,x]));
   const kinds=Object.freeze(['quran','hadith','dhikr','personal']);
-  const reviewStatuses=Object.freeze(['draft','pending_review','verified','published','needs_correction']);
+  const reviewStatuses=Object.freeze(['draft','pending_review','source_checked','verified','published','needs_correction']);
 
   /* Additional topics are indexed against the existing 11 stable legacy IDs.
      No Arabic is generated from transliteration. Legacy attribution and
@@ -138,9 +138,40 @@
       prescribedOccasion:null
     });
   }));
-  const entryById=new Map(entries.map(x=>[x.id,x]));
-  if(entryById.size!==entries.length)throw Error('Duplicate Dua IDs in legacy content');
-  if(Object.keys(descriptions).length!==entries.length)
+  const phase4=window.DhikrDuaPhase4?.items||[];
+  const sourced=phase4.map(item=>{
+    if(!categoryById.has(item.primary)||item.secondary.some(id=>!categoryById.has(id)))
+      throw Error('Invalid sourced Dua category '+item.id);
+    if(!['quran','hadith'].includes(item.sourceKind)||
+       !/^https:\/\/(quran\.com|sunnah\.com)\//.test(item.url)||
+       !/^[\u0600-\u06FF\s]+$/.test(item.arabic))
+      throw Error('Invalid source-linked Dua reference or Arabic '+item.id);
+    return Object.freeze({
+      id:item.id,title:item.title,legacyGroup:null,
+      primaryCategory:item.primary,
+      categoryIds:Object.freeze([item.primary,...item.secondary]),
+      tags:Object.freeze(item.tags.slice()),
+      source:Object.freeze({
+        kind:item.sourceKind,reference:item.ref,url:item.url,
+        citationScope:item.citationScope
+      }),
+      text:Object.freeze({
+        arabic:item.arabic,bengaliPronunciation:item.pron||null,
+        personalBengaliWording:null,bengaliMeaning:item.meaning
+      }),
+      editorial:Object.freeze({
+        status:'source_checked',sourceChecked:true,wordingChecked:true,
+        pronunciationChecked:false,meaningChecked:false,
+        reviewer:null,reviewedAt:null,
+        notes:'Cited Arabic text checked against linked Qur\'an/Hisn source. Bengali meaning and pronunciation are preliminary and require independent editorial review; no scholar-verified status claimed.'
+      }),
+      prescribedCount:null,prescribedOccasion:null
+    });
+  });
+  const allEntries=Object.freeze([...entries,...sourced]);
+  const entryById=new Map(allEntries.map(x=>[x.id,x]));
+  if(entryById.size!==allEntries.length)throw Error('Duplicate Dua IDs in combined catalogue');
+  if(Object.keys(descriptions).length!==legacy.length)
     throw Error('Unmatched Dua metadata: all 11 legacy IDs must be mapped');
   function searchText(id){
     const row=entryById.get(typeof id==='string'?id:id?.id);
@@ -149,19 +180,20 @@
     const source=row.source;
     return normalized([
       row.id,row.title,source.reference,source.kind,source.citationScope,
+      row.text.bengaliMeaning,row.text.bengaliPronunciation||'',
       ...groups.flatMap(x=>[x.name,x.en,...x.subtopics]),...row.tags
     ].join(' '));
   }
   function list(filters={}){
     const category=filters.category||null,kind=filters.kind||null;
     const term=normalized(filters.query||'');
-    return entries.filter(row=>(!category||row.categoryIds.includes(category))&&
+    return allEntries.filter(row=>(!category||row.categoryIds.includes(category))&&
       (!kind||row.source.kind===kind)&&(!term||searchText(row.id).includes(term)));
   }
   function categoryStats(){
     return categories.map(category=>({
       ...category,
-      count:entries.filter(row=>row.categoryIds.includes(category.id)).length
+      count:allEntries.filter(row=>row.categoryIds.includes(category.id)).length
     }));
   }
   function validateCandidate(record){
@@ -223,7 +255,9 @@
   const api=Object.freeze({
     version:1,
     categories,
-    entries,
+    entries:allEntries,
+    legacyCount:entries.length,
+    sourcedCount:sourced.length,
     kinds,
     statuses:reviewStatuses,
     get:id=>entryById.get(String(id))||null,

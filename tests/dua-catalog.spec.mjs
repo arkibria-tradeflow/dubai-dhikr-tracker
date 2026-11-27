@@ -21,11 +21,11 @@ async function open(page){
   await page.locator('.nav [data-screen="duas"]').click();
   await expect(page.locator('.dc-dua-page')).toBeVisible();
 }
-test('new 20-category metadata loads, but the old 11 Duo rows and 5 legacy topic filters remain',async({page})=>{
+test('new 20-category metadata loads, but the 69 entries across 20 topics while preserving 11 legacy Dua IDs',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await open(page);
-  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
   await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(4);
   await expect(page.locator('.dl2-scopes button')).toHaveCount(3);
   const metadata=await page.evaluate(()=>{
@@ -34,14 +34,14 @@ test('new 20-category metadata loads, but the old 11 Duo rows and 5 legacy topic
       categories:c.categories.length,
       entries:c.entries.length,
       stableIds:c.entries.map(e=>e.id),
-      allPending:c.entries.every(e=>e.editorial.status==='pending_review'&&e.text.arabic===null),
+      allPending:c.entries.slice(0,11).every(e=>e.editorial.status==='pending_review'&&e.text.arabic===null),
       personal:c.get('work-personal').source.kind,
-      untranslatedHasBeenGenerated:c.entries.some(e=>e.text.arabic!==null)
+      untranslatedHasBeenGenerated:c.entries.slice(0,11).some(e=>e.text.arabic!==null)
     };
   });
   expect(metadata.categories).toBe(20);
-  expect(metadata.entries).toBe(11);
-  expect(new Set(metadata.stableIds).size).toBe(11);
+  expect(metadata.entries).toBe(69);
+  expect(new Set(metadata.stableIds).size).toBe(69);
   expect(metadata.allPending).toBe(true);
   expect(metadata.personal).toBe('personal');
   expect(metadata.untranslatedHasBeenGenerated).toBe(false);
@@ -52,16 +52,14 @@ test('search understands new topic aliases without showing empty categories',asy
   await open(page);
   const input=page.locator('#dc-dua-search');
   await input.fill('আত্মশুদ্ধি');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(1);
-  await expect(page.locator('.dc-dua-row:visible')).toContainText('ইস্তিগফার');
+  await expect(page.locator('.dc-dua-row[data-id="remembrance"]:visible')).toHaveCount(1);
   await input.fill('পড়াশোনা');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(1);
-  await expect(page.locator('.dc-dua-row:visible')).toContainText('সঠিক জ্ঞান');
-  await input.fill('হজ');
+  await expect(page.locator('.dc-dua-row[data-id="work-knowledge"]:visible')).toHaveCount(1);
+  await input.fill('অচেনাবিষয়কোনোদোয়ানেই');
   await expect(page.locator('.dc-dua-row:visible')).toHaveCount(0);
   await expect(page.locator('#dc-dua-empty')).toBeVisible();
   await input.fill('');
-  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row:visible')).toHaveCount(69);
 });
 test('old reading IDs and saved progress survive metadata loading and a reload',async({page})=>{
   await page.addInitScript(()=>{
@@ -73,7 +71,7 @@ test('old reading IDs and saved progress survive metadata loading and a reload',
   await page.locator('#dc-dua-search').fill('রিজিক');
   await page.reload();
   await page.locator('.nav [data-screen="duas"]').click();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(11);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
   expect(await page.evaluate(()=>localStorage.getItem('dhikr_dubai_dua_v5'))).toBe(existing);
   const compat=await page.evaluate(()=>({
     rows:NIGHT_DUAS.length,

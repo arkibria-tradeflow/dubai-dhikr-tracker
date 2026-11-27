@@ -9,7 +9,7 @@
 
   const FAV_KEY='dhikr_dua_favorites_v1';
   const RECENT_KEY='dhikr_dua_recent_v1';
-  const known=new Set(NIGHT_DUAS.map(item=>item.id));
+  const known=new Set(catalog.entries.map(item=>item.id));
   const localRead=key=>{
     try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}
   };
@@ -31,8 +31,8 @@
   const categories=catalog.categoryStats();
   const countById=new Map(categories.map(cat=>[cat.id,cat.count]));
   const categoryById=new Map(categories.map(cat=>[cat.id,cat]));
-  const idToDua=new Map(NIGHT_DUAS.map(dua=>[dua.id,dua]));
-  const order=new Map(NIGHT_DUAS.map((item,index)=>[item.id,index]));
+  const idToDua=new Map(catalog.entries.map(item=>[item.id,{id:item.id,title:item.title,ref:item.source.reference}]));
+  const order=new Map(catalog.entries.map((item,index)=>[item.id,index]));
   const sourceLabel={
     quran:'কুরআন',
     hadith:'হাদিস সূত্র',
@@ -161,8 +161,8 @@
     return '<div class="ex-view dc-dua-page dl2-page">'+expHeader('দোয়া লাইব্রেরি')+
       '<section class="dl2-intro" aria-labelledby="dc-title">'+
         '<div><h1 id="dc-title">দোয়া সংগ্রহ</h1><p>প্রয়োজন অনুযায়ী দোয়া খুঁজে নিন</p></div>'+
-        '<div class="dl2-total" aria-label="'+bn(NIGHT_DUAS.length)+'টি উপলব্ধ দোয়া">'+
-          '<strong>'+bn(NIGHT_DUAS.length)+'</strong><small>টি দোয়া</small></div>'+
+        '<div class="dl2-total" aria-label="'+bn(catalog.entries.length)+'টি উপলব্ধ দোয়া">'+
+          '<strong>'+bn(catalog.entries.length)+'</strong><small>টি দোয়া</small></div>'+
       '</section>'+
       '<div class="dl2-search-wrap">'+
         '<label class="dc-search dl2-search" for="dc-dua-search">'+

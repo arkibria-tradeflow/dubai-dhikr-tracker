@@ -27,13 +27,13 @@
   const persist=()=>{
     try{localStorage.setItem(KEY,JSON.stringify(prefs));return true}catch(e){return false}
   };
-  const getDua=id=>NIGHT_DUAS.find(item=>item.id===id);
+  const getDua=id=>{const entry=catalog.get(id);return entry?{id:entry.id,title:entry.title,ref:entry.source.reference,url:entry.source.url}:null};
   const getEntry=id=>catalog.get(id);
   // Arabic appears only after an entry has an independently reviewed text.
   // Transliteration is NOT converted into Arabic or presented as a sourced ayah.
   function hasVerifiedArabic(entry){
     return Boolean(entry&&
-      ['verified','published'].includes(entry.editorial?.status)&&
+      ['source_checked','verified','published'].includes(entry.editorial?.status)&&
       entry.editorial?.sourceChecked===true&&
       entry.editorial?.wordingChecked===true&&
       typeof entry.text?.arabic==='string'&&entry.text.arabic.trim()&&
@@ -41,10 +41,10 @@
   }
   function visibleOrder(){
     const ids=window.DhikrDuaLibrary?.visibleIds?.();
-    const known=new Set(NIGHT_DUAS.map(x=>x.id));
+    const known=new Set(catalog.entries.map(x=>x.id));
     const filtered=Array.isArray(ids)?ids.filter(id=>known.has(id)):[];
     if(filtered.includes(selectedDua))return [...new Set(filtered)];
-    return NIGHT_DUAS.map(item=>item.id);
+    return catalog.entries.map(item=>item.id);
   }
   function isPersonal(entry){return entry.source.kind==='personal'}
   function availableLayers(entry){
@@ -91,7 +91,7 @@
   function listSheet(){
     if(!sheetOpen)return '';
     const value=catalog.normalize(sheetQuery);
-    const items=NIGHT_DUAS.filter(d=>
+    const items=catalog.entries.filter(d=>
       !value||catalog.searchText(d.id).includes(value));
     return '<div class="dr3-overlay" role="presentation">'+
       '<button type="button" class="dr3-backdrop" data-dr3="dismiss" aria-label="তালিকা বন্ধ করুন"></button>'+
@@ -133,7 +133,7 @@
         escText(isOwn?data.personalBengaliWording:data.bengaliPronunciation)+'</p>':'',
       shown.meaning?'<p class="dr3-meaning" lang="bn">'+escText(data.bengaliMeaning)+'</p>':''
     ].join('');
-    const pendingSource=entry.editorial?.status==='pending_review';
+    const pendingSource=['pending_review','source_checked'].includes(entry.editorial?.status);
     return '<div class="ex-reader dr3-reader dr3-size-'+prefs.level+'">'+
       '<header class="dr3-header">'+
         '<button type="button" class="dr3-icon-button" data-exp="dua-close" aria-label="দোয়া তালিকায় ফিরুন">✕</button>'+
@@ -151,7 +151,7 @@
           (!available.arabic&&!isOwn?
             '<p class="dr3-arabic-note">আরবি পাঠ সূত্র যাচাইয়ের পর যুক্ত হবে।</p>':'')+
           sourceBlock(entry)+
-          (pendingSource?'<p class="dr3-review-note">এই পাঠ, বাংলা উচ্চারণ ও উৎসের স্বাধীন যাচাই চলমান।</p>':'')+
+          (pendingSource?'<p class="dr3-review-note">'+(entry.editorial?.status==='source_checked'?'আরবি পাঠ উৎসের সঙ্গে মিলিয়ে যুক্ত করা হয়েছে; বাংলা অর্থ ও উচ্চারণের স্বাধীন সম্পাদনাগত যাচাই বাকি।':'এই পাঠ, বাংলা উচ্চারণ ও উৎসের স্বাধীন যাচাই চলমান।')+'</p>':'')+
         '</main></div>'+
       '<div class="ex-reader-dock dr3-dock" role="group" aria-label="দোয়া পাঠের কাজ">'+
         '<button type="button" data-dr3="previous" '+(canPrev?'':'disabled')+' aria-label="আগের দোয়া">‹ আগের</button>'+
