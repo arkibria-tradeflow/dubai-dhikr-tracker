@@ -40,7 +40,7 @@ test('scripts parse and the compact assets are registered',()=>{
   assert.doesNotThrow(()=>new Script(src));
   assert.doesNotThrow(()=>new Script(sw));
   assert.match(index,/dua-compact\.css\?v=1\.0\.0/);
-  assert.match(index,/dua-compact\.js\?v=1\.0\.1/);
+  assert.match(index,/dua-compact\.js\?v=1\.0\.2/);
   assert.ok(index.indexOf('dua-compact.js')>index.indexOf('backup-recovery.js'));
   assert.match(sw,/const CACHE='dubai-dhikr-v\d+\.\d+\.\d+'/);
   assert.match(sw,/'\.\/dua-compact\.js'/);
