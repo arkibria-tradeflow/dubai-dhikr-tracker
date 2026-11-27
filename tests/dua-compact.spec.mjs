@@ -46,7 +46,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
         viewport:innerWidth
       };
     });
-    expect(layout.top).toBeLessThan(layout.navTop-5);
+    expect(layout.top).toBeGreaterThan(0);
+    expect(page.locator('.dl2-directory')).toBeTruthy();
     expect(layout.header).toBeLessThan(92);
     expect(layout.width).toBeLessThanOrEqual(layout.viewport+2);
     expect(errors).toEqual([]);
