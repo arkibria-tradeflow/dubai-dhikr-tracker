@@ -307,6 +307,8 @@
       favorites:[...favorites],recent:[...recent],recentIncludingLegacy:recentIds(),
       mode,selectedCategory,expanded,term
     }),
+    visibleIds:()=>filtered().map(entry=>entry.id),
+    rememberOpened:id=>remember(id),
     clearActivity:()=>{
       recent=[];
       try{localStorage.removeItem(RECENT_KEY)}catch(e){}
