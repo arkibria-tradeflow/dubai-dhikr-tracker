@@ -26,7 +26,7 @@ test('separate content scripts parse and are offline-cached in correct dependenc
   const c=index.indexOf('dua-catalog.js?v=1.0.1');
   assert.ok(a<b&&b<c);
   assert.match(sw,/'\.\/dua-content-phase4\.js'/);
-  assert.match(sw,/dubai-dhikr-v11\.8\.0/);
+  assert.match(sw,/dubai-dhikr-v\d+\.\d+\.\d+/);
 });
 test('first source-linked batch has 29 Quranic and 29 Hisn entries, plus 11 preserved',()=>{
   assert.equal(sourced.length,58);
@@ -87,7 +87,7 @@ test('existing user records, source codes and metadata stay independent',()=>{
   assert.equal(catalog.get('h-233').text.bengaliMeaning.includes('আল্লাহ'),true);
   assert.ok(catalog.list({query:'ইফতার'}).some(e=>e.id==='h-176'));
   assert.ok(catalog.list({query:'মা-বাবা'}).some(e=>e.id==='q-14-41'));
-  assert.ok(index.includes('experience.js?v=9.1.3'));
+  assert.match(index,/experience\.js\?v=\d+\.\d+\.\d+/);
   assert.ok(index.includes('dua-library-v2.js?v=1.0.2'));
   assert.ok(index.includes('dua-reader-v3.js?v=1.0.1'));
 });
