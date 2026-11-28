@@ -1,0 +1,44 @@
+name: Full application regression
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: All source and integrity suites
+        run: node --test tests/dua-catalog.mjs tests/dua-compact.mjs tests/dua-content-phase4.mjs tests/dua-library-v2.mjs tests/dua-reader-v3.mjs tests/phase1-core.mjs tests/phase2-experience.mjs tests/phase3-polish.mjs tests/phase4-backup.mjs tests/phase4-counter.mjs tests/phase4-stability.mjs tests/quran-compact.mjs tests/quran-reader-compact.mjs tests/quran-unified-reader.mjs tests/smart-header.mjs
+  browser-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save @playwright/test@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - name: Start PWA server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/dhikr-full-server.log 2>&1 &
+          sleep 2
+          curl --fail http://127.0.0.1:4173/ >/dev/null
+      - name: All browser suites
+        run: npx playwright test tests/dua-catalog.spec.mjs tests/dua-compact.spec.mjs tests/dua-content-phase4.spec.mjs tests/dua-library-v2.spec.mjs tests/dua-reader-v3.spec.mjs tests/phase3-mobile.spec.mjs tests/phase4-backup.spec.mjs tests/phase4-counter.spec.mjs tests/phase4-stability.spec.mjs tests/quran-compact.spec.mjs tests/quran-reader-compact.spec.mjs tests/quran-unified-reader.spec.mjs tests/smart-header.spec.mjs --reporter=line --workers=2
+      - name: Save failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-regression-failures
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore
