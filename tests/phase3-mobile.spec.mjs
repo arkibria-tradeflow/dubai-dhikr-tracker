@@ -31,7 +31,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await expect(page.locator('.p2-home .p2-intro h1')).toBeVisible();
     await expect(page.locator('.p2-home .salah-learn-shortcut')).toHaveCount(5);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2)).toBe(true);
-    await page.locator('.nav [data-screen="prayers"]').click();
+    await page.locator('.nav [data-screen="worship"]').click();
+    await page.locator('.ex-more-list [data-screen="prayers"]').click();
     await expect(page.locator('.ex-prayer-list .salah-learn-shortcut')).toHaveCount(5);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2)).toBe(true);
     expect(errors).toEqual([]);
