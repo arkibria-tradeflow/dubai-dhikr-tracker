@@ -29,3 +29,30 @@ html,body{background:var(--ex-bg)!important;color:var(--ex-ink)!important}body{m
 .ex-surah-row[href]:focus-visible{outline:3px solid #e9c582;outline-offset:2px}
 .ex-surah-row[href].ex-unavailable{opacity:.85}
 .ex-surah-row[href].ex-unavailable small{color:#cfb579}
+
+/* Compact story library */
+.story-page .ex-page-title{font-size:clamp(24px,6vw,30px);margin:8px 0 4px}
+.story-page .ex-subcopy{margin:0 0 16px;font-size:13px}
+.story-feature{display:flex;align-items:center;text-align:left;gap:12px;width:100%;min-height:92px;padding:14px;border:1px solid #548574;border-radius:18px;background:linear-gradient(125deg,#17634c,#103c31);color:#fff7e3;margin:0 0 14px}
+.story-feature>span:nth-child(2){display:grid;gap:5px;flex:1;min-width:0}
+.story-feature strong{font-size:16px;line-height:1.5}
+.story-feature small{font-size:11px;color:#e4d2a4}
+.story-feature-icon{font-size:25px;color:#e7cb85;flex:none}
+.story-search{width:100%;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;font-size:14px}
+.story-filters{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:12px 0 18px;padding:2px 0;max-width:100%}
+.story-filters::-webkit-scrollbar{display:none}
+.story-chip{flex:none;white-space:nowrap;min-height:44px;padding:7px 12px;border:1px solid #638575;border-radius:22px;background:transparent;color:inherit;font-size:12px}
+.story-chip[aria-pressed=true]{background:#17634c;color:#fff4d6;border-color:#8fbda8;font-weight:700}
+.story-list-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 9px}
+.story-list-head small{opacity:.7;font-size:11px}
+.story-list.ex-more-list{gap:7px}
+.story-list.ex-more-list .story-row{min-height:64px;padding:10px 12px;gap:10px;border-radius:14px}
+.story-list .story-row>div{min-width:0;flex:1}
+.story-list .story-row b{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.story-list .story-row small{font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.story-list .story-row .story-icon{width:36px;height:36px;flex:none;display:grid;place-items:center}
+.story-icon svg{width:20px;height:20px}
+.story-reader article{padding:18px;line-height:1.9}
+.story-reader .action-btn{min-height:44px}
+.story-page,.story-reader{min-width:0;padding-bottom:24px}
+@media(max-width:360px){.story-feature{padding:10px;gap:8px}.story-list.ex-more-list .story-row{padding:9px;gap:8px}.story-chip{padding-inline:10px}}
