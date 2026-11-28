@@ -28,14 +28,14 @@ test('separate content scripts parse and are offline-cached in correct dependenc
   assert.match(sw,/'\.\/dua-content-phase4\.js'/);
   assert.match(sw,/dubai-dhikr-v\d+\.\d+\.\d+/);
 });
-test('first source-linked batch has 29 Quranic and 29 Hisn entries, plus 11 preserved',()=>{
-  assert.equal(sourced.length,58);
-  assert.equal(sourced.filter(x=>x.sourceKind==='quran').length,29);
+test('expanded source-linked catalogue has 41 Quranic and 29 Hisn entries, plus 11 preserved',()=>{
+  assert.equal(sourced.length,70);
+  assert.equal(sourced.filter(x=>x.sourceKind==='quran').length,41);
   assert.equal(sourced.filter(x=>x.sourceKind==='hadith').length,29);
-  assert.equal(catalog.entries.length,69);
+  assert.equal(catalog.entries.length,81);
   assert.equal(catalog.legacyCount,11);
-  assert.equal(catalog.sourcedCount,58);
-  assert.equal(new Set(catalog.entries.map(x=>x.id)).size,69);
+  assert.equal(catalog.sourcedCount,70);
+  assert.equal(new Set(catalog.entries.map(x=>x.id)).size,81);
   for(const old of original){
     const got=catalog.get(old.id);
     assert.ok(got);
