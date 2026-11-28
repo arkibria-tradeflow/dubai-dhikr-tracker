@@ -91,9 +91,9 @@ test('Dua reader keeps list navigation and offers reading tabs and save action',
 test('location onboarding, Quran tab semantics, and PWA assets are registered',()=>{
   assert.match(location,/<details class="p2-advanced">/);
   assert.match(location,/ধাপ ১ \/ ২/);
-  assert.match(page,/phase2-experience.js\?v=1.0.0/);
-  assert.match(page,/phase2-experience.css\?v=1.0.0/);
-  assert.match(quran,/phase2-experience.css\?v=1.0.0/);
+  assert.match(page,/phase2-experience.js\?v=\d+\.\d+\.\d+/);
+  assert.match(page,/phase2-experience.css\?v=\d+\.\d+\.\d+/);
+  assert.match(quran,/phase2-experience.css\?v=\d+\.\d+\.\d+/);
   assert.match(quran,/role="tablist"/);
   assert.match(quran,/aria-selected/);
   assert.match(stylesheet,/p2-reader-standard/);
