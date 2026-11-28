@@ -18,7 +18,8 @@ test.beforeEach(async({page})=>{
 });
 async function open(page){
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await expect(page.locator('.dl2-page')).toBeVisible();
 }
 
@@ -29,8 +30,8 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     await open(page);
     await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(4);
     await expect(page.locator('.dl2-scopes button')).toHaveCount(3);
-    await expect(page.locator('.dc-dua-row')).toHaveCount(69);
-    await expect(page.locator('.dl2-fav')).toHaveCount(69);
+    await expect(page.locator('.dc-dua-row')).toHaveCount(81);
+    await expect(page.locator('.dl2-fav')).toHaveCount(81);
     const measurements=await page.evaluate(()=>{
       const w=innerWidth;
       const cats=[...document.querySelectorAll('.dl2-cat')].map(x=>x.getBoundingClientRect());
@@ -81,7 +82,7 @@ test('category filter uses multiple tags without duplicating readings and can be
   await expect(page.locator('.dl2-row-copy')).toHaveCount(8); // Includes source-linked cross-listed entries.
   await expect(page.locator('#dl2-results-title')).toContainText('রিজিক');
   await page.locator('[data-dualib="clear-category"]').click();
-  await expect(page.locator('.dl2-row-copy')).toHaveCount(69);
+  await expect(page.locator('.dl2-row-copy')).toHaveCount(81);
 });
 
 test('Bengali and source search stays focused, including combining marks',async({page})=>{
@@ -101,7 +102,7 @@ test('Bengali and source search stays focused, including combining marks',async(
   await page.locator('[data-dualib="clear-search"]').click();
   await expect(input).toHaveValue('');
   await expect(input).toBeFocused();
-  await expect(page.locator('.dc-dua-row')).toHaveCount(69);
+  await expect(page.locator('.dc-dua-row')).toHaveCount(81);
 });
 
 test('favorites can be saved, filtered, removed and preserved across page reload',async({page})=>{
@@ -117,7 +118,8 @@ test('favorites can be saved, filtered, removed and preserved across page reload
   await expect(page.locator('.dc-dua-row')).toHaveCount(1);
   await expect(page.locator('#dl2-results-title')).toContainText('পছন্দের');
   await page.reload();
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await page.locator('.dl2-scopes [data-scope="favorites"]').click();
   await expect(page.locator('.dc-dua-row')).toHaveCount(1);
   await page.locator('.dl2-fav[data-id="rizq-need"]').click();

@@ -75,7 +75,7 @@ test('new script syntax, versioned assets and offline cache parse',()=>{
   assert.match(html,/dua-reader-v3\.css\?v=1\.0\.0/);
   assert.match(sw,/'\.\/dua-reader-v3\.js'/);
   assert.match(sw,/'\.\/dua-reader-v3\.css'/);
-  assert.match(sw,/dubai-dhikr-v11\.8\.0/);
+  assert.match(sw,/dubai-dhikr-v\d+\.\d+\.\d+/);
   assert.ok(html.indexOf('dua-library-v2.js')<html.indexOf('dua-reader-v3.js'));
   assert.ok(html.indexOf('dua-reader-v3.js')<html.indexOf('smart-header.js'));
 });

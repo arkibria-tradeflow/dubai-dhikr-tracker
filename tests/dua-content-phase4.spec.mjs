@@ -17,7 +17,8 @@ test.beforeEach(async({page})=>{
 });
 async function library(page){
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await expect(page.locator('.dl2-page')).toBeVisible();
 }
 for(const width of [320,375,430]){
@@ -25,8 +26,8 @@ for(const width of [320,375,430]){
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.setViewportSize({width,height:812});
     await library(page);
-    await expect(page.locator('.dl2-total')).toContainText('৬৯');
-    await expect(page.locator('.dc-dua-row')).toHaveCount(69);
+    await expect(page.locator('.dl2-total')).toContainText('৮১');
+    await expect(page.locator('.dc-dua-row')).toHaveCount(81);
     await page.locator('[data-dualib="expand"]').click();
     await expect(page.locator('.dl2-category-grid .dl2-cat')).toHaveCount(20);
     const status=await page.evaluate(()=>{
@@ -39,7 +40,7 @@ for(const width of [320,375,430]){
       };
     });
     expect(status.all20).toBe(true);
-    expect(new Set(status.ids).size).toBe(69);
+    expect(new Set(status.ids).size).toBe(81);
     expect(status.overflows).toBe(false);
     expect(status.buttons).toBe(true);
     expect(errors).toEqual([]);
@@ -91,7 +92,8 @@ test('new IDs preserve Favorites, recent list and daily Save after reload',async
   await expect(page.locator('[data-dr3="save"]')).toContainText('আজ পড়েছেন');
   await page.locator('[data-exp="dua-close"]').click();
   await page.reload();
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await page.locator('.dl2-scopes [data-scope="favorites"]').click();
   await expect(page.locator('.dc-dua-row[data-id="q-23-118"]')).toBeVisible();
   await page.locator('.dl2-scopes [data-scope="recent"]').click();

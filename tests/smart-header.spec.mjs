@@ -18,7 +18,10 @@ test.beforeEach(async({page})=>{
 });
 async function open(page,tab='duas'){
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="'+tab+'"]').click();
+  if(tab==='duas'){
+    await page.locator('.nav [data-screen="worship"]').click();
+    await page.locator('.ex-more-list [data-screen="duas"]').click();
+  }else await page.locator('.nav [data-screen="'+tab+'"]').click();
   await expect(page.locator('#smart-mobile-header')).toHaveCount(1);
   await page.evaluate(()=>document.documentElement.style.scrollBehavior='auto');
 }
@@ -54,7 +57,7 @@ for(const [width,height] of [[320,568],[375,812],[430,932]]){
     expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.viewport+2);
     await scroll(page,lower-60);
     await expect(page.locator('#smart-mobile-header')).not.toHaveClass(/is-visible/);
-    await expect(page.locator('.nav [data-screen="duas"]')).toHaveAttribute('aria-current','page');
+    await expect(page.locator('.nav [data-screen="worship"]')).toHaveAttribute('aria-current','page');
     expect(errors).toEqual([]);
   });
 }

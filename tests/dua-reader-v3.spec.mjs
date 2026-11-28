@@ -18,7 +18,8 @@ test.beforeEach(async({page})=>{
 });
 async function openDua(page,id='wellness-ayyub'){
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await expect(page.locator('.dl2-page')).toBeVisible();
   await page.locator('.dc-dua-row[data-id="'+id+'"]').click();
   await expect(page.locator('.dr3-reader')).toBeVisible();
@@ -94,7 +95,8 @@ test('font size controls are bounded and saved across reader reload',async({page
   expect(small).toBeLessThan(initial);
   await page.locator('.dr3-header [data-exp="dua-close"]').click();
   await page.reload();
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await page.locator('.dc-dua-row[data-id="wellness-ayyub"]').click();
   await expect(page.locator('.dr3-reader')).toHaveClass(/dr3-size-0/);
   expect(await page.locator('.dr3-pron').evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBe(small);
@@ -137,7 +139,8 @@ test('Save records once, does not toggle off, and keeps three navigation actions
 test('navigation follows the filtered category rather than duplicating entries',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await page.locator('[data-dualib="expand"]').click();
   await page.locator('.dl2-cat[data-category="health-healing"]').click();
   await expect(page.locator('.dc-dua-row')).toHaveCount(4);
@@ -158,7 +161,7 @@ test('header library list opens a searchable bottom sheet and supports selection
   await openDua(page);
   await page.locator('[data-dr3="list"]').click();
   await expect(page.locator('.dr3-sheet[role="dialog"]')).toBeVisible();
-  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]')).toHaveCount(69);
+  await expect(page.locator('.dr3-sheet-list [data-dr3="select"]')).toHaveCount(81);
   await page.locator('#dr3-list-search').fill('ঋণ');
   await expect(page.locator('.dr3-sheet-list [data-id="rizq-halal"]:visible')).toHaveCount(1);
   await page.keyboard.press('Escape');
@@ -172,7 +175,8 @@ test('header library list opens a searchable bottom sheet and supports selection
 test('reader opens and closes with Phase 2 Favorites and Recently Read intact',async({page})=>{
   await page.setViewportSize({width:375,height:812});
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await page.locator('.dl2-fav[data-id="rizq-need"]').click();
   await page.locator('.dc-dua-row[data-id="rizq-need"]').click();
   await expect(page.locator('.dr3-reader')).toBeVisible();

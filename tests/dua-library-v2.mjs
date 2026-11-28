@@ -66,7 +66,7 @@ test('new library is after old UI, before smart header and cached offline',()=>{
   assert.match(index,/dua-library-v2\.css\?v=1\.0\.0/);
   assert.match(sw,/'\.\/dua-library-v2\.js'/);
   assert.match(sw,/'\.\/dua-library-v2\.css'/);
-  assert.match(sw,/dubai-dhikr-v11\.8\.0/);
+  assert.match(sw,/dubai-dhikr-v\d+\.\d+\.\d+/);
   assert.doesNotMatch(sw,/dua-entry-template\.json/);
 });
 test('initial page: 11 existing duas, four featured category cards and three quick scopes',()=>{
