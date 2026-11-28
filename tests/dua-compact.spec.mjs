@@ -21,7 +21,8 @@ test.beforeEach(async({page})=>{
 
 async function openDuas(page){
   await page.goto(base+'/');
-  await page.locator('.nav [data-screen="duas"]').click();
+  await page.locator('.nav [data-screen="worship"]').click();
+  await page.locator('.ex-more-list [data-screen="duas"]').click();
   await expect(page.locator('.dc-dua-page')).toBeVisible();
 }
 
