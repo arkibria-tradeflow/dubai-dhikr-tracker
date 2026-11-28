@@ -115,7 +115,7 @@ test('Bengali stories categories, search, sorting, views and bookmarks',async({p
   const sections=page.locator('.story-section-grid button');
   await expect(sections).toHaveCount(6);
   await expect(sections.locator('svg')).toHaveCount(6);
-  const section=id=>sections.locator('[data-id="'+id+'"]');
+  const section=id=>page.locator('.story-section-grid button[data-id="'+id+'"]');
   const rows=page.locator('#story-results .story-row');
   await section('quran').click();
   await expect(rows).toHaveCount(8);
