@@ -27,7 +27,9 @@
     // oversized promotional banner with a compact title and real daily progress.
     html=html.replace('<div class="ex-view">','<div class="ex-view qc-quran-page">')
       .replace('THE HOLY QUR’AN','কুরআন লাইব্রেরি');
-    const start=html.indexOf('<span class="ex-kicker">');
+    const heading=html.search(/<h1\b[^>]*class="ex-page-title"[^>]*>/);
+    const kicker=html.search(/<(?:span|div|p)\b[^>]*class="ex-kicker"[^>]*>/);
+    const start=kicker>=0?kicker:heading;
     const end=html.indexOf('<div class="ex-segment" role="tablist">',start);
     if(start>=0&&end>start){
       const completed=(qdb[dayInfo().day]||[]).length;
