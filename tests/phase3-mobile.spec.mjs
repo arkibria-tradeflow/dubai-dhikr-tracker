@@ -107,3 +107,42 @@ for(const width of [320,375,430]){
     expect(errors).toEqual([]);
   });
 }
+
+test('Bengali stories categories, search, sorting, views and bookmarks',async({page})=>{
+  await page.setViewportSize({width:375,height:812});
+  await page.goto(base+'/');
+  await page.locator('.nav [data-screen="stories"]').click();
+  const sections=page.locator('.story-section-grid button');
+  await expect(sections).toHaveCount(6);
+  await expect(sections.locator('svg')).toHaveCount(6);
+  const section=id=>sections.locator('[data-id="'+id+'"]');
+  const rows=page.locator('#story-results .story-row');
+  await section('quran').click();
+  await expect(rows).toHaveCount(8);
+  await section('prophets').click();
+  await expect(rows).toHaveCount(5);
+  for(const id of ['companions','hadith','history']){
+    await section(id).click();
+    await expect(rows).toHaveCount(0);
+    await expect(page.locator('#story-results .empty')).toBeVisible();
+  }
+  await page.locator('[data-story="section"][data-id=""]').click();
+  await page.locator('#story-search').fill('মুসা');
+  await expect(rows).toHaveCount(1);
+  await page.locator('#story-search').fill('');
+  await page.locator('[data-story="view"][data-id="group"]').click();
+  await expect(page.locator('.story-group').first()).toBeVisible();
+  await page.locator('[data-story="view"][data-id="list"]').click();
+  await page.locator('#story-sort').selectOption('az');
+  const ascending=await rows.locator('b').allTextContents();
+  await page.locator('#story-sort').selectOption('za');
+  expect(await rows.locator('b').allTextContents()).toEqual([...ascending].reverse());
+  await page.locator('#story-results [data-id="musa"]').click();
+  await expect(page.locator('.story-reader a[href^="https://quran.com/"]')).toBeVisible();
+  await page.locator('[data-story="save"]').click();
+  await page.locator('[data-story="back"]').click();
+  await page.locator('[data-story="filter"][data-id="saved"]').click();
+  await expect(rows).toHaveCount(1);
+  await expect(rows.first()).toHaveAttribute('data-id','musa');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBe(true);
+});
