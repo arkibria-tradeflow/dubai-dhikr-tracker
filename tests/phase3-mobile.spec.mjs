@@ -81,3 +81,29 @@ test('reader supports enlarged text and reduced motion without horizontal scroll
   await page.evaluate(()=>document.documentElement.style.fontSize='32px');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2)).toBe(true);
 });
+
+for(const width of [320,375,430]){
+  test('five-tab navigation and redesigned screens fit '+width+'px',async({page})=>{
+    await page.setViewportSize({width,height:812});
+    const errors=[];
+    page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(base+'/');
+    const nav=page.locator('.nav');
+    await expect(nav.locator('.nav-btn')).toHaveCount(5);
+    for(const id of ['worship','quran','stories','more','today']){
+      const tab=nav.locator('[data-screen="'+id+'"]');
+      await expect(tab).toBeVisible();
+      await tab.click();
+      await expect(tab).toHaveAttribute('aria-current','page');
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2)).toBe(true);
+      const bounds=await nav.locator('.nav-btn').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width,height:r.height};}));
+      for(const b of bounds){
+        expect(b.left).toBeGreaterThanOrEqual(-1);
+        expect(b.right).toBeLessThanOrEqual(width+1);
+        expect(b.width).toBeGreaterThanOrEqual(44);
+        expect(b.height).toBeGreaterThanOrEqual(44);
+      }
+    }
+    expect(errors).toEqual([]);
+  });
+}
